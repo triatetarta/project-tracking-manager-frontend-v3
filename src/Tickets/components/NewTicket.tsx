@@ -138,8 +138,11 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
                   Cancel
                 </button>
                 <button
+                  disabled={
+                    title === "" || project === "" || description === ""
+                  }
                   onClick={createTicketSubmit}
-                  className='bg-deep-blue text-white py-2 px-3 rounded-md w-full hover:bg-light-blue transition-all duration-100 text-sm'
+                  className='bg-deep-blue text-white py-2 px-3 rounded-md w-full hover:bg-light-blue transition-all duration-100 text-sm disabled:bg-gray-text/80 hover:disabled:bg-gray-text/80'
                 >
                   Create
                 </button>

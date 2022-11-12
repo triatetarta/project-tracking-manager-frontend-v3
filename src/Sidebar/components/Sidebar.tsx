@@ -1,7 +1,11 @@
 import CreateProjectButton from "../../Projects/components/CreateProjectButton";
+import Project from "../../Projects/components/Project";
+import { useGetProjectsQuery } from "../../Projects/features/projectsApiSlice";
 import { ISidebarProps } from "../interfaces/ISidebar";
 
 const Sidebar = ({ setCreateNewProject }: ISidebarProps) => {
+  const { data: projects } = useGetProjectsQuery();
+
   return (
     <aside className='hidden md:flex md:flex-col bg-sidebar-bg w-[300px] lg:w-[200px] min-h-[calc(100vh-5.1rem)] border-l border-r py-10 px-2 text-header-main'>
       <div className='border-b-2'>
@@ -12,7 +16,11 @@ const Sidebar = ({ setCreateNewProject }: ISidebarProps) => {
       </div>
       <div className='px-3 mt-10'>
         <h3 className='uppercase text-xs font-bold mb-2'>Projects</h3>
-        <div className='flex flex-col space-y-1'></div>
+        <div className='flex flex-col space-y-1'>
+          {projects?.ids.map((projectId) => {
+            return <Project key={projectId} projectId={projectId} />;
+          })}
+        </div>
         <div className='mt-2'>
           <CreateProjectButton setCreateNewProject={setCreateNewProject} />
         </div>
