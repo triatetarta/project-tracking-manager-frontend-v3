@@ -7,7 +7,7 @@ import TicketsContainer from "./TicketsContainer";
 import { ITickets } from "../interfaces/ITickets";
 import { useGetTicketsQuery } from "../features/ticketsApiSlice";
 
-const Tickets = ({ setCreateNew }: ITickets) => {
+const Tickets = ({ setCreateNewTicket }: ITickets) => {
   const { data: tickets } = useGetTicketsQuery();
 
   return (
@@ -17,19 +17,19 @@ const Tickets = ({ setCreateNew }: ITickets) => {
           tickets={tickets}
           category='to do'
           icon={<DocumentTextIcon className='w-6 h-6 text-deep-blue' />}
-          setCreateNew={setCreateNew}
+          setCreateNewTicket={setCreateNewTicket}
         />
         <TicketsContainer
           tickets={tickets}
           category='in progress'
           icon={<ClockIcon className='w-6 h-6 text-flow-yellow-deep' />}
-          setCreateNew={setCreateNew}
+          setCreateNewTicket={setCreateNewTicket}
         />
         <TicketsContainer
           tickets={tickets}
           category='closed'
           icon={<BadgeCheckIcon className='w-6 h-6 text-flow-green-deep' />}
-          setCreateNew={setCreateNew}
+          setCreateNewTicket={setCreateNewTicket}
         />
       </div>
     </section>

@@ -1,6 +1,5 @@
 import { StateBooleanType } from "../../types/stateTypes";
 
-export interface INewTicket {
-  setCreateNewTicket: StateBooleanType;
+export interface ICreateProjectButtonProps {
   setCreateNewProject: StateBooleanType;
 }

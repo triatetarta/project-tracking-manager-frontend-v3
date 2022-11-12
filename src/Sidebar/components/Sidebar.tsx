@@ -1,4 +1,7 @@
-const Sidebar = () => {
+import CreateProjectButton from "../../Projects/components/CreateProjectButton";
+import { ISidebarProps } from "../interfaces/ISidebar";
+
+const Sidebar = ({ setCreateNewProject }: ISidebarProps) => {
   return (
     <aside className='hidden md:flex md:flex-col bg-sidebar-bg w-[300px] lg:w-[200px] min-h-[calc(100vh-5.1rem)] border-l border-r py-10 px-2 text-header-main'>
       <div className='border-b-2'>
@@ -10,7 +13,9 @@ const Sidebar = () => {
       <div className='px-3 mt-10'>
         <h3 className='uppercase text-xs font-bold mb-2'>Projects</h3>
         <div className='flex flex-col space-y-1'></div>
-        <div className='mt-2'>{/* <CreateProject /> */}</div>
+        <div className='mt-2'>
+          <CreateProjectButton setCreateNewProject={setCreateNewProject} />
+        </div>
       </div>
       <div className='px-3 mt-10'>
         <h3 className='uppercase text-xs font-bold mb-2'>Teams</h3>

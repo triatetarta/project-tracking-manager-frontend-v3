@@ -34,10 +34,20 @@ export const ticketsApiSlice = apiSlice.injectEndpoints({
         } else return [{ type: "Ticket" as const, id: "LIST" }];
       },
     }),
+    addNewTicket: builder.mutation({
+      query: (initialTicket) => ({
+        url: "/tickets",
+        method: "POST",
+        body: {
+          ...initialTicket,
+        },
+      }),
+      invalidatesTags: [{ type: "Ticket", id: "LIST" }],
+    }),
   }),
 });
 
-export const { useGetTicketsQuery } = ticketsApiSlice;
+export const { useGetTicketsQuery, useAddNewTicketMutation } = ticketsApiSlice;
 
 export const selectTicketsResult =
   ticketsApiSlice.endpoints.getTickets.select();

@@ -10,4 +10,5 @@ export interface ITextAreaField {
   value: string;
   focus?: boolean;
   classNames?: string;
+  disabled: boolean;
 }

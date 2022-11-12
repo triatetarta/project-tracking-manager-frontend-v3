@@ -1,0 +1,107 @@
+import { motion } from "framer-motion";
+import { useState } from "react";
+import InputField from "../../FormFields/components/InputField";
+import TextAreaField from "../../FormFields/components/TextAreaField";
+import { useAddNewProjectMutation } from "../features/projectsApiSlice";
+
+import { INewProjectProps } from "../interfaces/INewProject";
+
+const NewProject = ({ setCreateNewProject }: INewProjectProps) => {
+  const [addNewProject, { isLoading, isSuccess, isError, error }] =
+    useAddNewProjectMutation();
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
+  const onCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    setCreateNewProject(false);
+  };
+
+  const onSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    await addNewProject({
+      user: "636c093ed4ef74a28f721ecc",
+      title: "Next JS",
+      description: "Super amazing app",
+      status: "open",
+    });
+  };
+
+  return (
+    <motion.section
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.1 }}
+      className='fixed top-0 right-0 left-0 bottom-0 w-full h-full bg-black/20  backdrop-blur-sm z-40'
+    >
+      <motion.div
+        initial={{ y: 100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: 100, opacity: 0 }}
+        className='container mx-auto flex justify-center'
+      >
+        <div className='bg-white rounded-md shadow-sm w-[400px] p-6 mt-24'>
+          <h3 className='text-center text-lg font-semibold mb-5'>
+            Create a Project
+          </h3>
+          <form>
+            <InputField
+              label='Creator'
+              htmlFor='name'
+              type='text'
+              value='James'
+              disabled
+              focus={false}
+            />
+
+            <InputField
+              id='title'
+              label='Project Title'
+              placeholder='Enter a title for your project'
+              value={title}
+              name='title'
+              htmlFor='title'
+              type='text'
+              onChange={(e) => setTitle(e.target.value as string)}
+              focus
+            />
+
+            <TextAreaField
+              label='Description'
+              disabled={false}
+              id='description'
+              name='description'
+              rows={2}
+              value={description}
+              placeholder='Enter a description for your project'
+              onChange={(e) => setDescription(e.target.value as string)}
+            />
+
+            <div className='mb-3 flex justify-between'>
+              <div className='flex-grow mr-auto' />
+              <div className='flex space-x-2'>
+                <button
+                  onClick={onCancel}
+                  className='text-gray-text py-2 px-3 rounded-md w-full hover:underline hover:text-gray-text/75 transition-all duration-100 text-sm'
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={onSubmit}
+                  className='bg-deep-blue text-white py-2 px-3 rounded-md w-full hover:bg-light-blue transition-all duration-100 text-sm'
+                >
+                  Create
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </motion.div>
+    </motion.section>
+  );
+};
+
+export default NewProject;

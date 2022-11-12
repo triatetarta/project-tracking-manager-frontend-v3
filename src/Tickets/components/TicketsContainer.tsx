@@ -6,7 +6,7 @@ const TicketsContainer = ({
   tickets,
   category,
   icon,
-  setCreateNew,
+  setCreateNewTicket,
 }: ITicketsContainer) => {
   return (
     <div className='mt-10 flex flex-col bg-gray-100 py-4 px-6 rounded-lg'>
@@ -26,7 +26,7 @@ const TicketsContainer = ({
       </div>
 
       <button
-        onClick={() => setCreateNew(true)}
+        onClick={() => setCreateNewTicket(true)}
         className='flex items-center mt-3 hover:bg-gray-200 transition-all duration-200 px-2 py-3 rounded-lg'
       >
         <PlusIcon className='w-3 h-3 text-gray-text' />

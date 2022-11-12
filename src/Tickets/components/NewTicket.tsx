@@ -1,25 +1,43 @@
 import { motion } from "framer-motion";
 import React, { useState } from "react";
-import { ChevronDownIcon } from "@heroicons/react/solid";
 import { INewTicket } from "../interfaces/INewTicket";
 import { useNavigate } from "react-router-dom";
-import InputField from "../../InputFields/components/InputField";
-import TextAreaField from "../../InputFields/components/TextAreaField";
+import InputField from "../../FormFields/components/InputField";
+import TextAreaField from "../../FormFields/components/TextAreaField";
+import { useAddNewTicketMutation } from "../features/ticketsApiSlice";
+import SelectField from "../../FormFields/components/SelectField";
+import { useGetProjectsQuery } from "../../Projects/features/projectsApiSlice";
+import CreateProjectButton from "../../Projects/components/CreateProjectButton";
 
-const NewTicket = ({ setCreateNew }: INewTicket) => {
-  const [name] = useState("");
-  const [email] = useState("");
+const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
+  const [addNewTicket, { isLoading, isSuccess, isError, error }] =
+    useAddNewTicketMutation();
+  const { data: projects } = useGetProjectsQuery();
+
+  const [reportersName] = useState("");
+  const [reportersEmail] = useState("");
+  const [title, setTitle] = useState("");
   const [project, setProject] = useState("");
-  const [projectNames, setProjectNames] = useState([]);
   const [description, setDescription] = useState("");
 
   const navigate = useNavigate();
 
   const cancelCreateTicket = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setCreateNew(false);
+    setCreateNewTicket(false);
     setProject("");
     setDescription("");
+  };
+
+  const createTicketSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    await addNewTicket({
+      user: "636c093ed4ef74a28f721ecc",
+      title: "Remix App",
+      project: "Remix",
+      description: "yo testing the fields",
+      status: "to do",
+    });
   };
 
   return (
@@ -46,7 +64,7 @@ const NewTicket = ({ setCreateNew }: INewTicket) => {
               label='Reporter'
               htmlFor='name'
               type='text'
-              value={name}
+              value={reportersName}
               disabled
               focus={false}
             />
@@ -54,55 +72,53 @@ const NewTicket = ({ setCreateNew }: INewTicket) => {
               label='Reporter`s Email'
               htmlFor='email'
               type='email'
-              value={email}
+              value={reportersEmail}
               disabled
               focus={false}
+            />
+            <InputField
+              id='title'
+              label='Title'
+              htmlFor='title'
+              name='title'
+              type='text'
+              value={title}
+              placeholder='Enter a title'
+              focus
+              onChange={(e) => setTitle(e.target.value as string)}
             />
           </div>
 
           <form>
             <div className='mb-3'>
-              <label
-                className='text-left block mb-1 ml-1 text-xs text-gray-text'
-                htmlFor='project'
-              >
-                Project
-                {!project && <span className='text-red-text ml-0.5'>*</span>}
-              </label>
-              <div className='flex items-center justify-between relative'>
-                {/* {!projects.length ? (
+              <div className='flex justify-between items-center relative'>
+                {!projects?.ids.length ? (
                   <p className='text-xs p-2 mb-3'>No projects available</p>
                 ) : (
-                  <div className='relative'>
-                    <span className='w-4 h-4 absolute right-2 top-3 z-50 pointer-events-none text-gray-text'>
-                      <ChevronDownIcon />
-                    </span>
-                    <select
-                      className='py-2 pl-2 pr-6 border rounded-md mb-3 text-sm hover:bg-gray-100
-        transition-all duration-200 cursor-pointer focus:outline-1 outline-deep-blue capitalize appearance-none'
-                      name='project'
-                      id='project'
-                      value={project}
-                      onChange={(e) => setProject(e.target.value)}
-                    >
-                      {projectNames?.map((project, index) => {
-                        return (
-                          <option key={index} value={project}>
-                            {project}
-                          </option>
-                        );
-                      })}
-                    </select>
-                  </div>
-                )} */}
+                  <SelectField
+                    label='Project'
+                    name='project'
+                    htmlFor='project'
+                    id='project'
+                    onChange={(e) => {
+                      console.log(e.target.value);
+                      setProject(e.target.value);
+                    }}
+                    value={project}
+                    items={projects.ids}
+                  />
+                )}
 
-                <div className='flex items-center mb-3'>
-                  {/* <CreateProject /> */}
+                <div className='flex items-center mt-1'>
+                  <CreateProjectButton
+                    setCreateNewProject={setCreateNewProject}
+                  />
                 </div>
               </div>
             </div>
             <div className='mb-3'>
               <TextAreaField
+                disabled={false}
                 id='description'
                 name='description'
                 rows={10}
@@ -110,7 +126,6 @@ const NewTicket = ({ setCreateNew }: INewTicket) => {
                 label='Description'
                 placeholder='Enter a description'
                 onChange={(e) => setDescription(e.target.value as string)}
-                focus
               />
             </div>
             <div className='mb-3 flex justify-between'>
@@ -123,7 +138,7 @@ const NewTicket = ({ setCreateNew }: INewTicket) => {
                   Cancel
                 </button>
                 <button
-                  //   onClick={createTicketSubmit}
+                  onClick={createTicketSubmit}
                   className='bg-deep-blue text-white py-2 px-3 rounded-md w-full hover:bg-light-blue transition-all duration-100 text-sm'
                 >
                   Create

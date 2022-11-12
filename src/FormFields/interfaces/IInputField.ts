@@ -3,6 +3,7 @@ import { IDisabled } from "../../Tickets/interfaces/IDisabled";
 import { ClassNames } from "../../types/generalTypes";
 
 export interface IInputField extends IDisabled {
+  id?: string;
   htmlFor?: string;
   label: string;
   name?: string;

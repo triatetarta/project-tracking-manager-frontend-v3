@@ -1,4 +1,5 @@
+import { StateBooleanType } from "../../types/stateTypes";
+
 export interface ITickets {
-  createNew: boolean;
-  setCreateNew: React.Dispatch<React.SetStateAction<boolean>>;
+  setCreateNewTicket: StateBooleanType;
 }

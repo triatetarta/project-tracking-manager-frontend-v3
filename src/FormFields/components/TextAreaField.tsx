@@ -10,6 +10,7 @@ const TextAreaField = ({
   placeholder,
   onChange,
   focus,
+  disabled,
 }: ITextAreaField) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -31,7 +32,9 @@ const TextAreaField = ({
         ref={textareaRef}
         rows={rows}
         style={{ resize: "none" }}
-        className='w-full p-2 border rounded-md mb-3 text-sm focus:outline-1 outline-deep-blue'
+        className={`w-full p-2 border rounded-md mb-3 text-sm focus:outline-1 outline-deep-blue ${
+          !disabled ? "hover:bg-gray-100 transition-all duration-200" : ""
+        }`}
         name={name}
         id={id}
         placeholder={placeholder}
