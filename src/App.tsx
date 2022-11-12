@@ -1,11 +1,13 @@
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "./Dashboard/components/Dashboard";
 import Home from "./Homepage/components/Home";
+import Navbar from "./Navigation/components/Navbar";
 import PrivateRoute from "./PrivateRoute/components/PrivateRoute";
 
 const App = () => {
   return (
     <>
+      <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/dashboard' element={<PrivateRoute />}>
