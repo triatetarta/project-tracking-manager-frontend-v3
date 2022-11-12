@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import { PlusIcon } from "@heroicons/react/solid";
 import Sidebar from "../../Sidebar/components/Sidebar";
 import Tickets from "../../Tickets/components/Tickets";
+import NewTicket from "../../Tickets/components/NewTicket";
 
 const Dashboard = () => {
   const [createNew, setCreateNew] = useState<boolean>(false);
@@ -32,6 +34,10 @@ const Dashboard = () => {
           </button>
         </div>
       </div>
+
+      <AnimatePresence>
+        {createNew && <NewTicket setCreateNew={setCreateNew} />}
+      </AnimatePresence>
     </main>
   );
 };
