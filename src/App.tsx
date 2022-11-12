@@ -1,16 +1,15 @@
-import { FC, ReactElement } from "react";
 import { Routes, Route } from "react-router-dom";
+import Dashboard from "./Dashboard/components/Dashboard";
 import Home from "./Homepage/components/Home";
 import PrivateRoute from "./PrivateRoute/components/PrivateRoute";
-import Tickets from "./Tickets/components/Tickets";
 
-const App: FC = (): ReactElement => {
+const App = () => {
   return (
     <>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/tickets' element={<PrivateRoute />}>
-          <Route path='/tickets' element={<Tickets />} />
+        <Route path='/dashboard' element={<PrivateRoute />}>
+          <Route path='/dashboard' element={<Dashboard />} />
         </Route>
       </Routes>
     </>

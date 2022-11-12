@@ -1,7 +1,6 @@
-import { FC, ReactElement } from "react";
 import { ChevronDownIcon, UserCircleIcon } from "@heroicons/react/solid";
 
-const Navbar: FC = (): ReactElement => {
+const Navbar = () => {
   return <div>Navbar</div>;
 };
 

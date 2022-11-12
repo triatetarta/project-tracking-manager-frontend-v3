@@ -1,10 +1,26 @@
-import { FC, ReactElement } from "react";
 import { useGetUsersQuery } from "../features/usersApiSlice";
+import User from "./User";
 
-const UserList: FC = (): ReactElement => {
-  const { data, isLoading, isSuccess, isError, error } = useGetUsersQuery();
+const UserList = () => {
+  const {
+    data: users,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetUsersQuery();
 
-  return <div>UserList</div>;
+  if (isLoading) return <div>Loading...</div>;
+
+  return (
+    <>
+      {users?.ids?.length
+        ? users?.ids.map((id) => {
+            return <User key={id} id={id} />;
+          })
+        : null}
+    </>
+  );
 };
 
 export default UserList;

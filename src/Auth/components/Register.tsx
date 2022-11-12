@@ -1,6 +1,4 @@
-import { FC, ReactElement } from "react";
-
-const Register: FC = (): ReactElement => {
+const Register = () => {
   return <div>Register</div>;
 };
 

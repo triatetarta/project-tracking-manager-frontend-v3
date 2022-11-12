@@ -1,8 +1,7 @@
-import { FC, ReactElement } from "react";
 import planImage from "../../../public/assets/images/plan.svg";
 import completeImage from "../../../public/assets/images/complete.svg";
 
-const Details: FC = (): ReactElement => {
+const Details = () => {
   return (
     <section className='flex flex-col space-y-14 md:space-y-28 text-header-main px-2'>
       <div className='flex flex-col md:flex-row items-center'>

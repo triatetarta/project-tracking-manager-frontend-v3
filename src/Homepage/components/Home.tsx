@@ -1,11 +1,10 @@
-import { FC, ReactElement } from "react";
 import Description from "./Description";
 import Details from "./Details";
 import Plans from "./Plans";
 import Showcase from "./Showcase";
 import Workflow from "./Workflow";
 
-const Home: FC = (): ReactElement => {
+const Home = () => {
   return (
     <main className='container mx-auto'>
       <Showcase />

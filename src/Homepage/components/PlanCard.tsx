@@ -1,7 +1,6 @@
-import { FC, ReactElement } from "react";
 import { IPlanCard } from "../interfaces/IPlanCard";
 
-const PlanCard: FC<IPlanCard> = ({
+const PlanCard = ({
   plan,
   price,
   users,
@@ -9,7 +8,7 @@ const PlanCard: FC<IPlanCard> = ({
   lasts,
   payment,
   buttonText,
-}): ReactElement => {
+}: IPlanCard) => {
   return (
     <div className='border rounded-md w-full md:w-1/3 flex flex-col items-center justify-center text-center shadow-md overflow-hidden'>
       <div

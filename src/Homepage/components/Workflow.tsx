@@ -1,6 +1,4 @@
-import { FC, ReactElement } from "react";
-
-const Workflow: FC = (): ReactElement => {
+const Workflow = () => {
   return (
     <section className='flex flex-col md:flex-row items-center justify-center my-10 md:my-32 text-header-main'>
       <div className='p-4'>

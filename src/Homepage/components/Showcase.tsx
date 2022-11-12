@@ -1,8 +1,7 @@
-import { FC, ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
 import tasksBackground from "../../../public/assets/images/tasks.svg";
 
-const Showcase: FC = (): ReactElement => {
+const Showcase = () => {
   const navigate = useNavigate();
 
   return (

@@ -30,10 +30,10 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       providesTags: (result, error, arg) => {
         if (result?.ids) {
           return [
-            { type: "User", id: "LIST" },
+            { type: "User" as const, id: "LIST" },
             ...result.ids.map((id) => ({ type: "User" as const, id })),
           ];
-        } else return [{ type: "User", id: "LIST" }];
+        } else return [{ type: "User" as const, id: "LIST" }];
       },
     }),
   }),
