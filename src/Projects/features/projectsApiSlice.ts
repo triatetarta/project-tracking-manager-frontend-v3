@@ -44,11 +44,37 @@ export const projectsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: "Project", id: "LIST" }],
     }),
+    updateProject: builder.mutation({
+      query: (initialProject) => ({
+        url: "/projects",
+        method: "PATCH",
+        body: {
+          ...initialProject,
+        },
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: "Project", id: arg.id },
+      ],
+    }),
+    deleteProject: builder.mutation({
+      query: ({ id }) => ({
+        url: "/projects",
+        method: "DELETE",
+        body: { id },
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: "Project", id: arg.id },
+      ],
+    }),
   }),
 });
 
-export const { useAddNewProjectMutation, useGetProjectsQuery } =
-  projectsApiSlice;
+export const {
+  useAddNewProjectMutation,
+  useGetProjectsQuery,
+  useDeleteProjectMutation,
+  useUpdateProjectMutation,
+} = projectsApiSlice;
 
 export const selectProjectsResult =
   projectsApiSlice.endpoints.getProjects.select("projectList");

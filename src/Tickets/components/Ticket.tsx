@@ -1,10 +1,14 @@
 import { ITicketProps } from "../interfaces/ITicket";
-import { selectTicketById } from "../features/ticketsApiSlice";
-import { useAppSelector } from "../../app/hooks";
+import { useGetTicketsQuery } from "../features/ticketsApiSlice";
+
 import { convertString } from "../../helpers/firstLetterUppercase";
 
 const Ticket = ({ ticketId }: ITicketProps) => {
-  const ticket = useAppSelector((state) => selectTicketById(state, ticketId));
+  const { ticket } = useGetTicketsQuery("ticketList", {
+    selectFromResult: ({ data }) => ({
+      ticket: data?.entities[ticketId],
+    }),
+  });
 
   return (
     <article

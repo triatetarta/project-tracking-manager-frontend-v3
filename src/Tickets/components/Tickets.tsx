@@ -9,7 +9,7 @@ import { useGetTicketsQuery } from "../features/ticketsApiSlice";
 
 const Tickets = ({ setCreateNewTicket }: ITickets) => {
   const { data: tickets } = useGetTicketsQuery("ticketList", {
-    pollingInterval: 15000,
+    pollingInterval: 60000,
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
   });

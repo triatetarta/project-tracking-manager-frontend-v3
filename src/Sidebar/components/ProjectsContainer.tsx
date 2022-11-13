@@ -7,7 +7,7 @@ import { IProjectsContainer } from "../interfaces/IProjectsContainer";
 
 const ProjectsContainer = ({ setCreateNewProject }: IProjectsContainer) => {
   const { data: projects } = useGetProjectsQuery("projectList", {
-    pollingInterval: 15000,
+    pollingInterval: 60000,
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
   });

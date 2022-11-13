@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { setCredentials } from "../features/authSlice";
 import { useLoginMutation } from "../features/authApiSlice";
@@ -9,17 +9,17 @@ import { useAppDispatch } from "../../app/hooks";
 import usePersist from "../../hooks/usePersist";
 
 const Login = () => {
-  const [login, { isLoading }] = useLoginMutation();
+  const [login, { isLoading, isSuccess }] = useLoginMutation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [persist, setPersist] = usePersist();
-
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const onSubmit = async (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setPersist(true);
 
     try {
       const { accessToken } = await login({ email, password }).unwrap();
@@ -42,8 +42,6 @@ const Login = () => {
       console.log(err);
     }
   };
-
-  const handleToggle = () => setPersist((prev: boolean) => !prev);
 
   return (
     <section className='min-h-[calc(100vh-17.9rem)] flex items-center justify-center flex-col space-y-6 text-header-main'>
@@ -74,16 +72,6 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-
-          <label htmlFor='persist'>
-            <input
-              type='checkbox'
-              id='persist'
-              onChange={handleToggle}
-              checked={persist}
-            />
-            Remember me
-          </label>
 
           <div className='w-full'>
             <button
