@@ -5,12 +5,12 @@ import { ClassNames } from "../../types/generalTypes";
 export interface IInputField extends IDisabled {
   id?: string;
   htmlFor?: string;
-  label: string;
+  label?: string;
   name?: string;
-  type: string;
+  type?: string;
   placeholder?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   value: string;
-  classNames?: ClassNames;
+  containerClasses?: ClassNames;
   focus?: boolean;
 }

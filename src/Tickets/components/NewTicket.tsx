@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { INewTicket } from "../interfaces/INewTicket";
-import { useNavigate } from "react-router-dom";
 import InputField from "../../FormFields/components/InputField";
 import TextAreaField from "../../FormFields/components/TextAreaField";
 import { useAddNewTicketMutation } from "../features/ticketsApiSlice";
@@ -10,7 +9,7 @@ import { useGetProjectsQuery } from "../../Projects/features/projectsApiSlice";
 import CreateProjectButton from "../../Projects/components/CreateProjectButton";
 
 const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
-  const [addNewTicket, { isLoading, isSuccess, isError, error }] =
+  const [addNewTicket, { isLoading, isSuccess, isError, error, data }] =
     useAddNewTicketMutation();
   const { data: projects } = useGetProjectsQuery();
 
@@ -19,8 +18,6 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
   const [title, setTitle] = useState("");
   const [project, setProject] = useState("");
   const [description, setDescription] = useState("");
-
-  const navigate = useNavigate();
 
   const cancelCreateTicket = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -33,9 +30,9 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
     e.preventDefault();
     await addNewTicket({
       user: "636c093ed4ef74a28f721ecc",
-      title: "Remix App",
-      project: "Remix",
-      description: "yo testing the fields",
+      title: "New feature",
+      project: "React",
+      description: "started a new feature",
       status: "to do",
     });
   };
@@ -67,6 +64,7 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
               value={reportersName}
               disabled
               focus={false}
+              containerClasses='mb-3'
             />
             <InputField
               label='Reporter`s Email'
@@ -75,6 +73,7 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
               value={reportersEmail}
               disabled
               focus={false}
+              containerClasses='mb-3'
             />
             <InputField
               id='title'
@@ -86,6 +85,7 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
               placeholder='Enter a title'
               focus
               onChange={(e) => setTitle(e.target.value as string)}
+              containerClasses='mb-3'
             />
           </div>
 
@@ -101,7 +101,6 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
                     htmlFor='project'
                     id='project'
                     onChange={(e) => {
-                      console.log(e.target.value);
                       setProject(e.target.value);
                     }}
                     value={project}

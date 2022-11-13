@@ -55,6 +55,7 @@ const NewProject = ({ setCreateNewProject }: INewProjectProps) => {
               value='James'
               disabled
               focus={false}
+              containerClasses='mb-3'
             />
 
             <InputField
@@ -67,6 +68,7 @@ const NewProject = ({ setCreateNewProject }: INewProjectProps) => {
               type='text'
               onChange={(e) => setTitle(e.target.value as string)}
               focus
+              containerClasses='mb-3'
             />
 
             <TextAreaField

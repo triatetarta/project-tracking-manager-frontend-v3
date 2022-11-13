@@ -1,9 +1,15 @@
 import { ChevronDownIcon, UserCircleIcon } from "@heroicons/react/solid";
 import { Link, useNavigate } from "react-router-dom";
+import { useSendLogoutMutation } from "../../Auth/features/authApiSlice";
 import Logo from "./Logo";
 
 const Navbar = () => {
+  const [sendLogout, { isLoading, isSuccess, isError, error }] =
+    useSendLogoutMutation();
+
   const navigate = useNavigate();
+
+  const user = true;
 
   return (
     <header
@@ -29,6 +35,46 @@ const Navbar = () => {
             </span>
             <ChevronDownIcon className='h-5 w-5 pointer-events-none' />
           </button>
+
+          <ul className='accountMenu absolute right-0 w-fit rounded-lg shadow-md border border-gray-200 text-sm bg-white overflow-hidden z-50'>
+            {user ? (
+              <>
+                <li className='bg-header-main w-full text-white py-2 px-4'>
+                  <div className='flex flex-col'>
+                    <p className='text-md'>James</p>
+                    <p className='text-xs font-light'> james@gmail.com</p>
+                  </div>
+                </li>
+                <li
+                  onClick={() => {
+                    // dispatch(closeAccount());
+                    navigate("/account");
+                  }}
+                  className='accountMenu cursor-pointer py-2 px-4 hover:bg-gray-100'
+                >
+                  Profile
+                </li>
+                <li
+                  onClick={sendLogout}
+                  className='accountMenu cursor-pointer py-2 px-4 hover:bg-gray-100'
+                >
+                  Log Out
+                </li>
+              </>
+            ) : (
+              <Link to='/login'>
+                <li
+                  onClick={() => {
+                    navigate("/login");
+                    // dispatch(closeAccount());
+                  }}
+                  className='accountMenu cursor-pointer py-2 pl-4 pr-20 hover:bg-gray-100'
+                >
+                  Log in
+                </li>
+              </Link>
+            )}
+          </ul>
         </div>
       </nav>
     </header>

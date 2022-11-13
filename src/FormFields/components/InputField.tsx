@@ -10,7 +10,7 @@ const InputField = ({
   disabled,
   placeholder,
   onChange,
-  classNames,
+  containerClasses,
   focus,
   name,
 }: IInputField) => {
@@ -22,13 +22,13 @@ const InputField = ({
   }, [inputRef]);
 
   return (
-    <div className='mb-3'>
+    <div className={containerClasses}>
       <label
         className='text-left block mb-1 ml-1 text-xs text-gray-text'
         htmlFor={htmlFor}
       >
         {label}
-        {!value && <span className='text-red-text ml-0.5'>*</span>}
+        {!value && label && <span className='text-red-text ml-0.5'>*</span>}
       </label>
       <input
         id={id}
@@ -42,6 +42,7 @@ const InputField = ({
         value={value}
         disabled={disabled}
         placeholder={placeholder}
+        required
       />
     </div>
   );
