@@ -10,7 +10,7 @@ const initialState = projectsAdapter.getInitialState();
 
 export const projectsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getProjects: builder.query<EntityState<IProject>, void>({
+    getProjects: builder.query<EntityState<IProject>, "projectList">({
       query: () => ({
         url: "/projects",
         validateStatus: (response, result) => {
@@ -51,7 +51,7 @@ export const { useAddNewProjectMutation, useGetProjectsQuery } =
   projectsApiSlice;
 
 export const selectProjectsResult =
-  projectsApiSlice.endpoints.getProjects.select();
+  projectsApiSlice.endpoints.getProjects.select("projectList");
 
 const selectProjectsData = createSelector(
   selectProjectsResult,

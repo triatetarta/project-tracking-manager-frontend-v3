@@ -10,7 +10,7 @@ const initialState = usersAdapter.getInitialState();
 
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getUsers: builder.query<EntityState<IUser>, void>({
+    getUsers: builder.query<EntityState<IUser>, "userList">({
       query: () => ({
         url: "/users",
         validateStatus: (response, result) => {
@@ -42,7 +42,8 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 export const { useGetUsersQuery } = usersApiSlice;
 
 // returns the query result object
-export const selectUsersResult = usersApiSlice.endpoints.getUsers.select();
+export const selectUsersResult =
+  usersApiSlice.endpoints.getUsers.select("userList");
 
 // creates memoized selector
 const selectUsersData = createSelector(

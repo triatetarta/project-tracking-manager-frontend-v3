@@ -26,6 +26,9 @@ const Navbar = () => {
           </div>
         </Link>
 
+        <Link to='/dashboard'>Dash</Link>
+        <Link to='/login'>login</Link>
+
         <div className='relative accountButton'>
           <button className='flex items-center space-x-1 text-light-blue px-2 py-1 rounded-lg hover:bg-gray-100 transition-all duration-200 accountButton'>
             <UserCircleIcon className='h-8 w-8 pointer-events-none' />

@@ -6,12 +6,14 @@ import { useLoginMutation } from "../features/authApiSlice";
 import Logo from "../../Navigation/components/Logo";
 import InputField from "../../FormFields/components/InputField";
 import { useAppDispatch } from "../../app/hooks";
+import usePersist from "../../hooks/usePersist";
 
 const Login = () => {
   const [login, { isLoading }] = useLoginMutation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [persist, setPersist] = usePersist();
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -40,6 +42,8 @@ const Login = () => {
       console.log(err);
     }
   };
+
+  const handleToggle = () => setPersist((prev: boolean) => !prev);
 
   return (
     <section className='min-h-[calc(100vh-17.9rem)] flex items-center justify-center flex-col space-y-6 text-header-main'>
@@ -70,6 +74,16 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+
+          <label htmlFor='persist'>
+            <input
+              type='checkbox'
+              id='persist'
+              onChange={handleToggle}
+              checked={persist}
+            />
+            Remember me
+          </label>
 
           <div className='w-full'>
             <button

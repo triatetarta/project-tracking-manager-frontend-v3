@@ -4,6 +4,8 @@ import Dashboard from "./Dashboard/components/Dashboard";
 import Home from "./Homepage/components/Home";
 import Navbar from "./Navigation/components/Navbar";
 import PrivateRoute from "./PrivateRoute/components/PrivateRoute";
+import Prefetch from "./Auth/components/Prefetch";
+import PersistLogin from "./Auth/components/PersistLogin";
 
 const App = () => {
   return (
@@ -12,8 +14,11 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/dashboard' element={<PrivateRoute />}>
-          <Route path='/dashboard' element={<Dashboard />} />
+
+        <Route element={<PersistLogin />}>
+          <Route element={<Prefetch />}>
+            <Route path='/dashboard' element={<Dashboard />} />
+          </Route>
         </Route>
       </Routes>
     </>

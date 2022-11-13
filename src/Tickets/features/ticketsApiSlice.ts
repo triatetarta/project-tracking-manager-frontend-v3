@@ -10,7 +10,7 @@ const initialState = ticketsAdapter.getInitialState();
 
 export const ticketsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getTickets: builder.query<EntityState<ITicket>, void>({
+    getTickets: builder.query<EntityState<ITicket>, "ticketList">({
       query: () => ({
         url: "/tickets",
         validateStatus: (response, result) => {
@@ -50,7 +50,7 @@ export const ticketsApiSlice = apiSlice.injectEndpoints({
 export const { useGetTicketsQuery, useAddNewTicketMutation } = ticketsApiSlice;
 
 export const selectTicketsResult =
-  ticketsApiSlice.endpoints.getTickets.select();
+  ticketsApiSlice.endpoints.getTickets.select("ticketList");
 
 const selectTicketsData = createSelector(
   selectTicketsResult,

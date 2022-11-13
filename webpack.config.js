@@ -11,6 +11,7 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 module.exports = {
   mode: isDevelopment ? "development" : "production",
   entry: "./src/index.tsx",
+  target: "web",
   output: {
     path: path.resolve(__dirname, "./dist"),
     filename: "bundle.js",

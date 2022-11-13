@@ -6,7 +6,11 @@ import { useGetProjectsQuery } from "../../Projects/features/projectsApiSlice";
 import { IProjectsContainer } from "../interfaces/IProjectsContainer";
 
 const ProjectsContainer = ({ setCreateNewProject }: IProjectsContainer) => {
-  const { data: projects } = useGetProjectsQuery();
+  const { data: projects } = useGetProjectsQuery("projectList", {
+    pollingInterval: 15000,
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true,
+  });
 
   const [showProjects, setShowProjects] = useState(true);
 

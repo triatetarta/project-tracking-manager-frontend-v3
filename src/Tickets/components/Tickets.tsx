@@ -8,7 +8,11 @@ import { ITickets } from "../interfaces/ITickets";
 import { useGetTicketsQuery } from "../features/ticketsApiSlice";
 
 const Tickets = ({ setCreateNewTicket }: ITickets) => {
-  const { data: tickets } = useGetTicketsQuery();
+  const { data: tickets } = useGetTicketsQuery("ticketList", {
+    pollingInterval: 15000,
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true,
+  });
 
   return (
     <section className='min-h-[calc(100vh-17.9rem)] px-4 pb-4 flex items-center flex-col text-header-main relative flex-grow'>
