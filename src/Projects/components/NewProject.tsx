@@ -2,11 +2,14 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import InputField from "../../FormFields/components/InputField";
 import TextAreaField from "../../FormFields/components/TextAreaField";
+import useAuth from "../../hooks/useAuth";
 import { useAddNewProjectMutation } from "../features/projectsApiSlice";
 
 import { INewProjectProps } from "../interfaces/INewProject";
 
 const NewProject = ({ setCreateNewProject }: INewProjectProps) => {
+  const { id, name } = useAuth();
+
   const [addNewProject, { isLoading, isSuccess, isError, error }] =
     useAddNewProjectMutation();
 
@@ -22,10 +25,9 @@ const NewProject = ({ setCreateNewProject }: INewProjectProps) => {
   const onSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     await addNewProject({
-      user: "636c093ed4ef74a28f721ecc",
-      title: "Next JS",
-      description: "Super amazing app",
-      status: "open",
+      user: id,
+      title: title.toLowerCase(),
+      description: description.toLowerCase(),
     });
   };
 
@@ -52,7 +54,7 @@ const NewProject = ({ setCreateNewProject }: INewProjectProps) => {
               label='Creator'
               htmlFor='name'
               type='text'
-              value='James'
+              value={name}
               disabled
               focus={false}
               containerClasses='mb-3'

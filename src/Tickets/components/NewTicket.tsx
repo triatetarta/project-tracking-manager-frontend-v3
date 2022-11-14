@@ -1,23 +1,34 @@
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { INewTicket } from "../interfaces/INewTicket";
 import InputField from "../../FormFields/components/InputField";
 import TextAreaField from "../../FormFields/components/TextAreaField";
 import { useAddNewTicketMutation } from "../features/ticketsApiSlice";
 import SelectField from "../../FormFields/components/SelectField";
 import { useGetProjectsQuery } from "../../Projects/features/projectsApiSlice";
-import CreateProjectButton from "../../Projects/components/CreateProjectButton";
+import { PlusIcon } from "@heroicons/react/outline";
+import Button from "../../Button/components/Button";
+import useAuth from "../../hooks/useAuth";
 
 const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
+  const { id, name, email } = useAuth();
   const [addNewTicket, { isLoading, isSuccess, isError, error, data }] =
     useAddNewTicketMutation();
-  const { data: projects } = useGetProjectsQuery();
+  const { data: projects } = useGetProjectsQuery("projectList");
 
-  const [reportersName] = useState("");
-  const [reportersEmail] = useState("");
+  const [reportersName] = useState(name);
+  const [reportersEmail] = useState(email);
   const [title, setTitle] = useState("");
-  const [project, setProject] = useState("");
+  const [project, setProject] = useState<string | undefined>("");
   const [description, setDescription] = useState("");
+
+  useEffect(() => {
+    if (projects === undefined) return;
+
+    const defaultProject = projects.entities[projects.ids[0]]?.title;
+
+    setProject(defaultProject);
+  }, [projects]);
 
   const cancelCreateTicket = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -29,10 +40,10 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
   const createTicketSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     await addNewTicket({
-      user: "636c093ed4ef74a28f721ecc",
-      title: "New feature",
-      project: "React",
-      description: "started a new feature",
+      user: id,
+      title: title.toLowerCase(),
+      project: project?.toLowerCase(),
+      description: description.toLowerCase(),
       status: "to do",
     });
   };
@@ -43,7 +54,7 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.1 }}
-      className='fixed top-0 right-0 left-0 bottom-0 w-full h-full bg-black/20  backdrop-blur-sm z-40'
+      className='fixed top-0 right-0 left-0 bottom-0 w-full h-full bg-black/20  backdrop-blur-sm z-40 text-header-main'
     >
       <motion.div
         initial={{ y: 100, opacity: 0 }}
@@ -109,8 +120,13 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
                 )}
 
                 <div className='flex items-center mt-1'>
-                  <CreateProjectButton
-                    setCreateNewProject={setCreateNewProject}
+                  <Button
+                    type='button'
+                    onClick={() => setCreateNewProject(true)}
+                    classNames='flex items-center justify-center hover:bg-gray-200 px-3 py-3 rounded-lg transition-all duration-200'
+                    textClassNames='text-xs font-semibold'
+                    icon={<PlusIcon className='w-3 h-3 text-gray-text' />}
+                    text='Create Project'
                   />
                 </div>
               </div>
@@ -130,21 +146,22 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
             <div className='mb-3 flex justify-between'>
               <div className='flex-grow mr-auto' />
               <div className='flex space-x-2'>
-                <button
+                <Button
                   onClick={cancelCreateTicket}
-                  className='text-gray-text py-2 px-3 rounded-md w-full hover:underline hover:text-gray-text/75 transition-all duration-100 text-sm'
-                >
-                  Cancel
-                </button>
-                <button
+                  classNames='text-gray-text py-2 px-3 rounded-md w-full hover:underline hover:text-gray-text/75 transition-all duration-100 text-sm'
+                  textClassNames='text-sm'
+                  text='Cancel'
+                />
+
+                <Button
                   disabled={
                     title === "" || project === "" || description === ""
                   }
-                  onClick={createTicketSubmit}
-                  className='bg-deep-blue text-white py-2 px-3 rounded-md w-full hover:bg-light-blue transition-all duration-100 text-sm disabled:bg-gray-text/80 hover:disabled:bg-gray-text/80'
-                >
-                  Create
-                </button>
+                  classNames='bg-deep-blue text-white py-2 px-3 rounded-md w-full hover:bg-light-blue transition-all duration-100 text-sm disabled:bg-gray-text/80 hover:disabled:bg-gray-text/80'
+                  textClassNames='text-sm'
+                  text='Create'
+                  onClick={(e) => createTicketSubmit(e)}
+                />
               </div>
             </div>
           </form>

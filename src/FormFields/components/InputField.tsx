@@ -36,7 +36,9 @@ const InputField = ({
         onChange={onChange}
         ref={inputRef}
         className={`w-full p-2 border rounded-md mb-3 focus:outline-1 outline-deep-blue placeholder:text-sm ${
-          !disabled ? "hover:bg-gray-100 transition-all duration-200" : ""
+          !disabled
+            ? "hover:bg-gray-100 transition-all duration-200 text-header-main"
+            : "text-header-main/70"
         }`}
         type={type}
         value={value}

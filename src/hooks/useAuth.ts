@@ -1,37 +1,47 @@
 import { useAppSelector } from "../app/hooks";
 import { selectCurrentToken } from "../Auth/features/authSlice";
-import { useState } from "react";
 import jwtDecode from "jwt-decode";
 
 interface IUserInfo {
-  [x: string]: { email: string; roles: string[] };
+  [x: string]: {
+    email: string;
+    roles: string[];
+    id: string;
+    image: string;
+    name: string;
+  };
 }
 
 const useAuth = () => {
   const token = useAppSelector(selectCurrentToken);
 
-  const [isManager, setIsManager] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [status, setStatus] = useState("Employee");
+  let isManager = false;
+  let isAdmin = false;
+  let status = "Employee";
 
   if (token) {
     const decoded = jwtDecode(token) as IUserInfo;
-    const { email, roles } = decoded.UserInfo;
+    const { email, roles, id, image, name } = decoded.UserInfo;
 
-    if (roles.includes("Manager")) {
-      setIsManager(true);
-      setStatus("Manager");
-    }
+    isManager = roles.includes("Manager");
+    isAdmin = roles.includes("Admin");
 
-    if (roles.includes("Admin")) {
-      setIsAdmin(true);
-      setStatus("Admin");
-    }
+    if (isManager) status = "Manager";
+    if (isAdmin) status = "Admin";
 
-    return { email, roles, status, isAdmin, isManager };
+    return { email, roles, status, isAdmin, isManager, id, image, name };
   }
 
-  return { email: "", roles: [], isAdmin, isManager, status };
+  return {
+    email: "",
+    roles: [],
+    id: "",
+    image: "",
+    name: "",
+    isAdmin,
+    isManager,
+    status,
+  };
 };
 
 export default useAuth;

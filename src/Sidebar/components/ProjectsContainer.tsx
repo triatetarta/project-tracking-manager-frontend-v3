@@ -1,6 +1,7 @@
 import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/react/solid";
+import { PlusIcon } from "@heroicons/react/outline";
 import { useState } from "react";
-import CreateProjectButton from "../../Projects/components/CreateProjectButton";
+import Button from "../../Button/components/Button";
 import Project from "../../Projects/components/Project";
 import { useGetProjectsQuery } from "../../Projects/features/projectsApiSlice";
 import { IProjectsContainer } from "../interfaces/IProjectsContainer";
@@ -36,7 +37,13 @@ const ProjectsContainer = ({ setCreateNewProject }: IProjectsContainer) => {
       ) : null}
 
       <div className='mt-2'>
-        <CreateProjectButton setCreateNewProject={setCreateNewProject} />
+        <Button
+          onClick={() => setCreateNewProject(true)}
+          classNames='flex items-center justify-center hover:bg-gray-200 px-3 py-3 rounded-lg transition-all duration-200'
+          textClassNames='text-xs font-semibold'
+          icon={<PlusIcon className='w-3 h-3 text-gray-text' />}
+          text='Create Project'
+        />
       </div>
     </div>
   );

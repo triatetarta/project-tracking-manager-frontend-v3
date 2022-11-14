@@ -1,6 +1,7 @@
 import { ITicketsContainer } from "../interfaces/ITicketsContainer";
 import { PlusIcon } from "@heroicons/react/solid";
 import Ticket from "./Ticket";
+import Button from "../../Button/components/Button";
 
 const TicketsContainer = ({
   tickets,
@@ -25,13 +26,13 @@ const TicketsContainer = ({
           })}
       </div>
 
-      <button
+      <Button
         onClick={() => setCreateNewTicket(true)}
-        className='flex items-center mt-3 hover:bg-gray-200 transition-all duration-200 px-2 py-3 rounded-lg'
-      >
-        <PlusIcon className='w-3 h-3 text-gray-text' />
-        <span className='text-xs font-semibold'>Create Ticket</span>
-      </button>
+        classNames='flex items-center mt-3 hover:bg-gray-200 transition-all duration-200 px-2 py-3 rounded-lg'
+        textClassNames='text-xs font-semibold'
+        icon={<PlusIcon className='w-3 h-3 text-gray-text' />}
+        text='Create Ticket'
+      />
     </div>
   );
 };
