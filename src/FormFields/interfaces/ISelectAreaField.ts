@@ -9,5 +9,8 @@ export interface ISelectAreaField extends IDisabled {
   label?: string;
   value?: string;
   onChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
-  items?: EntityId[];
+  items?: EntityId[] | string[];
+  selectClassNames?: string;
+  spanClassNames?: string;
+  optionClassNames?: string;
 }

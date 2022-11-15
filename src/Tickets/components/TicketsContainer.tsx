@@ -8,6 +8,7 @@ const TicketsContainer = ({
   category,
   icon,
   setCreateNewTicket,
+  openTicketDetailsHandler,
 }: ITicketsContainer) => {
   return (
     <div className='mt-10 flex flex-col bg-gray-100 py-4 px-6 rounded-lg'>
@@ -22,7 +23,13 @@ const TicketsContainer = ({
         {tickets?.ids
           .filter((ticketId) => tickets.entities[ticketId]?.status === category)
           .map((ticketId) => {
-            return <Ticket key={ticketId} ticketId={ticketId} />;
+            return (
+              <Ticket
+                key={ticketId}
+                ticketId={ticketId}
+                openTicketDetailsHandler={openTicketDetailsHandler}
+              />
+            );
           })}
       </div>
 

@@ -1,4 +1,4 @@
-import { EntityState } from "@reduxjs/toolkit";
+import { EntityId, EntityState } from "@reduxjs/toolkit";
 import { StateBooleanType } from "../../types/stateTypes";
 import { ITicket } from "./ITicket";
 
@@ -7,4 +7,5 @@ export interface ITicketsContainer {
   category: string;
   icon: JSX.Element;
   setCreateNewTicket: StateBooleanType;
+  openTicketDetailsHandler: (id: EntityId) => void;
 }

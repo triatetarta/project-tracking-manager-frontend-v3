@@ -6,27 +6,27 @@ import Tickets from "../../Tickets/components/Tickets";
 import NewTicket from "../../Tickets/components/NewTicket";
 import NewProject from "../../Projects/components/NewProject";
 import Button from "../../Button/components/Button";
+import TicketDetails from "../../Tickets/components/TicketDetails";
+import { EntityId } from "@reduxjs/toolkit";
 
 const Dashboard = () => {
   const [createNewTicket, setCreateNewTicket] = useState(false);
   const [createNewProject, setCreateNewProject] = useState(false);
+  const [openTicketDetails, setOpenTicketDetails] = useState(false);
+  const [ticketId, setTicketId] = useState<string | EntityId>("");
+
+  const openTicketDetailsHandler = (id: EntityId) => {
+    setOpenTicketDetails(true);
+    setTicketId(id);
+  };
 
   return (
     <main className='container mx-auto flex items-center justify-center px-2'>
-      {/* 
-      <AnimatePresence>
-        {openTicket && (
-          <TicketDetails
-            ticketId={selectedId}
-            closeTicketDetails={closeTicketDetails}
-          />
-        )}
-      </AnimatePresence>
-
-      <TicketsInfo /> */}
-
       <Sidebar setCreateNewProject={setCreateNewProject} />
-      <Tickets setCreateNewTicket={setCreateNewTicket} />
+      <Tickets
+        setCreateNewTicket={setCreateNewTicket}
+        openTicketDetailsHandler={openTicketDetailsHandler}
+      />
       <div className='container fixed bottom-6 md:bottom-20 pr-4 md:pr-0'>
         <div className='relative'>
           <Button
@@ -36,6 +36,15 @@ const Dashboard = () => {
           />
         </div>
       </div>
+
+      <AnimatePresence>
+        {openTicketDetails && (
+          <TicketDetails
+            ticketId={ticketId}
+            setOpenTicketDetails={setOpenTicketDetails}
+          />
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {createNewTicket ? (

@@ -7,7 +7,10 @@ import TicketsContainer from "./TicketsContainer";
 import { ITickets } from "../interfaces/ITickets";
 import { useGetTicketsQuery } from "../features/ticketsApiSlice";
 
-const Tickets = ({ setCreateNewTicket }: ITickets) => {
+const Tickets = ({
+  setCreateNewTicket,
+  openTicketDetailsHandler,
+}: ITickets) => {
   const { data: tickets } = useGetTicketsQuery("ticketList", {
     pollingInterval: 60000,
     refetchOnFocus: true,
@@ -22,18 +25,21 @@ const Tickets = ({ setCreateNewTicket }: ITickets) => {
           category='to do'
           icon={<DocumentTextIcon className='w-6 h-6 text-deep-blue' />}
           setCreateNewTicket={setCreateNewTicket}
+          openTicketDetailsHandler={openTicketDetailsHandler}
         />
         <TicketsContainer
           tickets={tickets}
           category='in progress'
           icon={<ClockIcon className='w-6 h-6 text-flow-yellow-deep' />}
           setCreateNewTicket={setCreateNewTicket}
+          openTicketDetailsHandler={openTicketDetailsHandler}
         />
         <TicketsContainer
           tickets={tickets}
           category='closed'
           icon={<BadgeCheckIcon className='w-6 h-6 text-flow-green-deep' />}
           setCreateNewTicket={setCreateNewTicket}
+          openTicketDetailsHandler={openTicketDetailsHandler}
         />
       </div>
     </section>

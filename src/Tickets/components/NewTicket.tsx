@@ -106,17 +106,22 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
                 {!projects?.ids.length ? (
                   <p className='text-xs p-2 mb-3'>No projects available</p>
                 ) : (
-                  <SelectField
-                    label='Project'
-                    name='project'
-                    htmlFor='project'
-                    id='project'
-                    onChange={(e) => {
-                      setProject(e.target.value);
-                    }}
-                    value={project}
-                    items={projects.ids}
-                  />
+                  <div className='flex flex-col'>
+                    <SelectField
+                      label='Project'
+                      name='project'
+                      htmlFor='project'
+                      id='project'
+                      onChange={(e) => {
+                        setProject(e.target.value);
+                      }}
+                      value={project}
+                      items={projects.ids}
+                      spanClassNames='w-4 h-4 absolute right-2 top-3 z-50 pointer-events-none text-gray-text'
+                      selectClassNames='py-2 pl-2 pr-6 border rounded-md mb-3 text-sm hover:bg-gray-100
+                      transition-all duration-200 cursor-pointer focus:outline-1 outline-deep-blue capitalize appearance-none'
+                    />
+                  </div>
                 )}
 
                 <div className='flex items-center mt-1'>

@@ -14,3 +14,19 @@
     cursor: pointer;
   }
 }
+
+@layer components {
+  .scrollBarWidth::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 8px;
+  }
+
+  .scrollBarTrack::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+  }
+  .scrollBarThumb::-webkit-scrollbar-thumb {
+    background: #deebff;
+    border-radius: 10px;
+  }
+}
