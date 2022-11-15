@@ -1,11 +1,15 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { convertString } from "../../../helpers/firstLetterUppercase";
 import { ITicketDetailsInfoProps } from "./interfaces/ITicketDetails";
 import SelectField from "../../../FormFields/components/SelectField";
 import TicketDetailsAccordion from "./TicketDetailsAccordion";
+import { useUpdateTicketMutation } from "../../features/ticketsApiSlice";
 
 const TicketDetailsInfo = ({ id, ticket }: ITicketDetailsInfoProps) => {
+  const [updateTicket, { isLoading, isSuccess, isError, error }] =
+    useUpdateTicketMutation();
+
   const [editDescription, setEditDescription] = useState(false);
   const [editDescText, setEditDescText] = useState("");
 
@@ -33,6 +37,28 @@ const TicketDetailsInfo = ({ id, ticket }: ITicketDetailsInfoProps) => {
 
   const onEditCancel = () => {
     setEditDescription(false);
+  };
+
+  const onEditSubmit = async () => {
+    await updateTicket({
+      id: ticket?.id,
+      title: ticket?.title,
+      project: ticket?.project,
+      status: ticket?.status,
+      description: editDescText,
+    });
+
+    setEditDescription(false);
+  };
+
+  const onStatusUpdate = async (e: ChangeEvent<HTMLSelectElement>) => {
+    await updateTicket({
+      id: ticket?.id,
+      title: ticket?.title,
+      project: ticket?.project,
+      status: e.target.value,
+      description: ticket?.description,
+    });
   };
 
   useEffect(() => {
@@ -64,9 +90,9 @@ const TicketDetailsInfo = ({ id, ticket }: ITicketDetailsInfoProps) => {
               htmlFor='status'
               id='status'
               name='status'
-              onChange={() => console.log("yo")}
+              onChange={onStatusUpdate}
               disabled={ticket?.user !== id}
-              value='todo'
+              value={ticket?.status}
               items={["to do", "in progress", "closed"]}
               spanClassNames={`w-5 h-5 absolute right-2 top-2 z-50 pointer-events-none ${
                 ticket?.status === "to do" ? "text-white" : "text-header-main"
@@ -76,18 +102,6 @@ const TicketDetailsInfo = ({ id, ticket }: ITicketDetailsInfoProps) => {
               }`}
               optionClassNames='bg-gray-100 text-header-main uppercase'
             />
-            {/*           
-          onChange={(e) => {
-              //     dispatch(
-              //       updateTicket({
-              //         ticketId: ticket._id,
-              //         ticketData: {
-              //           status: e.target.value,
-              //         },
-              //       })
-              //     );
-              //   }}
- */}
           </form>
         </div>
       </div>
@@ -110,7 +124,7 @@ const TicketDetailsInfo = ({ id, ticket }: ITicketDetailsInfoProps) => {
               />
               <div className='flex space-x-2 mt-2'>
                 <button
-                  //   onClick={onEditSubmit}
+                  onClick={onEditSubmit}
                   className='bg-deep-blue text-white py-1 px-2 rounded-md hover:bg-light-blue transition-all duration-100 text-sm mt-0.5 inline-flex w-fit'
                 >
                   Save
