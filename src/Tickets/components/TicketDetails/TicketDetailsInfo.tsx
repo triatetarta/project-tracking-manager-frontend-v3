@@ -5,6 +5,8 @@ import { ITicketDetailsInfoProps } from "./interfaces/ITicketDetails";
 import SelectField from "../../../FormFields/components/SelectField";
 import TicketDetailsAccordion from "./TicketDetailsAccordion";
 import { useUpdateTicketMutation } from "../../features/ticketsApiSlice";
+import TextAreaField from "../../../FormFields/components/TextAreaField";
+import Button from "../../../Button/components/Button";
 
 const TicketDetailsInfo = ({ id, ticket }: ITicketDetailsInfoProps) => {
   const [updateTicket, { isLoading, isSuccess, isError, error }] =
@@ -112,29 +114,26 @@ const TicketDetailsInfo = ({ id, ticket }: ITicketDetailsInfoProps) => {
         <>
           {editDescription ? (
             <>
-              <textarea
-                style={{ resize: "none" }}
-                className={`mt-1 bg-transparent outline-none hover:bg-gray-100 transition-all duration-200 px-3 py-2 rounded-md break-words  scrollbar-thin scrollbar-thumb-light-blue scrollbar-track-gray-300 overflow-y-scroll border`}
-                // type='text'
+              <TextAreaField
+                classNames='mt-1 bg-transparent outline-none hover:bg-gray-100 transition-all duration-200 px-3 py-2 rounded-md break-words  scrollbar-thin scrollbar-thumb-light-blue scrollbar-track-gray-300 overflow-y-scroll border'
+                rows={6}
                 value={editDescText}
                 onChange={(e) => setEditDescText(e.target.value)}
-                rows={6}
-                ref={descRef}
+                focus
                 disabled={ticket?.user !== id}
               />
               <div className='flex space-x-2 mt-2'>
-                <button
+                <Button
+                  classNames='bg-deep-blue text-white py-1 px-2 rounded-md hover:bg-light-blue transition-all duration-100 text-sm mt-0.5 inline-flex w-fit'
                   onClick={onEditSubmit}
-                  className='bg-deep-blue text-white py-1 px-2 rounded-md hover:bg-light-blue transition-all duration-100 text-sm mt-0.5 inline-flex w-fit'
-                >
-                  Save
-                </button>
-                <button
+                  text='Save'
+                />
+
+                <Button
                   onClick={onEditCancel}
-                  className='hover:bg-gray-200 text-gray-text py-1 px-2 rounded-md transition-all duration-100 text-sm mt-0.5'
-                >
-                  Cancel
-                </button>
+                  classNames='hover:bg-gray-200 text-gray-text py-1 px-2 rounded-md transition-all duration-100 text-sm mt-0.5'
+                  text='Cancel'
+                />
               </div>
             </>
           ) : (

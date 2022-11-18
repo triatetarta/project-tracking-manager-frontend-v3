@@ -2,13 +2,24 @@ import { useState } from "react";
 import { XIcon, DotsHorizontalIcon } from "@heroicons/react/solid";
 import { TicketIcon } from "@heroicons/react/outline";
 import { ITicketDetailsHeaderProps } from "./interfaces/ITicketDetails";
+import { useAppDispatch } from "../../../app/hooks";
+import { setModalOpen } from "../../../Modal/features/modalSlice";
 
 const TicketDetailsHeader = ({
   id,
+  ticketId,
   ticketUserId,
   setOpenTicketDetails,
+  getModalType,
 }: ITicketDetailsHeaderProps) => {
   const [ticketMenuOpen, setTicketMenuOpen] = useState(false);
+
+  const dispatch = useAppDispatch();
+
+  const onTicketDeleteButton = () => {
+    dispatch(setModalOpen());
+    getModalType("ticket");
+  };
 
   return (
     <div className='flex items-center justify-between mb-10 select-none'>
@@ -20,7 +31,7 @@ const TicketDetailsHeader = ({
       </div>
 
       <div className='flex items-center space-x-1.5'>
-        {id === ticketUserId && (
+        {id === ticketUserId ? (
           <div className='relative'>
             <div
               onClick={() => setTicketMenuOpen(!ticketMenuOpen)}
@@ -35,14 +46,14 @@ const TicketDetailsHeader = ({
 
             {ticketMenuOpen && (
               <button
-                // onClick={onTicketDelete}
+                onClick={onTicketDeleteButton}
                 className={`absolute -bottom-9 -left-5 border rounded-md px-2 py-1 z-40 text-sm hover:bg-gray-100 transition-all duration-200 select-none`}
               >
                 Delete
               </button>
             )}
           </div>
-        )}
+        ) : null}
 
         <div
           onClick={() => setOpenTicketDetails(false)}

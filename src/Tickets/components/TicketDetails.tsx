@@ -9,6 +9,7 @@ import TicketDetailsInfo from "./TicketDetails/TicketDetailsInfo";
 const TicketDetails = ({
   setOpenTicketDetails,
   ticketId,
+  getModalType,
 }: ITicketDetailsProps) => {
   const { id } = useAuth();
   const { ticket } = useGetTicketsQuery("ticketList", {
@@ -46,6 +47,8 @@ const TicketDetails = ({
           setOpenTicketDetails={setOpenTicketDetails}
           id={id}
           ticketUserId={ticket?.user}
+          ticketId={ticketId}
+          getModalType={getModalType}
         />
 
         <TicketDetailsInfo id={id} ticket={ticket} />

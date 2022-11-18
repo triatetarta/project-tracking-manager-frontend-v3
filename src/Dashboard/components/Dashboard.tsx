@@ -8,16 +8,25 @@ import NewProject from "../../Projects/components/NewProject";
 import Button from "../../Button/components/Button";
 import TicketDetails from "../../Tickets/components/TicketDetails";
 import { EntityId } from "@reduxjs/toolkit";
+import Modal from "../../Modal/components/Modal";
+import { useAppSelector } from "../../app/hooks";
+import { TGetModalType } from "../interfaces/IModalType";
 
 const Dashboard = () => {
+  const { modalOpen } = useAppSelector((state) => state.modal);
   const [createNewTicket, setCreateNewTicket] = useState(false);
   const [createNewProject, setCreateNewProject] = useState(false);
   const [openTicketDetails, setOpenTicketDetails] = useState(false);
   const [ticketId, setTicketId] = useState<string | EntityId>("");
+  const [modalType, setModalType] = useState<TGetModalType>("");
 
   const openTicketDetailsHandler = (id: EntityId) => {
     setOpenTicketDetails(true);
     setTicketId(id);
+  };
+
+  const getModalType = (type: TGetModalType) => {
+    setModalType(type);
   };
 
   return (
@@ -42,6 +51,7 @@ const Dashboard = () => {
           <TicketDetails
             ticketId={ticketId}
             setOpenTicketDetails={setOpenTicketDetails}
+            getModalType={getModalType}
           />
         )}
       </AnimatePresence>
@@ -59,6 +69,10 @@ const Dashboard = () => {
         {createNewProject ? (
           <NewProject setCreateNewProject={setCreateNewProject} />
         ) : null}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {modalOpen ? <Modal id={ticketId} type={modalType} /> : null}
       </AnimatePresence>
     </main>
   );

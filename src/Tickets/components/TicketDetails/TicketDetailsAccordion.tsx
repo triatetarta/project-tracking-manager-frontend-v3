@@ -7,7 +7,7 @@ import moment from "moment";
 const TicketDetailsAccordion = ({ ticket }: ITicketDetailsAccordionProps) => {
   const { user } = useGetUsersQuery("userList", {
     selectFromResult: ({ data }) => ({
-      user: ticket === undefined ? ticket : data?.entities[ticket?.user],
+      user: data?.entities[ticket?.user!],
     }),
   });
   const [detailsOpen, setDetailsOpen] = useState(false);
