@@ -20,6 +20,8 @@ const CommentForm = ({ ticketId }: ICommentFormProps) => {
       ticket: ticketId,
       text,
     });
+
+    setText("");
   };
 
   return (

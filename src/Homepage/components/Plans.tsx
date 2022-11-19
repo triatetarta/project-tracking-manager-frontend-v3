@@ -2,7 +2,7 @@ import PlanCard from "./PlanCard";
 
 const Plans = () => {
   return (
-    <section className='text-header-main flex flex-col mb-20 px-2'>
+    <section className='backgroundGradientFlip text-blue-text flex flex-col mb-20 px-2 py-16'>
       <div>
         <h1 className='text-xl md:text-4xl font-semibold text-center'>
           Simple Plans hosted in the cloud
@@ -14,26 +14,31 @@ const Plans = () => {
           plan='Free'
           price='0'
           users='up to 10'
-          selected
           lasts='Free forever'
-          payment='No obligation'
           buttonText='Get started'
+          textColor='text-neat-purple'
+          bgColor='bg-neat-purple'
+          includes={["Granular access controls", "Billing & Licence support"]}
         />
         <PlanCard
           plan='Standard'
           price='9.50'
           users='1-100'
           lasts='Free for 7 days'
-          payment='No credit card needed'
           buttonText='Start trial'
+          textColor='text-neat-turquoise'
+          bgColor='bg-neat-turquoise'
+          includes={["Granular access controls", "Guidance & Assistance"]}
         />
         <PlanCard
           plan='Premium'
           price='16.50'
           users='1-100'
-          lasts='Free forever'
-          payment='No credit card needed'
+          lasts='Free trial'
           buttonText='Start trial'
+          textColor='text-neat-yellow'
+          bgColor='bg-neat-yellow'
+          includes={["Granular access controls", "Technical support 24/7"]}
         />
       </div>
 

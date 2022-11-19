@@ -6,8 +6,10 @@ import moment from "moment";
 import Avatar from "../../../Avatar/components/Avatar";
 import SelectField from "../../../FormFields/components/SelectField";
 import { useUpdateTicketMutation } from "../../features/ticketsApiSlice";
+import useAuth from "../../../hooks/useAuth";
 
 const TicketDetailsAccordion = ({ ticket }: ITicketDetailsAccordionProps) => {
+  const { id } = useAuth();
   const { user, assignee, userIds } = useGetUsersQuery("userList", {
     selectFromResult: ({ data }) => ({
       user: data?.entities[ticket?.user!],
@@ -22,6 +24,7 @@ const TicketDetailsAccordion = ({ ticket }: ITicketDetailsAccordionProps) => {
   const [editAssignee, setEditAssignee] = useState(false);
 
   const onEditAssigneeEnable = () => {
+    if (ticket?.user !== id) return;
     setEditAssignee(true);
   };
 
@@ -67,7 +70,11 @@ const TicketDetailsAccordion = ({ ticket }: ITicketDetailsAccordionProps) => {
             {!editAssignee ? (
               <div
                 onClick={onEditAssigneeEnable}
-                className='inline-flex py-1 items-center hover:bg-gray-100 transition-all duration-200 pl-5'
+                className={`inline-flex py-1 items-center pl-5 ${
+                  ticket?.user !== id
+                    ? ""
+                    : "hover:bg-gray-100 transition-all duration-200"
+                }`}
               >
                 <Avatar
                   image={assignee?.image}
@@ -85,6 +92,7 @@ const TicketDetailsAccordion = ({ ticket }: ITicketDetailsAccordionProps) => {
                     id='assignee'
                     onChange={onAssigneeUpdate}
                     value={ticket?.assignee}
+                    disabled={ticket?.user !== id}
                     items={userIds}
                     spanClassNames='w-4 h-4 absolute right-2 top-3 z-50 pointer-events-none text-gray-text'
                     selectClassNames='py-2 pl-2 pr-6 border rounded-md mb-3 text-sm hover:bg-gray-100

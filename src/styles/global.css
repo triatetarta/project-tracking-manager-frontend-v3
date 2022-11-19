@@ -29,4 +29,28 @@
     background: #deebff;
     border-radius: 10px;
   }
+
+  .backgroundGradient {
+    background: linear-gradient(190deg, #ebf4fd, hsla(0, 0%, 100%, 0) 45%);
+  }
+
+  .backgroundGradientFlip {
+    background: linear-gradient(-190deg, #ebf4fd, hsla(0, 0%, 100%, 0) 45%);
+  }
+
+  .blueCircleIconGradient {
+    @apply bg-gradient-to-tr from-dark-blue via-medium-blue to-light-blue;
+  }
+
+  .orangeGradient {
+    @apply bg-gradient-to-tr from-deep-orange via-medium-orange to-light-orange;
+  }
+
+  .blueGradient {
+    @apply bg-gradient-to-tr from-dark-blue via-medium-blue to-light-blue;
+  }
+
+  .greenGradient {
+    @apply bg-gradient-to-tr from-dark-green via-medium-green to-light-green;
+  }
 }

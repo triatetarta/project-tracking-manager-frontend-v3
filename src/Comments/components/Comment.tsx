@@ -102,9 +102,11 @@ const Comment = ({ commentId, ticketId, getModalType }: ICommentProps) => {
         ) : (
           <TextAreaField
             value={editEnable ? editText : comment?.text}
+            name='comment'
             disabled={!editEnable}
             classNames='rounded-lg border w-full py-2 px-3 focus:outline-1 outline-deep-blue text-sm hover:border-gray-400 transition-all duration-150'
             rows={2}
+            focus
             onChange={(e) => setEditText(e.target.value)}
           />
         )}
