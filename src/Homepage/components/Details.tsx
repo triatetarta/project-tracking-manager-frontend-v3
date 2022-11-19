@@ -2,10 +2,21 @@ import CommentIcon from "../../Icons/components/CommentIcon";
 import PlanIcon from "../../Icons/components/PlanIcon";
 import ReleaseIcon from "../../Icons/components/ReleaseIcon";
 import ReviewIcon from "../../Icons/components/ReviewIcon";
+import lightblueBox from "../../../public/assets/images/lightblue.svg";
 
 const Details = () => {
   return (
-    <section className='flex w-full space-y-14 md:space-y-28 px-2 backgroundGradient py-16'>
+    <section className='flex flex-col w-full space-y-14 md:space-y-24 px-2 backgroundGradient py-12 relative'>
+      <img
+        src={lightblueBox}
+        alt='color box'
+        className='absolute -top-10 -right-10 w-24 h-24'
+      />
+
+      <div className='text-center text-sm font-bold text-neat-turquoise'>
+        HOW DOES IT WORK
+      </div>
+
       <div className='flex flex-col md:flex-row w-full justify-evenly'>
         <div className='flex flex-col mt-10 md:mt-0 self-center'>
           <div className='flex items-center mb-4'>

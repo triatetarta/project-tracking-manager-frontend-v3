@@ -1,10 +1,20 @@
 import PlanCard from "./PlanCard";
+import orangeBox from "../../../public/assets/images/orange.svg";
 
 const Plans = () => {
   return (
-    <section className='backgroundGradientFlip text-blue-text flex flex-col mb-20 px-2 py-16'>
+    <section className='backgroundGradientFlip text-blue-text flex flex-col mb-20 px-2 py-16 relative'>
+      <img
+        src={orangeBox}
+        alt='orange box'
+        className='w-24 h-24 -rotate-90 absolute -top-10 -left-10'
+      />
+
       <div>
-        <h1 className='text-xl md:text-4xl font-semibold text-center'>
+        <div className='text-center text-sm font-bold text-neat-yellow mb-10'>
+          GET YOURS NOW
+        </div>
+        <h1 className='text-xl md:text-4xl font-semibold text-center mb-6'>
           Simple Plans hosted in the cloud
         </h1>
       </div>
