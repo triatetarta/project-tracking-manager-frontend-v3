@@ -3,6 +3,7 @@ import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 import { ITicketDetailsAccordionProps } from "./interfaces/ITicketDetails";
 import { useGetUsersQuery } from "../../../Auth/features/usersApiSlice";
 import moment from "moment";
+import Avatar from "../../../Avatar/components/Avatar";
 
 const TicketDetailsAccordion = ({ ticket }: ITicketDetailsAccordionProps) => {
   const { user } = useGetUsersQuery("userList", {
@@ -39,11 +40,11 @@ const TicketDetailsAccordion = ({ ticket }: ITicketDetailsAccordionProps) => {
             <p className='text-xs text-gray-text mb-1'>Reporter</p>
 
             <div className='flex items-center'>
-              {/* <Avatar
-                avatarImage={author?.image}
-                avatarName={author?.name}
+              <Avatar
+                image={user?.image}
+                name={user?.name}
                 classNames='h-5 w-5 text-sm'
-              /> */}
+              />
               <p className='ml-1 text-xs'>{user?.name}</p>
             </div>
           </div>

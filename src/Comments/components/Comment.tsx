@@ -11,6 +11,7 @@ import TextAreaField from "../../FormFields/components/TextAreaField";
 import Button from "../../Button/components/Button";
 import { useAppDispatch } from "../../app/hooks";
 import { setModalOpen } from "../../Modal/features/modalSlice";
+import Avatar from "../../Avatar/components/Avatar";
 
 const Comment = ({ commentId, ticketId, getModalType }: ICommentProps) => {
   const [updateComment] = useUpdateCommentMutation();
@@ -66,11 +67,11 @@ const Comment = ({ commentId, ticketId, getModalType }: ICommentProps) => {
   return (
     <div className='flex space-x-2 w-full'>
       <div className='h-9 w-9'>
-        {/* <Avatar
-      classNames='h-9 w-9 text-base'
-      avatarImage={author?.image}
-      avatarName={author?.name}
-    /> */}
+        <Avatar
+          classNames='h-9 w-9 text-base'
+          image={user?.image}
+          name={user?.name}
+        />
       </div>
       <div className='flex flex-col space-y-2 w-full'>
         <div className='flex text-xs'>

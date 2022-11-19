@@ -1,6 +1,8 @@
 import { ChevronDownIcon, UserCircleIcon } from "@heroicons/react/solid";
 import { Link, useNavigate } from "react-router-dom";
 import { useSendLogoutMutation } from "../../Auth/features/authApiSlice";
+import Avatar from "../../Avatar/components/Avatar";
+import useAuth from "../../hooks/useAuth";
 import { INavbarProps } from "../interfaces/INavbar";
 import Logo from "./Logo";
 
@@ -9,12 +11,11 @@ const Navbar = ({
   setOpenAccountMenu,
   closeOpenMenus,
 }: INavbarProps) => {
+  const { email, name, image, loggedIn } = useAuth();
   const [sendLogout, { isLoading, isSuccess, isError, error }] =
     useSendLogoutMutation();
 
   const navigate = useNavigate();
-
-  const user = true;
 
   return (
     <header
@@ -39,7 +40,15 @@ const Navbar = ({
             }}
             className='flex items-center space-x-1 text-light-blue px-2 py-1 rounded-lg hover:bg-gray-100 transition-all duration-200 accountButton'
           >
-            <UserCircleIcon className='h-8 w-8 pointer-events-none' />
+            {loggedIn ? (
+              <Avatar
+                image={image}
+                name={name}
+                classNames='h-7 w-7 text-base'
+              />
+            ) : (
+              <UserCircleIcon className='h-8 w-8 pointer-events-none' />
+            )}
 
             <span className='font-semibold text-md pointer-events-none'>
               Account
@@ -49,12 +58,12 @@ const Navbar = ({
 
           {openAccountMenu ? (
             <ul className='accountMenu absolute right-0 w-fit rounded-lg shadow-md border border-gray-200 text-sm bg-white overflow-hidden z-50'>
-              {user ? (
+              {loggedIn ? (
                 <>
                   <li className='bg-header-main w-full text-white py-2 px-4'>
                     <div className='flex flex-col'>
-                      <p className='text-md'>James</p>
-                      <p className='text-xs font-light'> james@gmail.com</p>
+                      <p className='text-md'>{name}</p>
+                      <p className='text-xs font-light'>{email}</p>
                     </div>
                   </li>
                   <li

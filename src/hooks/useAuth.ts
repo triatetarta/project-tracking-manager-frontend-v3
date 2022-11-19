@@ -18,6 +18,7 @@ const useAuth = () => {
   let isManager = false;
   let isAdmin = false;
   let status = "Employee";
+  let loggedIn = false;
 
   if (token) {
     const decoded = jwtDecode(token) as IUserInfo;
@@ -28,8 +29,19 @@ const useAuth = () => {
 
     if (isManager) status = "Manager";
     if (isAdmin) status = "Admin";
+    if (decoded.UserInfo) loggedIn = true;
 
-    return { email, roles, status, isAdmin, isManager, id, image, name };
+    return {
+      email,
+      roles,
+      status,
+      isAdmin,
+      isManager,
+      id,
+      image,
+      name,
+      loggedIn,
+    };
   }
 
   return {
@@ -41,6 +53,7 @@ const useAuth = () => {
     isAdmin,
     isManager,
     status,
+    loggedIn,
   };
 };
 
