@@ -7,7 +7,6 @@ import { setModalOpen } from "../../../Modal/features/modalSlice";
 
 const TicketDetailsHeader = ({
   id,
-  ticketId,
   ticketUserId,
   setOpenTicketDetails,
   getModalType,
@@ -18,7 +17,7 @@ const TicketDetailsHeader = ({
 
   const onTicketDeleteButton = () => {
     dispatch(setModalOpen());
-    getModalType("ticket");
+    getModalType("ticket", id);
   };
 
   return (

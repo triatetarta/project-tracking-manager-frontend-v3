@@ -10,7 +10,7 @@ import TicketDetails from "../../Tickets/components/TicketDetails";
 import { EntityId } from "@reduxjs/toolkit";
 import Modal from "../../Modal/components/Modal";
 import { useAppSelector } from "../../app/hooks";
-import { TGetModalType } from "../interfaces/IModalType";
+import { TGetModalType, TGetModalTypeFunc } from "../interfaces/IModalType";
 
 const Dashboard = () => {
   const { modalOpen } = useAppSelector((state) => state.modal);
@@ -19,14 +19,16 @@ const Dashboard = () => {
   const [openTicketDetails, setOpenTicketDetails] = useState(false);
   const [ticketId, setTicketId] = useState<string | EntityId>("");
   const [modalType, setModalType] = useState<TGetModalType>("");
+  const [id, setId] = useState<string | EntityId>("");
 
   const openTicketDetailsHandler = (id: EntityId) => {
     setOpenTicketDetails(true);
     setTicketId(id);
   };
 
-  const getModalType = (type: TGetModalType) => {
+  const getModalType: TGetModalTypeFunc = (type, targetId) => {
     setModalType(type);
+    setId(targetId);
   };
 
   return (
@@ -72,7 +74,7 @@ const Dashboard = () => {
       </AnimatePresence>
 
       <AnimatePresence>
-        {modalOpen ? <Modal id={ticketId} type={modalType} /> : null}
+        {modalOpen ? <Modal id={id} type={modalType} /> : null}
       </AnimatePresence>
     </main>
   );

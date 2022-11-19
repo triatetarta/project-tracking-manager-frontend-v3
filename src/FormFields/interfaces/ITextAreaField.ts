@@ -7,8 +7,8 @@ export interface ITextAreaField {
   id?: string;
   placeholder?: string;
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  value: string;
+  value: string | undefined;
   focus?: boolean;
   classNames?: string;
-  disabled: boolean;
+  disabled?: boolean;
 }

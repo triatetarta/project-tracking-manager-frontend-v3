@@ -6,17 +6,29 @@ import { setModalClose } from "../features/modalSlice";
 import { useDeleteTicketMutation } from "../../Tickets/features/ticketsApiSlice";
 import { MouseEvent } from "react";
 import Button from "../../Button/components/Button";
+import { useDeleteCommentMutation } from "../../Comments/features/commentsApiSlice";
 
 const Modal = ({ type, id }: IModalProps) => {
   const [deleteTicket, { isLoading, isError, isSuccess, error }] =
     useDeleteTicketMutation();
+  const [deleteComment] = useDeleteCommentMutation();
 
   const dispatch = useAppDispatch();
 
   const onDelete = async () => {
-    await deleteTicket({
-      id,
-    });
+    if (type === "ticket") {
+      await deleteTicket({
+        id,
+      });
+      dispatch(setModalClose());
+    } else if (type === "comment") {
+      await deleteComment({
+        id,
+      });
+      dispatch(setModalClose());
+    }
+
+    return;
   };
 
   const onCancel = () => {

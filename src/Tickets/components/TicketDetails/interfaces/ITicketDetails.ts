@@ -1,5 +1,5 @@
 import { EntityId } from "@reduxjs/toolkit";
-import { TGetModalType } from "../../../../Dashboard/interfaces/IModalType";
+import { TGetModalTypeFunc } from "../../../../Dashboard/interfaces/IModalType";
 import { StateBooleanType } from "../../../../types/stateTypes";
 import { ITicket } from "../../../interfaces/ITicket";
 
@@ -8,7 +8,7 @@ export interface ITicketDetailsHeaderProps {
   ticketUserId: string | undefined;
   ticketId: EntityId;
   setOpenTicketDetails: StateBooleanType;
-  getModalType: (type: TGetModalType) => void;
+  getModalType: TGetModalTypeFunc;
 }
 
 export interface ITicketDetailsInfoProps {

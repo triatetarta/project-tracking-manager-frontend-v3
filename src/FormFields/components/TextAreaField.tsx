@@ -26,8 +26,11 @@ const TextAreaField = ({
         htmlFor='description'
       >
         {label}
-        {!value && <span className='text-red-text ml-0.5'>*</span>}
+        {!value && label ? (
+          <span className='text-red-text ml-0.5'>*</span>
+        ) : null}
       </label>
+
       <textarea
         ref={textareaRef}
         rows={rows}

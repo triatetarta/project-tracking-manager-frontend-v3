@@ -5,6 +5,7 @@ import { ITicketDetailsProps } from "../interfaces/ITicketDetails";
 import useAuth from "../../hooks/useAuth";
 import TicketDetailsHeader from "./TicketDetails/TicketDetailsHeader";
 import TicketDetailsInfo from "./TicketDetails/TicketDetailsInfo";
+import Comments from "../../Comments/components/Comments";
 
 const TicketDetails = ({
   setOpenTicketDetails,
@@ -52,6 +53,8 @@ const TicketDetails = ({
         />
 
         <TicketDetailsInfo id={id} ticket={ticket} />
+
+        <Comments ticketId={ticketId} getModalType={getModalType} />
       </motion.div>
     </motion.div>
   );
