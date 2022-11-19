@@ -1,11 +1,19 @@
-import { useAppSelector } from "../../app/hooks";
-import { selectProjectById } from "../../Projects/features/projectsApiSlice";
+import { useGetUsersQuery } from "../../Auth/features/usersApiSlice";
+import { useGetProjectsQuery } from "../../Projects/features/projectsApiSlice";
 import { IOption } from "../interfaces/IOption";
 
 const Option = ({ item, name, optionClassNames }: IOption) => {
-  const selectedItem = useAppSelector((state) =>
-    selectProjectById(state, item)
-  );
+  const { project } = useGetProjectsQuery("projectList", {
+    selectFromResult: ({ data }) => ({
+      project: data?.entities[item],
+    }),
+  });
+
+  const { user } = useGetUsersQuery("userList", {
+    selectFromResult: ({ data }) => ({
+      user: data?.entities[item],
+    }),
+  });
 
   if (name === "status") {
     return (
@@ -15,10 +23,18 @@ const Option = ({ item, name, optionClassNames }: IOption) => {
     );
   }
 
-  if (selectedItem !== undefined) {
+  if (name === "project") {
     return (
-      <option className={optionClassNames} value={selectedItem?.title}>
-        {selectedItem?.title}
+      <option className={optionClassNames} value={project?.title}>
+        {project?.title}
+      </option>
+    );
+  }
+
+  if (name === "assignee") {
+    return (
+      <option className={optionClassNames} value={user?._id}>
+        {user?.name}
       </option>
     );
   }

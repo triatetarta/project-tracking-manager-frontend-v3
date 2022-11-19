@@ -9,17 +9,20 @@ import { useGetProjectsQuery } from "../../Projects/features/projectsApiSlice";
 import { PlusIcon } from "@heroicons/react/outline";
 import Button from "../../Button/components/Button";
 import useAuth from "../../hooks/useAuth";
+import { useGetUsersQuery } from "../../Auth/features/usersApiSlice";
 
 const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
   const { id, name, email } = useAuth();
   const [addNewTicket, { isLoading, isSuccess, isError, error, data }] =
     useAddNewTicketMutation();
   const { data: projects } = useGetProjectsQuery("projectList");
+  const { data: users } = useGetUsersQuery("userList");
 
   const [reportersName] = useState(name);
   const [reportersEmail] = useState(email);
   const [title, setTitle] = useState("");
   const [project, setProject] = useState<string | undefined>("");
+  const [assignee, setAssignee] = useState<string | undefined>("");
   const [description, setDescription] = useState("");
 
   useEffect(() => {
@@ -29,6 +32,12 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
 
     setProject(defaultProject);
   }, [projects]);
+
+  useEffect(() => {
+    if (id === undefined) return;
+
+    setAssignee(id);
+  }, [id]);
 
   const cancelCreateTicket = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -44,6 +53,7 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
       title: title.toLowerCase(),
       project: project?.toLowerCase(),
       description: description.toLowerCase(),
+      assignee,
       status: "to do",
     });
   };
@@ -136,7 +146,7 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
                 </div>
               </div>
             </div>
-            <div className='mb-3'>
+            <div>
               <TextAreaField
                 disabled={false}
                 id='description'
@@ -148,6 +158,27 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
                 onChange={(e) => setDescription(e.target.value as string)}
               />
             </div>
+
+            <div className='flex justify-between items-center relative mb-4'>
+              <div className='flex flex-col'>
+                <SelectField
+                  label='Assignee'
+                  name='assignee'
+                  htmlFor='assignee'
+                  id='assignee'
+                  onChange={(e) => {
+                    setAssignee(e.target.value);
+                  }}
+                  value={assignee}
+                  items={users?.ids}
+                  spanClassNames='w-4 h-4 absolute right-2 top-3 z-50 pointer-events-none text-gray-text'
+                  selectClassNames='py-2 pl-2 pr-6 border rounded-md mb-3 text-sm hover:bg-gray-100
+                      transition-all duration-200 cursor-pointer focus:outline-1 outline-deep-blue capitalize appearance-none'
+                />
+              </div>
+              <div />
+            </div>
+
             <div className='mb-3 flex justify-between'>
               <div className='flex-grow mr-auto' />
               <div className='flex space-x-2'>

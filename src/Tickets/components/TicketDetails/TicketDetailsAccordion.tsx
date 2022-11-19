@@ -1,17 +1,42 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 import { ITicketDetailsAccordionProps } from "./interfaces/ITicketDetails";
 import { useGetUsersQuery } from "../../../Auth/features/usersApiSlice";
 import moment from "moment";
 import Avatar from "../../../Avatar/components/Avatar";
+import SelectField from "../../../FormFields/components/SelectField";
+import { useUpdateTicketMutation } from "../../features/ticketsApiSlice";
 
 const TicketDetailsAccordion = ({ ticket }: ITicketDetailsAccordionProps) => {
-  const { user } = useGetUsersQuery("userList", {
+  const { user, assignee, userIds } = useGetUsersQuery("userList", {
     selectFromResult: ({ data }) => ({
       user: data?.entities[ticket?.user!],
+      assignee: data?.entities[ticket?.assignee!],
+      userIds: data?.ids,
     }),
   });
+  const [updateTicket, { isLoading, isSuccess, isError, error }] =
+    useUpdateTicketMutation();
+
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [editAssignee, setEditAssignee] = useState(false);
+
+  const onEditAssigneeEnable = () => {
+    setEditAssignee(true);
+  };
+
+  const onAssigneeUpdate = async (e: ChangeEvent<HTMLSelectElement>) => {
+    await updateTicket({
+      id: ticket?.id,
+      title: ticket?.title,
+      project: ticket?.project,
+      status: ticket?.status,
+      description: ticket?.description,
+      assignee: e.target.value,
+    });
+
+    setEditAssignee(false);
+  };
 
   return (
     <>
@@ -36,10 +61,44 @@ const TicketDetailsAccordion = ({ ticket }: ITicketDetailsAccordionProps) => {
 
       {detailsOpen && (
         <div className='border rounded-b-lg pb-4'>
-          <div className='flex flex-col justify-center pl-5 mt-5'>
-            <p className='text-xs text-gray-text mb-1'>Reporter</p>
+          <div className='flex flex-col justify-center mt-5'>
+            <p className='text-xs text-gray-text pl-5'>Assignee</p>
 
-            <div className='flex items-center'>
+            {!editAssignee ? (
+              <div
+                onClick={onEditAssigneeEnable}
+                className='inline-flex py-1 items-center hover:bg-gray-100 transition-all duration-200 pl-5'
+              >
+                <Avatar
+                  image={assignee?.image}
+                  name={assignee?.name}
+                  classNames='h-5 w-5 text-sm'
+                />
+                <p className='ml-1 text-xs'>{assignee?.name}</p>
+              </div>
+            ) : (
+              <div className='flex justify-between items-center relative mt-1'>
+                <div className='pl-5 flex flex-col'>
+                  <SelectField
+                    name='assignee'
+                    htmlFor='assignee'
+                    id='assignee'
+                    onChange={onAssigneeUpdate}
+                    value={ticket?.assignee}
+                    items={userIds}
+                    spanClassNames='w-4 h-4 absolute right-2 top-3 z-50 pointer-events-none text-gray-text'
+                    selectClassNames='py-2 pl-2 pr-6 border rounded-md mb-3 text-sm hover:bg-gray-100
+                      transition-all duration-200 cursor-pointer focus:outline-1 outline-deep-blue capitalize appearance-none'
+                  />
+                </div>
+                <div />
+              </div>
+            )}
+          </div>
+          <div className='flex flex-col justify-center mt-5'>
+            <p className='text-xs text-gray-text pl-5'>Reporter</p>
+
+            <div className='flex py-1 items-center pl-5'>
               <Avatar
                 image={user?.image}
                 name={user?.name}

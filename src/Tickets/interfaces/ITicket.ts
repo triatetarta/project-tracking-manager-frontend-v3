@@ -9,6 +9,7 @@ export interface ITicket {
   description: string;
   status: "to do" | "in progress" | "closed";
   numOfComments: number;
+  assignee: string;
   createdAt: Date;
   updatedAt: Date;
 }
