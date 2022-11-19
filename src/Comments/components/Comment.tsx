@@ -12,8 +12,10 @@ import Button from "../../Button/components/Button";
 import { useAppDispatch } from "../../app/hooks";
 import { setModalOpen } from "../../Modal/features/modalSlice";
 import Avatar from "../../Avatar/components/Avatar";
+import useAuth from "../../hooks/useAuth";
 
 const Comment = ({ commentId, ticketId, getModalType }: ICommentProps) => {
+  const { id: userId } = useAuth();
   const [updateComment] = useUpdateCommentMutation();
   const { comment } = useGetCommentsQuery(ticketId, {
     selectFromResult: ({ data }) => ({
@@ -108,7 +110,7 @@ const Comment = ({ commentId, ticketId, getModalType }: ICommentProps) => {
         )}
 
         <div>
-          {user?._id === comment?.user ? (
+          {userId === comment?.user ? (
             <div className='flex space-x-1 items-center'>
               {editEnable ? (
                 <>

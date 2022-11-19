@@ -1,5 +1,6 @@
 import useAuth from "../../hooks/useAuth";
 import { ISidebarProps } from "../interfaces/ISidebar";
+import PeopleContainer from "./PeopleContainer";
 import ProjectsContainer from "./ProjectsContainer";
 
 const Sidebar = ({ setCreateNewProject }: ISidebarProps) => {
@@ -16,10 +17,7 @@ const Sidebar = ({ setCreateNewProject }: ISidebarProps) => {
 
       <ProjectsContainer setCreateNewProject={setCreateNewProject} />
 
-      <div className='px-3 mt-10'>
-        <h3 className='uppercase text-xs font-bold'>People</h3>
-        <div className='flex items-center flex-wrap mt-2 w-full'></div>
-      </div>
+      <PeopleContainer />
     </aside>
   );
 };
