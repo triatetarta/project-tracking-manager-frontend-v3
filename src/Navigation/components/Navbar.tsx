@@ -20,17 +20,29 @@ const Navbar = ({
   return (
     <header
       onClick={(e) => closeOpenMenus(e)}
-      className='py-5 px-2 md:px-0 border-b shadow-md w-screen sticky top-0 bg-white z-40 left-0 right-0'
+      className='py-5 px-2 md:px-0 border-b shadow-md w-screen sticky top-0 bg-white z-40 left-0 right-0 select-none'
     >
       <nav className='flex items-center justify-between container mx-auto'>
-        <Link to='/'>
-          <div className='flex items-center space-x-2'>
-            <Logo />
-            <h2 className='font-semibold text-2xl text-header-main'>
-              ProTrack
-            </h2>
-          </div>
-        </Link>
+        <div className='flex items-center'>
+          <Link to='/'>
+            <div className='flex items-center space-x-2'>
+              <Logo />
+              <h2 className='font-semibold text-2xl text-header-main'>
+                ProTrack
+              </h2>
+            </div>
+          </Link>
+
+          {loggedIn ? (
+            <div className='ml-10'>
+              <Link to='/dashboard'>
+                <div className='text-header-main font-semibold text-sm hover:bg-gray-100 transition-all duration-200 p-2 rounded-md  hover:text-deep-blue'>
+                  Tickets
+                </div>
+              </Link>
+            </div>
+          ) : null}
+        </div>
 
         <div className='relative accountButton'>
           <button

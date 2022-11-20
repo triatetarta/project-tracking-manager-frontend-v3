@@ -7,6 +7,7 @@ import Prefetch from "./Auth/components/Prefetch";
 import PersistLogin from "./Auth/components/PersistLogin";
 import Register from "./Auth/components/Register";
 import { useState, MouseEvent } from "react";
+import Account from "./Profile/components/Account";
 
 const App = () => {
   const [openAccountMenu, setOpenAccountMenu] = useState(false);
@@ -40,6 +41,7 @@ const App = () => {
         <Route element={<PersistLogin />}>
           <Route element={<Prefetch />}>
             <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/account' element={<Account />} />
           </Route>
         </Route>
       </Routes>

@@ -10,7 +10,7 @@ export interface IInputField extends IDisabled {
   type?: string;
   placeholder?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-  value: string;
+  value: string | undefined;
   containerClasses?: ClassNames;
   focus?: boolean;
 }

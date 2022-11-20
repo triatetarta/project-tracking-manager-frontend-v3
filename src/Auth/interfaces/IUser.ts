@@ -6,5 +6,8 @@ export interface IUser {
   image: string;
   location: string;
   name: string;
+  jobTitle: string;
+  department: string;
   roles: string[];
+  team: string;
 }
