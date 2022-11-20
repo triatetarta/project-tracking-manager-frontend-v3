@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { setCredentials } from "../features/authSlice";
 import { useLoginMutation } from "../features/authApiSlice";
 import Logo from "../../Navigation/components/Logo";
 import InputField from "../../FormFields/components/InputField";
 import { useAppDispatch } from "../../app/hooks";
 import usePersist from "../../hooks/usePersist";
+import blueBox from "../../../public/assets/images/blue.svg";
 
 const Login = () => {
   const [login, { isLoading, isSuccess }] = useLoginMutation();
@@ -44,13 +44,13 @@ const Login = () => {
   };
 
   return (
-    <section className='min-h-[calc(100vh-17.9rem)] flex items-center justify-center flex-col space-y-6 text-header-main'>
+    <section className='min-h-[calc(100vh-17.9rem)] flex items-center justify-center flex-col space-y-6 text-header-main backgroundGradient'>
       <div className='hidden md:flex items-center space-x-2'>
         <Logo />
         <h2 className='font-semibold text-3xl text-header-main'>ProTrack</h2>
       </div>
 
-      <div className='w-[400px] border shadow-md rounded-md py-8 px-10 flex flex-col space-y-8'>
+      <div className='w-[400px] border shadow-md rounded-md rounded-bl-none py-8 px-10 flex flex-col space-y-8 relative z-40 bg-white'>
         <h4 className='text-center text-gray-500'>Login to continue:</h4>
 
         <form onSubmit={onSubmit} className='w-full flex flex-col'>
@@ -95,6 +95,11 @@ const Login = () => {
               Sign up here
             </span>
           </p>
+        </div>
+      </div>
+      <div className='relative w-[400px]'>
+        <div className='absolute z-30 bottom-0 -left-5 w-14 h-14'>
+          <img src={blueBox} alt='' className='h-full w-full' />
         </div>
       </div>
     </section>

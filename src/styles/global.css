@@ -53,4 +53,8 @@
   .greenGradient {
     @apply bg-gradient-to-tr from-dark-green via-medium-green to-light-green;
   }
+
+  .blueContainerGradient {
+    @apply bg-gradient-to-tr from-medium-blue to-light-blue;
+  }
 }

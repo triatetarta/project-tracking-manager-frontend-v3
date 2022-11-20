@@ -9,11 +9,23 @@ export interface ITicketDetailsHeaderProps {
   ticketId: EntityId;
   setOpenTicketDetails: StateBooleanType;
   getModalType: TGetModalTypeFunc;
+  getStatusStyles: () =>
+    | {
+        background: string;
+        text: string;
+      }
+    | undefined;
 }
 
 export interface ITicketDetailsInfoProps {
   id: string;
   ticket: ITicket | undefined;
+  getStatusStyles: () =>
+    | {
+        background: string;
+        text: string;
+      }
+    | undefined;
 }
 
 export interface ITicketDetailsAccordionProps {

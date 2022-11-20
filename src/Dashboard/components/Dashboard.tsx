@@ -42,7 +42,7 @@ const Dashboard = () => {
         <div className='relative'>
           <Button
             onClick={() => setCreateNewTicket(true)}
-            classNames='bg-deep-blue text-white self-end mb-4 px-4 py-4 absolute bottom-0 right-0 rounded-full hover:bg-light-blue hover:scale-105 active:scale-95 transition-all duration-150'
+            classNames='blueGradient text-white self-end mb-4 px-4 py-4 absolute bottom-0 right-0 rounded-full hover:scale-105 active:scale-95 transition-all duration-150'
             icon={<PlusIcon className='w-4 h-4 md:w-8 md:h-8' />}
           />
         </div>

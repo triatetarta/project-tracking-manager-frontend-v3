@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { MouseEvent } from "react";
+import { MouseEvent, useCallback } from "react";
 import { useGetTicketsQuery } from "../features/ticketsApiSlice";
 import { ITicketDetailsProps } from "../interfaces/ITicketDetails";
 import useAuth from "../../hooks/useAuth";
@@ -29,6 +29,25 @@ const TicketDetails = ({
     }
   };
 
+  const getStatusStyles = useCallback(() => {
+    if (ticket?.status === "to do") {
+      return {
+        background: "blueGradient text-white",
+        text: "text-medium-blue",
+      };
+    } else if (ticket?.status === "in progress") {
+      return {
+        background: "orangeGradient text-white",
+        text: "text-neat-yellow",
+      };
+    } else if (ticket?.status === "closed") {
+      return {
+        background: "greenGradient text-white",
+        text: "text-medium-green",
+      };
+    }
+  }, [ticket]);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -42,7 +61,7 @@ const TicketDetails = ({
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 100, opacity: 0 }}
-        className='bg-white py-6 pr-4 pl-6 mt-28 w-[360px] h-2/3 rounded-md shadow-sm overflow-y-scroll scrollBarWidth before:scrollBarTrack scrollBarThumb ticketContent z-50 relative'
+        className='bg-pale-bg py-6 pr-4 pl-6 mt-28 w-[360px] h-2/3 rounded-md shadow-sm overflow-y-scroll scrollBarWidth before:scrollBarTrack scrollBarThumb ticketContent z-50 relative'
       >
         <TicketDetailsHeader
           setOpenTicketDetails={setOpenTicketDetails}
@@ -50,9 +69,14 @@ const TicketDetails = ({
           ticketUserId={ticket?.user}
           ticketId={ticketId}
           getModalType={getModalType}
+          getStatusStyles={getStatusStyles}
         />
 
-        <TicketDetailsInfo id={id} ticket={ticket} />
+        <TicketDetailsInfo
+          id={id}
+          ticket={ticket}
+          getStatusStyles={getStatusStyles}
+        />
 
         <Comments ticketId={ticketId} getModalType={getModalType} />
       </motion.div>

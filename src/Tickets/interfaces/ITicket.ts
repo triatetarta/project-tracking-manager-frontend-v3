@@ -17,4 +17,5 @@ export interface ITicket {
 export interface ITicketProps {
   ticketId: EntityId;
   openTicketDetailsHandler: (id: EntityId) => void;
+  hoverClassNames?: string;
 }

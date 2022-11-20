@@ -9,14 +9,17 @@ const TicketsContainer = ({
   icon,
   setCreateNewTicket,
   openTicketDetailsHandler,
+  classNames,
+  buttonClassNames,
+  hoverClassNames,
 }: ITicketsContainer) => {
   return (
-    <div className='mt-10 flex flex-col bg-gray-100 py-4 px-6 rounded-lg'>
+    <div
+      className={`mt-10 flex flex-col shadow-md border py-4 px-6 rounded-lg w-[320px] bg-pale-bg select-none ${classNames}`}
+    >
       <div className='mb-4 flex items-center'>
-        <span className='bg-ticket-bg rounded-full p-2'>{icon}</span>
-        <h2 className='text-lg font-medium text-gray-text capitalize ml-2'>
-          {category}
-        </h2>
+        <span className='bg-white border rounded-full p-2'>{icon}</span>
+        <h2 className='text-lg font-bold uppercase ml-2'>{category}</h2>
       </div>
 
       <div className='flex flex-col space-y-2'>
@@ -25,6 +28,7 @@ const TicketsContainer = ({
           .map((ticketId) => {
             return (
               <Ticket
+                hoverClassNames={hoverClassNames}
                 key={ticketId}
                 ticketId={ticketId}
                 openTicketDetailsHandler={openTicketDetailsHandler}
@@ -35,9 +39,9 @@ const TicketsContainer = ({
 
       <Button
         onClick={() => setCreateNewTicket(true)}
-        classNames='flex items-center mt-3 hover:bg-gray-200 transition-all duration-200 px-2 py-3 rounded-lg'
-        textClassNames='text-xs font-semibold'
-        icon={<PlusIcon className='w-3 h-3 text-gray-text' />}
+        classNames={`flex items-center mt-6 hover:bg-opacity-90 transition-all duration-200 px-2 py-3 rounded-lg ${buttonClassNames}`}
+        textClassNames='text-xs font-semibold text-white'
+        icon={<PlusIcon className='w-3 h-3 text-white' />}
         text='Create Ticket'
       />
     </div>

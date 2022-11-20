@@ -8,7 +8,11 @@ import { useUpdateTicketMutation } from "../../features/ticketsApiSlice";
 import TextAreaField from "../../../FormFields/components/TextAreaField";
 import Button from "../../../Button/components/Button";
 
-const TicketDetailsInfo = ({ id, ticket }: ITicketDetailsInfoProps) => {
+const TicketDetailsInfo = ({
+  id,
+  ticket,
+  getStatusStyles,
+}: ITicketDetailsInfoProps) => {
   const [updateTicket, { isLoading, isSuccess, isError, error }] =
     useUpdateTicketMutation();
 
@@ -16,16 +20,6 @@ const TicketDetailsInfo = ({ id, ticket }: ITicketDetailsInfoProps) => {
   const [editDescText, setEditDescText] = useState("");
 
   const descRef = useRef<HTMLTextAreaElement>(null);
-
-  const getStatusStyles = useCallback(() => {
-    if (ticket?.status === "to do") {
-      return "bg-deep-blue text-white hover:bg-light-blue";
-    } else if (ticket?.status === "in progress") {
-      return "bg-flow-yellow text-header-main hover:bg-flow-yellow-deep";
-    } else if (ticket?.status === "closed") {
-      return "bg-flow-green text-header-main hover:bg-flow-green-deep";
-    }
-  }, [ticket]);
 
   const onEditEnable = () => {
     if (ticket?.user !== id) return;
@@ -48,6 +42,7 @@ const TicketDetailsInfo = ({ id, ticket }: ITicketDetailsInfoProps) => {
       project: ticket?.project,
       status: ticket?.status,
       description: editDescText,
+      assignee: ticket?.assignee,
     });
 
     setEditDescription(false);
@@ -60,6 +55,7 @@ const TicketDetailsInfo = ({ id, ticket }: ITicketDetailsInfoProps) => {
       project: ticket?.project,
       status: e.target.value,
       description: ticket?.description,
+      assignee: ticket?.assignee,
     });
   };
 
@@ -87,7 +83,13 @@ const TicketDetailsInfo = ({ id, ticket }: ITicketDetailsInfoProps) => {
           <h4 className='text-lg font-medium pr-2 capitalize'>
             {ticket?.project}
           </h4>
-          <form className='relative'>
+          <form
+            className={`relative p-2 ${
+              ticket?.user !== id
+                ? ""
+                : "hover:bg-gray-100 transition-all duration-200"
+            } rounded-lg`}
+          >
             <SelectField
               htmlFor='status'
               id='status'
@@ -96,10 +98,10 @@ const TicketDetailsInfo = ({ id, ticket }: ITicketDetailsInfoProps) => {
               disabled={ticket?.user !== id}
               value={ticket?.status}
               items={["to do", "in progress", "closed"]}
-              spanClassNames={`w-5 h-5 absolute right-2 top-2 z-50 pointer-events-none ${
-                ticket?.status === "to do" ? "text-white" : "text-header-main"
-              }`}
-              selectClassNames={`pl-4 pr-7 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold outline-none text-sm uppercase appearance-none relative ${getStatusStyles()} ${
+              spanClassNames={`w-5 h-5 absolute right-2 top-2 z-50 pointer-events-none text-white`}
+              selectClassNames={`pl-4 pr-7 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold outline-none text-sm uppercase appearance-none relative ${
+                getStatusStyles()?.background
+              } ${
                 ticket?.user !== id ? "pointer-events-none select-none" : ""
               }`}
               optionClassNames='bg-gray-100 text-header-main uppercase'

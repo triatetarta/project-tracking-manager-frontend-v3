@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { XIcon, DotsHorizontalIcon } from "@heroicons/react/solid";
-import { TicketIcon } from "@heroicons/react/outline";
 import { ITicketDetailsHeaderProps } from "./interfaces/ITicketDetails";
 import { useAppDispatch } from "../../../app/hooks";
 import { setModalOpen } from "../../../Modal/features/modalSlice";
+import TicketIcon from "../../../Icons/components/TicketIcon";
 
 const TicketDetailsHeader = ({
   id,
   ticketUserId,
   setOpenTicketDetails,
   getModalType,
+  getStatusStyles,
 }: ITicketDetailsHeaderProps) => {
   const [ticketMenuOpen, setTicketMenuOpen] = useState(false);
 
@@ -22,11 +23,17 @@ const TicketDetailsHeader = ({
 
   return (
     <div className='flex items-center justify-between mb-10 select-none'>
-      <div className='flex items-center justify-center'>
-        <span>
-          <TicketIcon className='h-6 w-6 text-header-main' />
+      <div className={"flex items-center justify-center"}>
+        <span className='p-2 bg-white rounded-full border'>
+          <TicketIcon classNames={`h-6 w-6 ${getStatusStyles()?.text}`} />
         </span>
-        <h3 className='ml-1 font-medium'>Ticket Details</h3>
+        <h3
+          className={`ml-2 text-sm font-semibold uppercase ${
+            getStatusStyles()?.text
+          }`}
+        >
+          Ticket Details
+        </h3>
       </div>
 
       <div className='flex items-center space-x-1.5'>

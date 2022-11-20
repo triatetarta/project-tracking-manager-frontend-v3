@@ -72,8 +72,8 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
         exit={{ y: 100, opacity: 0 }}
         className='container mx-auto flex justify-center'
       >
-        <div className='bg-white rounded-md shadow-sm w-[400px] p-6 mt-24'>
-          <h3 className='text-center text-lg font-semibold mb-5'>
+        <div className='bg-pale-bg rounded-md shadow-sm w-[400px] p-6 mt-24'>
+          <h3 className='text-center text-lg text-blue-text font-semibold mb-5'>
             Create Ticket
           </h3>
 
@@ -193,7 +193,7 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
                   disabled={
                     title === "" || project === "" || description === ""
                   }
-                  classNames='bg-deep-blue text-white py-2 px-3 rounded-md w-full hover:bg-light-blue transition-all duration-100 text-sm disabled:bg-gray-text/80 hover:disabled:bg-gray-text/80'
+                  classNames='bg-medium-blue text-white py-2 px-3 rounded-md w-full hover:bg-light-blue transition-all duration-100 text-sm disabled:bg-gray-text/80 hover:disabled:bg-gray-text/80'
                   textClassNames='text-sm'
                   text='Create'
                   onClick={(e) => createTicketSubmit(e)}
