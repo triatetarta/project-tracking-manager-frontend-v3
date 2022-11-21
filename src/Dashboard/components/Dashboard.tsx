@@ -7,14 +7,14 @@ import NewTicket from "../../Tickets/components/NewTicket";
 import NewProject from "../../Projects/components/NewProject";
 import Button from "../../Button/components/Button";
 import TicketDetails from "../../Tickets/components/TicketDetails";
-import { EntityId } from "@reduxjs/toolkit";
-import Modal from "../../Modal/components/Modal";
 import { useAppSelector } from "../../app/hooks";
+import Modal from "../../Modal/components/Modal";
 import { TGetModalType, TGetModalTypeFunc } from "../interfaces/IModalType";
+import { EntityId } from "@reduxjs/toolkit";
 
 const Dashboard = () => {
-  const { isTicketDetailsOpen } = useAppSelector((state) => state.tickets);
   const { modalOpen } = useAppSelector((state) => state.modal);
+  const { isTicketDetailsOpen } = useAppSelector((state) => state.tickets);
   const [createNewTicket, setCreateNewTicket] = useState(false);
   const [createNewProject, setCreateNewProject] = useState(false);
   const [modalType, setModalType] = useState<TGetModalType>("");

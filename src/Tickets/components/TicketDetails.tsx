@@ -26,7 +26,6 @@ const TicketDetails = ({ getModalType }: ITicketDetailsProps) => {
     e.stopPropagation();
 
     if (e.target.classList.contains("ticketClose")) {
-      // setOpenTicketDetails(false);
       dispatch(setTicketDetailsClose());
     }
   };

@@ -1,10 +1,12 @@
 import { ChevronDownIcon, UserCircleIcon } from "@heroicons/react/solid";
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSendLogoutMutation } from "../../Auth/features/authApiSlice";
 import Avatar from "../../Avatar/components/Avatar";
 import useAuth from "../../hooks/useAuth";
 import { INavbarProps } from "../interfaces/INavbar";
 import Logo from "./Logo";
+import toast from "react-hot-toast";
 
 const Navbar = ({
   openAccountMenu,
@@ -12,10 +14,16 @@ const Navbar = ({
   closeOpenMenus,
 }: INavbarProps) => {
   const { email, name, image, loggedIn } = useAuth();
-  const [sendLogout, { isLoading, isSuccess, isError, error }] =
-    useSendLogoutMutation();
+  const [sendLogout, { isSuccess: isLogoutSuccess }] = useSendLogoutMutation();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLogoutSuccess) return;
+
+    toast.success("You have logged out");
+    navigate("/");
+  }, [isLogoutSuccess]);
 
   return (
     <header
@@ -34,13 +42,22 @@ const Navbar = ({
           </Link>
 
           {loggedIn ? (
-            <div className='ml-10'>
-              <Link to='/dashboard'>
-                <div className='text-header-main font-semibold text-sm hover:bg-gray-100 transition-all duration-200 p-2 rounded-md  hover:text-deep-blue'>
-                  Tickets
-                </div>
-              </Link>
-            </div>
+            <>
+              <div className='ml-10'>
+                <Link to='/dashboard'>
+                  <div className='text-header-main font-semibold text-sm hover:bg-gray-100 transition-all duration-200 p-2 rounded-md  hover:text-deep-blue'>
+                    Tickets
+                  </div>
+                </Link>
+              </div>
+              <div className='ml-2'>
+                <Link to='/projects'>
+                  <div className='text-header-main font-semibold text-sm hover:bg-gray-100 transition-all duration-200 p-2 rounded-md  hover:text-deep-blue'>
+                    Projects
+                  </div>
+                </Link>
+              </div>
+            </>
           ) : null}
         </div>
 
