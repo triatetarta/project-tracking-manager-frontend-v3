@@ -4,12 +4,14 @@ import { IModalProps } from "../interfaces/IModal";
 import { useAppDispatch } from "../../app/hooks";
 import { setModalClose } from "../features/modalSlice";
 import { useDeleteTicketMutation } from "../../Tickets/features/ticketsApiSlice";
-import { MouseEvent } from "react";
+import { MouseEvent, useEffect } from "react";
 import Button from "../../Button/components/Button";
 import { useDeleteCommentMutation } from "../../Comments/features/commentsApiSlice";
+import toast from "react-hot-toast";
+import { setTicketDetailsClose } from "../../Tickets/features/ticketsSlice";
 
 const Modal = ({ type, id }: IModalProps) => {
-  const [deleteTicket, { isLoading, isError, isSuccess, error }] =
+  const [deleteTicket, { isSuccess: isDeleteTicketSuccess }] =
     useDeleteTicketMutation();
   const [deleteComment] = useDeleteCommentMutation();
 
@@ -43,6 +45,14 @@ const Modal = ({ type, id }: IModalProps) => {
       dispatch(setModalClose());
     }
   };
+
+  useEffect(() => {
+    if (!isDeleteTicketSuccess) return;
+
+    toast.success("Ticket has been deleted");
+    dispatch(setModalClose());
+    dispatch(setTicketDetailsClose());
+  }, [isDeleteTicketSuccess]);
 
   return (
     <motion.section

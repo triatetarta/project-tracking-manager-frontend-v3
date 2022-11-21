@@ -8,7 +8,6 @@ const TicketsContainer = ({
   category,
   icon,
   setCreateNewTicket,
-  openTicketDetailsHandler,
   classNames,
   buttonClassNames,
   hoverClassNames,
@@ -31,7 +30,6 @@ const TicketsContainer = ({
                 hoverClassNames={hoverClassNames}
                 key={ticketId}
                 ticketId={ticketId}
-                openTicketDetailsHandler={openTicketDetailsHandler}
               />
             );
           })}

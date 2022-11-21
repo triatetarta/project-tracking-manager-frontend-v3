@@ -7,7 +7,6 @@ export interface ITicketDetailsHeaderProps {
   id: string;
   ticketUserId: string | undefined;
   ticketId: EntityId;
-  setOpenTicketDetails: StateBooleanType;
   getModalType: TGetModalTypeFunc;
   getStatusStyles: () =>
     | {

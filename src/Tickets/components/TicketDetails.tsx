@@ -6,18 +6,19 @@ import useAuth from "../../hooks/useAuth";
 import TicketDetailsHeader from "./TicketDetails/TicketDetailsHeader";
 import TicketDetailsInfo from "./TicketDetails/TicketDetailsInfo";
 import Comments from "../../Comments/components/Comments";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { setTicketDetailsClose } from "../features/ticketsSlice";
 
-const TicketDetails = ({
-  setOpenTicketDetails,
-  ticketId,
-  getModalType,
-}: ITicketDetailsProps) => {
+const TicketDetails = ({ getModalType }: ITicketDetailsProps) => {
   const { id } = useAuth();
+  const { ticketId } = useAppSelector((state) => state.tickets);
   const { ticket } = useGetTicketsQuery("ticketList", {
     selectFromResult: ({ data }) => ({
       ticket: data?.entities[ticketId],
     }),
   });
+
+  const dispatch = useAppDispatch();
 
   const closeHandle = (
     e: MouseEvent<HTMLDivElement> & { target: HTMLDivElement }
@@ -25,7 +26,8 @@ const TicketDetails = ({
     e.stopPropagation();
 
     if (e.target.classList.contains("ticketClose")) {
-      setOpenTicketDetails(false);
+      // setOpenTicketDetails(false);
+      dispatch(setTicketDetailsClose());
     }
   };
 
@@ -64,7 +66,6 @@ const TicketDetails = ({
         className='bg-pale-bg py-6 pr-4 pl-6 mt-28 w-[360px] h-2/3 rounded-md shadow-sm overflow-y-scroll scrollBarWidth before:scrollBarTrack scrollBarThumb ticketContent z-50 relative'
       >
         <TicketDetailsHeader
-          setOpenTicketDetails={setOpenTicketDetails}
           id={id}
           ticketUserId={ticket?.user}
           ticketId={ticketId}

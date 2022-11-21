@@ -10,11 +10,11 @@ import { PlusIcon } from "@heroicons/react/outline";
 import Button from "../../Button/components/Button";
 import useAuth from "../../hooks/useAuth";
 import { useGetUsersQuery } from "../../Auth/features/usersApiSlice";
+import toast from "react-hot-toast";
 
 const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
   const { id, name, email } = useAuth();
-  const [addNewTicket, { isLoading, isSuccess, isError, error, data }] =
-    useAddNewTicketMutation();
+  const [addNewTicket, { isSuccess }] = useAddNewTicketMutation();
   const { data: projects } = useGetProjectsQuery("projectList");
   const { data: users } = useGetUsersQuery("userList");
 
@@ -38,6 +38,15 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
 
     setAssignee(id);
   }, [id]);
+
+  useEffect(() => {
+    if (!isSuccess) return;
+
+    toast.success("Ticket has been created");
+    setCreateNewTicket(false);
+    setProject("");
+    setDescription("");
+  }, [isSuccess]);
 
   const cancelCreateTicket = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

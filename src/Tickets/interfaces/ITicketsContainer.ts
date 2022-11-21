@@ -7,7 +7,6 @@ export interface ITicketsContainer {
   category: string;
   icon: JSX.Element;
   setCreateNewTicket: StateBooleanType;
-  openTicketDetailsHandler: (id: EntityId) => void;
   classNames?: string;
   buttonClassNames?: string;
   hoverClassNames?: string;

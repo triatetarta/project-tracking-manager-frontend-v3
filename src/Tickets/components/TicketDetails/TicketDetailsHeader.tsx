@@ -4,11 +4,12 @@ import { ITicketDetailsHeaderProps } from "./interfaces/ITicketDetails";
 import { useAppDispatch } from "../../../app/hooks";
 import { setModalOpen } from "../../../Modal/features/modalSlice";
 import TicketIcon from "../../../Icons/components/TicketIcon";
+import { setTicketDetailsClose } from "../../features/ticketsSlice";
 
 const TicketDetailsHeader = ({
   id,
   ticketUserId,
-  setOpenTicketDetails,
+  ticketId,
   getModalType,
   getStatusStyles,
 }: ITicketDetailsHeaderProps) => {
@@ -18,7 +19,7 @@ const TicketDetailsHeader = ({
 
   const onTicketDeleteButton = () => {
     dispatch(setModalOpen());
-    getModalType("ticket", id);
+    getModalType("ticket", ticketId);
   };
 
   return (
@@ -62,7 +63,7 @@ const TicketDetailsHeader = ({
         ) : null}
 
         <div
-          onClick={() => setOpenTicketDetails(false)}
+          onClick={() => dispatch(setTicketDetailsClose())}
           className='h-10 w-10 flex items-center justify-center cursor-pointer hover:bg-gray-100 transition-all duration-200 rounded-lg ticketClose '
         >
           <XIcon className='h-6 w-6 ticketClose' />

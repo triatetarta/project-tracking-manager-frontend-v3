@@ -13,18 +13,12 @@ import { useAppSelector } from "../../app/hooks";
 import { TGetModalType, TGetModalTypeFunc } from "../interfaces/IModalType";
 
 const Dashboard = () => {
+  const { isTicketDetailsOpen } = useAppSelector((state) => state.tickets);
   const { modalOpen } = useAppSelector((state) => state.modal);
   const [createNewTicket, setCreateNewTicket] = useState(false);
   const [createNewProject, setCreateNewProject] = useState(false);
-  const [openTicketDetails, setOpenTicketDetails] = useState(false);
-  const [ticketId, setTicketId] = useState<string | EntityId>("");
   const [modalType, setModalType] = useState<TGetModalType>("");
   const [id, setId] = useState<string | EntityId>("");
-
-  const openTicketDetailsHandler = (id: EntityId) => {
-    setOpenTicketDetails(true);
-    setTicketId(id);
-  };
 
   const getModalType: TGetModalTypeFunc = (type, targetId) => {
     setModalType(type);
@@ -34,10 +28,7 @@ const Dashboard = () => {
   return (
     <main className='container mx-auto flex items-center justify-center px-2'>
       <Sidebar setCreateNewProject={setCreateNewProject} />
-      <Tickets
-        setCreateNewTicket={setCreateNewTicket}
-        openTicketDetailsHandler={openTicketDetailsHandler}
-      />
+      <Tickets setCreateNewTicket={setCreateNewTicket} />
       <div className='container fixed bottom-6 md:bottom-20 pr-4 md:pr-0'>
         <div className='relative'>
           <Button
@@ -49,13 +40,7 @@ const Dashboard = () => {
       </div>
 
       <AnimatePresence>
-        {openTicketDetails && (
-          <TicketDetails
-            ticketId={ticketId}
-            setOpenTicketDetails={setOpenTicketDetails}
-            getModalType={getModalType}
-          />
-        )}
+        {isTicketDetailsOpen && <TicketDetails getModalType={getModalType} />}
       </AnimatePresence>
 
       <AnimatePresence>

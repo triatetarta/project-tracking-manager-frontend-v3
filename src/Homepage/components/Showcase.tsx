@@ -5,7 +5,7 @@ const Showcase = () => {
   const navigate = useNavigate();
 
   return (
-    <section className='flex flex-col md:flex-row justify-between mt-10 px-2 bg-gradient-to-tr from-deep-blue to-light-blue rounded-md'>
+    <section className='flex flex-col md:flex-row justify-between mt-10 px-2 py-4 bg-gradient-to-tr from-deep-blue to-light-blue rounded-md'>
       <div className='self-center pl-6'>
         <p className='font-semibold text-2xl md:text-5xl text-white leading-8 md:leading-[3.5rem]'>
           The #1 project <br />

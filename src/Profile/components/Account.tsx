@@ -1,5 +1,6 @@
 import AccountHeader from "./AccountHeader";
 import AccountInfo from "./AccountInfo";
+import AccountMain from "./AccountMain";
 
 const Account = () => {
   return (
@@ -8,7 +9,7 @@ const Account = () => {
 
       <main className='container mx-auto px-2 flex flex-col-reverse md:flex-row space-x-0 md:space-x-10 mt-20'>
         <AccountInfo />
-        {/* <AccountMain ticketClickHandle={ticketClickHandle} /> */}
+        <AccountMain />
       </main>
     </section>
   );

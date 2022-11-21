@@ -1,4 +1,5 @@
 import { EntityId } from "@reduxjs/toolkit";
+import { StateBooleanType } from "../../types/stateTypes";
 
 export interface ITicket {
   id?: string;
@@ -16,6 +17,7 @@ export interface ITicket {
 
 export interface ITicketProps {
   ticketId: EntityId;
-  openTicketDetailsHandler: (id: EntityId) => void;
   hoverClassNames?: string;
+  account?: boolean;
+  setHasTickets?: StateBooleanType;
 }

@@ -1,4 +1,14 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Ticket from "../../Tickets/components/Ticket";
+import { useGetTicketsQuery } from "../../Tickets/features/ticketsApiSlice";
+
 const AccountMain = () => {
+  const { data: tickets } = useGetTicketsQuery("ticketList");
+  const [hasTickets, setHasTickets] = useState(true);
+
+  const navigate = useNavigate();
+
   return (
     <div className='flex flex-col space-y-4 w-full h-full'>
       <div className='flex flex-col text-header-main'>
@@ -8,47 +18,38 @@ const AccountMain = () => {
         </p>
       </div>
 
-      {isLoading ? (
-        <div className='border rounded-lg p-6'>
-          <SkeletonWorkedOn />
-          <SkeletonWorkedOn />
-          <SkeletonWorkedOn />
+      {!hasTickets ? (
+        <div className='border rounded-lg p-6 text-header-main'>
+          <div className='flex flex-col justify-center items-center'>
+            <h4 className='text-xl font-semibold'>
+              There is no work to see here
+            </h4>
+            <p className='text-sm'>Things you created or edited</p>
+          </div>
         </div>
       ) : (
         <>
-          {hasTickets.length < 1 ? (
-            <div className='border rounded-lg p-6 text-header-main'>
-              <div className='flex flex-col justify-center items-center'>
-                <h4 className='text-xl font-semibold'>
-                  There is no work to see here
-                </h4>
-                <p className='text-sm'>Things you created or edited</p>
-              </div>
+          <div className='border rounded-lg p-5'>
+            <div className='flex flex-col space-y-4'>
+              {tickets?.ids.map((ticketId) => {
+                return (
+                  <Ticket
+                    key={ticketId}
+                    ticketId={ticketId}
+                    account
+                    setHasTickets={setHasTickets}
+                  />
+                );
+              })}
             </div>
-          ) : (
-            <div className='border rounded-lg p-5'>
-              {tickets
-                ?.filter((ticket) => {
-                  return ticket.user === user.userId;
-                })
-                ?.map((ticket) => {
-                  return (
-                    <AccountTicket
-                      key={ticket._id}
-                      {...ticket}
-                      ticketClickHandle={ticketClickHandle}
-                    />
-                  );
-                })}
 
-              <button
-                onClick={() => navigate("/")}
-                className='text-xs text-gray-text hover:underline ml-3 mt-6'
-              >
-                View all
-              </button>
-            </div>
-          )}
+            <button
+              onClick={() => navigate("/dashboard")}
+              className='text-xs text-gray-text hover:underline ml-3 mt-6'
+            >
+              View all
+            </button>
+          </div>
         </>
       )}
     </div>

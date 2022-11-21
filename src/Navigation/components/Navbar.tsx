@@ -24,7 +24,7 @@ const Navbar = ({
     >
       <nav className='flex items-center justify-between container mx-auto'>
         <div className='flex items-center'>
-          <Link to='/'>
+          <Link to={loggedIn ? "/dashboard" : "/"}>
             <div className='flex items-center space-x-2'>
               <Logo />
               <h2 className='font-semibold text-2xl text-header-main'>

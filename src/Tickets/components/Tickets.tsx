@@ -4,10 +4,7 @@ import { ITickets } from "../interfaces/ITickets";
 import { useGetTicketsQuery } from "../features/ticketsApiSlice";
 import Todo from "../../Icons/components/Todo";
 
-const Tickets = ({
-  setCreateNewTicket,
-  openTicketDetailsHandler,
-}: ITickets) => {
+const Tickets = ({ setCreateNewTicket }: ITickets) => {
   const { data: tickets } = useGetTicketsQuery("ticketList", {
     pollingInterval: 60000,
     refetchOnFocus: true,
@@ -22,7 +19,6 @@ const Tickets = ({
           category='to do'
           icon={<Todo classNames='w-6 h-6 text-deep-blue' />}
           setCreateNewTicket={setCreateNewTicket}
-          openTicketDetailsHandler={openTicketDetailsHandler}
           classNames='text-medium-blue'
           buttonClassNames='bg-medium-blue'
           hoverClassNames='hover:bg-medium-blue/10'
@@ -32,7 +28,6 @@ const Tickets = ({
           category='in progress'
           icon={<ClockIcon className='w-6 h-6 text-neat-yellow' />}
           setCreateNewTicket={setCreateNewTicket}
-          openTicketDetailsHandler={openTicketDetailsHandler}
           classNames='text-neat-yellow'
           buttonClassNames='bg-neat-yellow'
           hoverClassNames='hover:bg-neat-yellow/10'
@@ -42,7 +37,6 @@ const Tickets = ({
           category='closed'
           icon={<BadgeCheckIcon className='w-6 h-6 text-medium-green' />}
           setCreateNewTicket={setCreateNewTicket}
-          openTicketDetailsHandler={openTicketDetailsHandler}
           classNames='text-medium-green'
           buttonClassNames='bg-medium-green'
           hoverClassNames='hover:bg-medium-green/10'

@@ -1,28 +1,27 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import InputField from "../../FormFields/components/InputField";
 import TextAreaField from "../../FormFields/components/TextAreaField";
 import useAuth from "../../hooks/useAuth";
 import { useAddNewProjectMutation } from "../features/projectsApiSlice";
-
 import { INewProjectProps } from "../interfaces/INewProject";
+import toast from "react-hot-toast";
 
 const NewProject = ({ setCreateNewProject }: INewProjectProps) => {
   const { id, name } = useAuth();
 
-  const [addNewProject, { isLoading, isSuccess, isError, error }] =
-    useAddNewProjectMutation();
+  const [addNewProject, { isSuccess }] = useAddNewProjectMutation();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  const onCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onCancel = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     setCreateNewProject(false);
   };
 
-  const onSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     await addNewProject({
       user: id,
@@ -30,6 +29,13 @@ const NewProject = ({ setCreateNewProject }: INewProjectProps) => {
       description: description.toLowerCase(),
     });
   };
+
+  useEffect(() => {
+    if (!isSuccess) return;
+
+    toast.success("Project has been created");
+    setCreateNewProject(false);
+  }, [isSuccess]);
 
   return (
     <motion.section

@@ -92,7 +92,7 @@ const AccountInfo = () => {
         </h3>
       </div>
 
-      <div className='border rounded-lg p-6 shadow-md'>
+      <div className='border rounded-lg p-6 shadow-md w-[300px]'>
         <>
           <div className='flex items-center justify-between mb-10 relative'>
             <h4 className='text-gray-text text-sm font-semibold'>ABOUT</h4>

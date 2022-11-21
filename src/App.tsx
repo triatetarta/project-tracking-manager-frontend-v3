@@ -8,6 +8,7 @@ import PersistLogin from "./Auth/components/PersistLogin";
 import Register from "./Auth/components/Register";
 import { useState, MouseEvent } from "react";
 import Account from "./Profile/components/Account";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   const [openAccountMenu, setOpenAccountMenu] = useState(false);
@@ -28,6 +29,7 @@ const App = () => {
       onClick={(e) => closeOpenMenus(e)}
       className='min-h-screen overflow-hidden'
     >
+      <Toaster />
       <Navbar
         openAccountMenu={openAccountMenu}
         setOpenAccountMenu={setOpenAccountMenu}
