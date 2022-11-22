@@ -5,8 +5,10 @@ import Button from "../../Button/components/Button";
 import Project from "../../Projects/components/Project";
 import { useGetProjectsQuery } from "../../Projects/features/projectsApiSlice";
 import { IProjectsContainer } from "../interfaces/IProjectsContainer";
+import useAuth from "../../hooks/useAuth";
 
 const ProjectsContainer = ({ setCreateNewProject }: IProjectsContainer) => {
+  const { isAdmin } = useAuth();
   const { data: projects } = useGetProjectsQuery("projectList", {
     pollingInterval: 60000,
     refetchOnFocus: true,
@@ -37,13 +39,15 @@ const ProjectsContainer = ({ setCreateNewProject }: IProjectsContainer) => {
       ) : null}
 
       <div className='mt-2'>
-        <Button
-          onClick={() => setCreateNewProject(true)}
-          classNames='flex items-center justify-center hover:bg-gray-200 px-3 py-3 rounded-lg transition-all duration-200'
-          textClassNames='text-xs font-semibold'
-          icon={<PlusIcon className='w-3 h-3 text-gray-text' />}
-          text='Create Project'
-        />
+        {isAdmin ? (
+          <Button
+            onClick={() => setCreateNewProject(true)}
+            classNames='flex items-center justify-center hover:bg-gray-200 px-3 py-3 rounded-lg transition-all duration-200'
+            textClassNames='text-xs font-semibold'
+            icon={<PlusIcon className='w-3 h-3 text-gray-text' />}
+            text='Create Project'
+          />
+        ) : null}
       </div>
     </div>
   );

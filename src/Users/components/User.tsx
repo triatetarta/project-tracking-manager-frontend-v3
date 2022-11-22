@@ -39,7 +39,7 @@ const User = ({ userId, filteredTickets, index }: IUserProps) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className='absolute -top-[4.75rem] -left-1/2 whitespace-nowrap text-xs transform -translate-x-1/1 bg-header-main text-white font-normal px-1.5 py-0.5 rounded-md z-40  shadow-sm'
+            className='absolute -top-[4.75rem] -left-1/2 whitespace-nowrap text-xs transform -translate-x-1/1 bg-header-main text-white font-normal px-1.5 py-0.5 rounded-md z-40 shadow-sm'
           >
             <div className='flex flex-col p-1.5'>
               <p className='text-sm'>{user?.name}</p>
