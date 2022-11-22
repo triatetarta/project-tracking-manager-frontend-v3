@@ -7,13 +7,19 @@ import useAuth from "../../hooks/useAuth";
 import { INavbarProps } from "../interfaces/INavbar";
 import Logo from "./Logo";
 import toast from "react-hot-toast";
+import { useGetUsersQuery } from "../../Auth/features/usersApiSlice";
 
 const Navbar = ({
   openAccountMenu,
   setOpenAccountMenu,
   closeOpenMenus,
 }: INavbarProps) => {
-  const { email, name, image, loggedIn } = useAuth();
+  const { loggedIn, id } = useAuth();
+  const { user } = useGetUsersQuery("userList", {
+    selectFromResult: ({ data }) => ({
+      user: data?.entities[id],
+    }),
+  });
   const [sendLogout, { isSuccess: isLogoutSuccess }] = useSendLogoutMutation();
 
   const navigate = useNavigate();
@@ -71,8 +77,8 @@ const Navbar = ({
           >
             {loggedIn ? (
               <Avatar
-                image={image}
-                name={name}
+                image={user?.image}
+                name={user?.name}
                 classNames='h-7 w-7 text-base'
               />
             ) : (
@@ -91,8 +97,8 @@ const Navbar = ({
                 <>
                   <li className='bg-header-main w-full text-white py-2 px-4'>
                     <div className='flex flex-col'>
-                      <p className='text-md'>{name}</p>
-                      <p className='text-xs font-light'>{email}</p>
+                      <p className='text-md'>{user?.name}</p>
+                      <p className='text-xs font-light'>{user?.email}</p>
                     </div>
                   </li>
                   <li

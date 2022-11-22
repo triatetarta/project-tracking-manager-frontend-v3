@@ -17,7 +17,6 @@ export const usersApiSlice = apiSlice.injectEndpoints({
           return response.status === 200 && !result.isError;
         },
       }),
-
       transformResponse: (responseData: IUser[]) => {
         const loadedUsers = responseData.map((user) => {
           user.id = user._id;
@@ -55,6 +54,18 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [{ type: "User", id: arg.id }],
     }),
+    uploadImage: builder.mutation({
+      query: (data) => ({
+        url: "/users/uploadImage",
+        method: "PATCH",
+        body: {
+          ...data,
+        },
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: "User", image: arg.image },
+      ],
+    }),
     deleteUser: builder.mutation({
       query: ({ id }) => ({
         url: `/users`,
@@ -71,6 +82,7 @@ export const {
   useAddNewUserMutation,
   useDeleteUserMutation,
   useUpdateUserMutation,
+  useUploadImageMutation,
 } = usersApiSlice;
 
 // returns the query result object

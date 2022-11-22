@@ -29,7 +29,7 @@ const AccountMain = () => {
         </div>
       ) : (
         <>
-          <div className='border rounded-lg p-5'>
+          <div className='border rounded-lg p-5 bg-pale-bg shadow-sm'>
             <div className='flex flex-col space-y-4'>
               {tickets?.ids.map((ticketId) => {
                 return (

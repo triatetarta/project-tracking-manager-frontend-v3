@@ -1,38 +1,47 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { useAppDispatch } from "../../app/hooks";
 import Avatar from "../../Avatar/components/Avatar";
 import { CameraIcon } from "@heroicons/react/solid";
 import { motion } from "framer-motion";
 import useAuth from "../../hooks/useAuth";
+import {
+  useGetUsersQuery,
+  useUploadImageMutation,
+} from "../../Auth/features/usersApiSlice";
 
 const AccountHeader = () => {
-  const { name, image: userImage } = useAuth();
-  const [selectedId, setSelectedId] = useState("");
-  const [openTicket, setOpenTicket] = useState(false);
+  const [uploadImage, { isSuccess }] = useUploadImageMutation();
+  const { name, id } = useAuth();
+  const { user, refetch } = useGetUsersQuery("userList", {
+    selectFromResult: ({ data }) => ({
+      user: data?.entities[id],
+    }),
+  });
   const [image, setImage] = useState<string | null>(null);
 
-  const dispatch = useAppDispatch();
+  const onUpload = async () => {
+    await uploadImage({ id, image });
+  };
 
-  // useEffect(() => {
-  //   if (!image) return;
+  useEffect(() => {
+    if (!image) return;
 
-  //   // dispatch(uploadImage(image));
+    onUpload();
+  }, [image]);
 
-  //   setImage(null);
-  // }, [image]);
+  useEffect(() => {
+    if (!isSuccess) return;
+
+    refetch();
+  }, [isSuccess]);
 
   const previewFile = (file: File | Blob) => {
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
+    const reader = new FileReader();
 
-      reader.onload = () => {
-        resolve(reader.result as string);
-        setImage(reader.result as string);
-      };
+    reader.readAsDataURL(file);
 
-      reader.readAsDataURL(file);
-      reader.onerror = reject;
-    });
+    reader.onload = () => {
+      setImage(reader.result as string);
+    };
   };
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +56,7 @@ const AccountHeader = () => {
         <div className={`absolute -bottom-8 left-0 group h-28 w-28`}>
           <div className='relative h-28 w-28 overflow-hidden'>
             <Avatar
-              image={userImage}
+              image={user?.image}
               name={name}
               classNames='h-28 w-28 absolute'
               spanClasses='text-4xl'

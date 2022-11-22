@@ -9,6 +9,7 @@ import Register from "./Auth/components/Register";
 import { useState, MouseEvent } from "react";
 import Account from "./Profile/components/Account";
 import { Toaster } from "react-hot-toast";
+import Projects from "./Projects/components/Projects";
 
 const App = () => {
   const [openAccountMenu, setOpenAccountMenu] = useState(false);
@@ -44,6 +45,7 @@ const App = () => {
           <Route element={<Prefetch />}>
             <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/account' element={<Account />} />
+            <Route path='/projects' element={<Projects />} />
           </Route>
         </Route>
       </Routes>

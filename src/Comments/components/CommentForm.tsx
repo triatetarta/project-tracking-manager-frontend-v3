@@ -1,4 +1,5 @@
 import { MouseEvent, useState } from "react";
+import { useGetUsersQuery } from "../../Auth/features/usersApiSlice";
 import Avatar from "../../Avatar/components/Avatar";
 import Button from "../../Button/components/Button";
 import TextAreaField from "../../FormFields/components/TextAreaField";
@@ -7,7 +8,12 @@ import { useAddNewCommentMutation } from "../features/commentsApiSlice";
 import { ICommentFormProps } from "../interfaces/ICommentForm";
 
 const CommentForm = ({ ticketId }: ICommentFormProps) => {
-  const { id, image, name } = useAuth();
+  const { id } = useAuth();
+  const { user } = useGetUsersQuery("userList", {
+    selectFromResult: ({ data }) => ({
+      user: data?.entities[id],
+    }),
+  });
   const [addNewComment] = useAddNewCommentMutation();
 
   const [text, setText] = useState("");
@@ -28,7 +34,11 @@ const CommentForm = ({ ticketId }: ICommentFormProps) => {
     <>
       <div className='flex items-center space-x-2 w-full'>
         <div className='h-10 w-10 mb-2'>
-          <Avatar image={image} name={name} classNames='h-10 w-10 text-base' />
+          <Avatar
+            image={user?.image}
+            name={user?.name}
+            classNames='h-10 w-10 text-base'
+          />
         </div>
 
         <form className='w-full flex items-center mt-1'>
