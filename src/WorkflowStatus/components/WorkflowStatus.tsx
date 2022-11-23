@@ -5,9 +5,23 @@ import useAuth from "../../hooks/useAuth";
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import NewStatus from "./NewStatus";
+import { useGetWorkflowStatusQuery } from "../features/workflowsApiSlice";
+import StatusCard from "./StatusCard";
+import { useGetTicketsQuery } from "../../Tickets/features/ticketsApiSlice";
 
 const WorkflowStatus = () => {
   const { isAdmin } = useAuth();
+  const { data: workflowStatus } = useGetWorkflowStatusQuery(
+    "workflowStatusList",
+    {
+      pollingInterval: 60000,
+      refetchOnFocus: true,
+      refetchOnMountOrArgChange: true,
+    }
+  );
+
+  const { data: tickets } = useGetTicketsQuery("ticketList");
+
   const [openAddStatus, setOpenAddStatus] = useState(false);
 
   return (
@@ -16,7 +30,7 @@ const WorkflowStatus = () => {
 
       <div className='mt-10'>
         <div className='flex items-center justify-between mb-2'>
-          <h3 className='font-medium'>Current Workflow Status</h3>
+          <h3 className='font-medium'>Current Workflow</h3>
           {isAdmin ? (
             <Button
               onClick={() => setOpenAddStatus(true)}
@@ -29,7 +43,17 @@ const WorkflowStatus = () => {
         </div>
 
         <div className='flex items-center flex-wrap gap-4'>
-          'workflow Status'
+          {workflowStatus?.ids.map((statusId) => {
+            return (
+              <StatusCard
+                key={statusId}
+                statusId={statusId}
+                tickets={tickets}
+                workflow
+                classNames='flex flex-col shadow-md border py-4 px-6 rounded-lg w-[320px] bg-pale-bg select-none '
+              />
+            );
+          })}
         </div>
       </div>
 

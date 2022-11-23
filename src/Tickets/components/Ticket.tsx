@@ -8,8 +8,8 @@ import { setTicketDetailsOpen } from "../features/ticketsSlice";
 import moment from "moment";
 
 const Ticket = ({
+  category,
   ticketId,
-  hoverClassNames,
   account,
   setHasTickets = () => console.log(""),
 }: ITicketProps) => {
@@ -29,26 +29,26 @@ const Ticket = ({
   }, [account, ticket, id]);
 
   const localStyles = useCallback(() => {
-    if (ticket?.status === "to do") {
+    if (category === "to do") {
       return {
         background: "blueGradient text-white",
         text: "text-medium-blue",
         hover: "hover:bg-medium-blue/10",
       };
-    } else if (ticket?.status === "in progress") {
+    } else if (category === "in progress") {
       return {
         background: "orangeGradient text-white",
         text: "text-neat-yellow",
         hover: "hover:bg-neat-yellow/10",
       };
-    } else if (ticket?.status === "closed") {
+    } else if (category === "closed") {
       return {
         background: "greenGradient text-white",
         text: "text-medium-green",
         hover: "hover:bg-medium-green/10",
       };
     }
-  }, [ticket]);
+  }, [category]);
 
   if (account && ticket?.user !== id) return null;
 
@@ -58,7 +58,7 @@ const Ticket = ({
         dispatch(setTicketDetailsOpen(ticketId));
       }}
       className={`ticket bg-white border transition-all duration-200 cursor-pointer p-4 rounded-lg shadow-sm relative w-full ${
-        account ? localStyles()?.hover : hoverClassNames
+        localStyles()?.hover
       }`}
     >
       {!account ? (

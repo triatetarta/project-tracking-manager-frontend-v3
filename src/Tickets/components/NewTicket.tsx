@@ -11,18 +11,22 @@ import Button from "../../Button/components/Button";
 import useAuth from "../../hooks/useAuth";
 import { useGetUsersQuery } from "../../Auth/features/usersApiSlice";
 import toast from "react-hot-toast";
+import { useGetWorkflowStatusQuery } from "../../WorkflowStatus/features/workflowsApiSlice";
 
 const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
   const { id, name, email } = useAuth();
   const [addNewTicket, { isSuccess }] = useAddNewTicketMutation();
   const { data: projects } = useGetProjectsQuery("projectList");
   const { data: users } = useGetUsersQuery("userList");
+  const { data: workflowStatus } =
+    useGetWorkflowStatusQuery("workflowStatusList");
 
   const [reportersName] = useState(name);
   const [reportersEmail] = useState(email);
   const [title, setTitle] = useState("");
   const [project, setProject] = useState<string | undefined>("");
   const [assignee, setAssignee] = useState<string | undefined>("");
+  const [status, setStatus] = useState<string | undefined>("");
   const [description, setDescription] = useState("");
 
   useEffect(() => {
@@ -32,6 +36,14 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
 
     setProject(defaultProject);
   }, [projects]);
+
+  useEffect(() => {
+    if (workflowStatus === undefined) return;
+
+    const defaultStatus = workflowStatus.entities[workflowStatus.ids[0]]?._id;
+
+    setStatus(defaultStatus);
+  }, [workflowStatus]);
 
   useEffect(() => {
     if (id === undefined) return;
@@ -63,7 +75,7 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
       project: project?.toLowerCase(),
       description: description.toLowerCase(),
       assignee,
-      status: "to do",
+      status: status,
     });
   };
 
@@ -185,7 +197,22 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
                       transition-all duration-200 cursor-pointer focus:outline-1 outline-deep-blue capitalize appearance-none'
                 />
               </div>
-              <div />
+              <div className='flex flex-col'>
+                <SelectField
+                  label='Status'
+                  name='status'
+                  htmlFor='status'
+                  id='status'
+                  onChange={(e) => {
+                    setStatus(e.target.value);
+                  }}
+                  value={status}
+                  items={workflowStatus?.ids}
+                  spanClassNames='w-4 h-4 absolute right-2 top-3 z-50 pointer-events-none text-gray-text'
+                  selectClassNames='py-2 pl-2 pr-6 border rounded-md mb-3 text-sm hover:bg-gray-100
+                      transition-all duration-200 cursor-pointer focus:outline-1 outline-deep-blue capitalize appearance-none'
+                />
+              </div>
             </div>
 
             <div className='mb-3 flex justify-between'>

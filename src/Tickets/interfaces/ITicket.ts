@@ -1,5 +1,4 @@
 import { EntityId } from "@reduxjs/toolkit";
-import { TGetModalTypeFunc } from "../../Dashboard/interfaces/IModalType";
 import { StateBooleanType } from "../../types/stateTypes";
 
 export interface ITicket {
@@ -9,7 +8,7 @@ export interface ITicket {
   title: string;
   project: string;
   description: string;
-  status: "to do" | "in progress" | "closed";
+  status: string;
   numOfComments: number;
   assignee: string;
   createdAt: Date;
@@ -17,8 +16,8 @@ export interface ITicket {
 }
 
 export interface ITicketProps {
+  category: string;
   ticketId: EntityId;
-  hoverClassNames?: string;
   account?: boolean;
   setHasTickets?: StateBooleanType;
 }

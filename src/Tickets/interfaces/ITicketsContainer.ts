@@ -1,4 +1,4 @@
-import { EntityId, EntityState } from "@reduxjs/toolkit";
+import { EntityState } from "@reduxjs/toolkit";
 import { StateBooleanType } from "../../types/stateTypes";
 import { ITicket } from "./ITicket";
 

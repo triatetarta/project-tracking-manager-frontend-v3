@@ -1,27 +1,12 @@
 import { motion } from "framer-motion";
 import InputField from "../../FormFields/components/InputField";
-import Swatch from "@uiw/react-color-swatch";
-import { hsvaToHex } from "@uiw/color-convert";
 import toast from "react-hot-toast";
 import TextAreaField from "../../FormFields/components/TextAreaField";
 import { MouseEvent, useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { INewStatusProps } from "../interfaces/INewStatus";
 import { useAddWorkflowStatusMutation } from "../features/workflowsApiSlice";
-
-function Border(props: { color?: string; checked?: boolean }) {
-  if (!props.checked) return null;
-  return (
-    <div
-      style={{
-        border: "1px solid #FAFBFC",
-        width: "100%",
-        height: "100%",
-        borderRadius: "2px",
-      }}
-    />
-  );
-}
+import SelectField from "../../FormFields/components/SelectField";
 
 const NewStatus = ({ setOpenAddStatus }: INewStatusProps) => {
   const { id, name } = useAuth();
@@ -29,7 +14,7 @@ const NewStatus = ({ setOpenAddStatus }: INewStatusProps) => {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [hex, setHex] = useState("");
+  const [category, setCategory] = useState("to do");
 
   const onCancel = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -43,7 +28,7 @@ const NewStatus = ({ setOpenAddStatus }: INewStatusProps) => {
       user: id,
       title: title.toLowerCase(),
       description: description.toLowerCase(),
-      color: hex,
+      category: category,
     });
   };
 
@@ -107,23 +92,22 @@ const NewStatus = ({ setOpenAddStatus }: INewStatusProps) => {
               onChange={(e) => setDescription(e.target.value as string)}
             />
 
-            <div className='ml-1'>
-              <p className='text-left block mb-1 text-xs text-gray-text'>
-                Status color
-                {hex === "" ? (
-                  <span className='text-red-text ml-0.5'>*</span>
-                ) : null}
-              </p>
-              <Swatch
-                colors={["#2074e3", "#f6b73e", "#11a865"]}
-                color={hex}
-                rectProps={{
-                  children: <Border />,
-                }}
-                onChange={(hsvColor) => {
-                  setHex(hsvaToHex(hsvColor));
-                }}
-              />
+            <div className='flex justify-between items-center relative mb-4'>
+              <div className='flex flex-col'>
+                <SelectField
+                  label='Category'
+                  htmlFor='status'
+                  id='status'
+                  name='status'
+                  onChange={(e) => setCategory(e.target.value)}
+                  value={category}
+                  items={["to do", "in progress", "closed"]}
+                  spanClassNames={`w-5 h-5 absolute right-2 top-2 z-50 pointer-events-none text-header-main`}
+                  selectClassNames={`pl-4 pr-7 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold outline-none text-sm uppercase appearance-none relative border hover:bg-gray-100 transition-all duration-200`}
+                  optionClassNames='bg-gray-100 text-header-main uppercase'
+                />
+              </div>
+              <div />
             </div>
 
             <div className='mb-3 flex justify-between'>

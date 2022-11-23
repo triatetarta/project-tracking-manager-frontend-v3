@@ -18,7 +18,7 @@ const ProjectsContainer = ({ setCreateNewProject }: IProjectsContainer) => {
   const [showProjects, setShowProjects] = useState(true);
 
   return (
-    <div className='px-3 mt-10'>
+    <div className='px-1 lg:px-4 mt-10'>
       <h3
         onClick={() => setShowProjects(!showProjects)}
         className='uppercase text-xs font-bold mb-2 inline-flex items-center cursor-pointer select-none'
@@ -42,7 +42,7 @@ const ProjectsContainer = ({ setCreateNewProject }: IProjectsContainer) => {
         {isAdmin ? (
           <Button
             onClick={() => setCreateNewProject(true)}
-            classNames='flex items-center justify-center hover:bg-gray-200 px-3 py-3 rounded-lg transition-all duration-200'
+            classNames='flex items-center justify-center hover:bg-gray-200 px-0 lg:px-2 py-2 rounded-lg transition-all duration-200'
             textClassNames='text-xs font-semibold'
             icon={<PlusIcon className='w-3 h-3 text-gray-text' />}
             text='Create Project'

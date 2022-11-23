@@ -1,5 +1,6 @@
 import { useGetUsersQuery } from "../../Auth/features/usersApiSlice";
 import { useGetProjectsQuery } from "../../Projects/features/projectsApiSlice";
+import { useGetWorkflowStatusQuery } from "../../WorkflowStatus/features/workflowsApiSlice";
 import { IOption } from "../interfaces/IOption";
 
 const Option = ({ item, name, optionClassNames }: IOption) => {
@@ -15,10 +16,16 @@ const Option = ({ item, name, optionClassNames }: IOption) => {
     }),
   });
 
+  const { workflowStatus } = useGetWorkflowStatusQuery("workflowStatusList", {
+    selectFromResult: ({ data }) => ({
+      workflowStatus: data?.entities[item],
+    }),
+  });
+
   if (name === "status") {
     return (
-      <option className={optionClassNames} value={item}>
-        {item}
+      <option className={optionClassNames} value={workflowStatus?._id}>
+        {workflowStatus?.title}
       </option>
     );
   }

@@ -4,11 +4,9 @@ const WorkflowInfo = ({ classNames }: IWorkflowInfoProps) => {
   return (
     <section className={classNames}>
       <div className='p-4'>
+        <h3 className='font-semibold text-xl md:text-2xl'>Add a status,</h3>
         <h3 className='font-semibold text-xl md:text-2xl'>
-          Create a workflow,
-        </h3>
-        <h3 className='font-semibold text-xl md:text-2xl'>
-          track your progress.
+          track your workflow.
         </h3>
       </div>
 

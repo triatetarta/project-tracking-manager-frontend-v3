@@ -26,7 +26,7 @@ const Dashboard = () => {
   };
 
   return (
-    <main className='container mx-auto flex items-center justify-center px-2'>
+    <main className='container mx-auto flex justify-center px-2'>
       <Sidebar setCreateNewProject={setCreateNewProject} />
       <Tickets setCreateNewTicket={setCreateNewTicket} />
       <div className='container fixed bottom-6 md:bottom-20 pr-4 md:pr-0'>
