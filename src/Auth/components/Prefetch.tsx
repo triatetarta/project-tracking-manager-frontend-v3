@@ -4,6 +4,7 @@ import { usersApiSlice } from "../features/usersApiSlice";
 import { projectsApiSlice } from "../../Projects/features/projectsApiSlice";
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
+import { workflowStatusApiSlice } from "../../WorkflowStatus/features/workflowsApiSlice";
 
 const Prefetch = () => {
   useEffect(() => {
@@ -19,10 +20,17 @@ const Prefetch = () => {
       projectsApiSlice.endpoints.getProjects.initiate("projectList")
     );
 
+    const workflowStatus = store.dispatch(
+      workflowStatusApiSlice.endpoints.getWorkflowStatus.initiate(
+        "workflowStatusList"
+      )
+    );
+
     return () => {
       tickets.unsubscribe();
       projects.unsubscribe();
       users.unsubscribe();
+      workflowStatus.unsubscribe();
     };
   }, []);
 
