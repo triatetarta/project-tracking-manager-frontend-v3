@@ -10,6 +10,7 @@ import { useState, MouseEvent } from "react";
 import Account from "./Profile/components/Account";
 import { Toaster } from "react-hot-toast";
 import Projects from "./Projects/components/Projects";
+import WorkflowStatus from "./WorkflowStatus/components/WorkflowStatus";
 
 const App = () => {
   const [openAccountMenu, setOpenAccountMenu] = useState(false);
@@ -46,6 +47,7 @@ const App = () => {
             <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/account' element={<Account />} />
             <Route path='/projects' element={<Projects />} />
+            <Route path='/workflows' element={<WorkflowStatus />} />
           </Route>
         </Route>
       </Routes>

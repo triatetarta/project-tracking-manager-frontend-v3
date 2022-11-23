@@ -63,6 +63,13 @@ const Navbar = ({
                   </div>
                 </Link>
               </div>
+              <div className='ml-2'>
+                <Link to='/workflows'>
+                  <div className='text-header-main font-semibold text-sm hover:bg-gray-100 transition-all duration-200 p-2 rounded-md  hover:text-deep-blue'>
+                    Workflows
+                  </div>
+                </Link>
+              </div>
             </>
           ) : null}
         </div>

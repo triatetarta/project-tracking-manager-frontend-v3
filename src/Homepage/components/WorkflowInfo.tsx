@@ -1,6 +1,8 @@
-const Workflow = () => {
+import { IWorkflowInfoProps } from "../interfaces/IWorkflowInfo";
+
+const WorkflowInfo = ({ classNames }: IWorkflowInfoProps) => {
   return (
-    <section className='flex flex-col md:flex-row items-center justify-center my-10 md:my-32 text-blue-text select-none'>
+    <section className={classNames}>
       <div className='p-4'>
         <h3 className='font-semibold text-xl md:text-2xl'>
           Create a workflow,
@@ -28,4 +30,4 @@ const Workflow = () => {
   );
 };
 
-export default Workflow;
+export default WorkflowInfo;

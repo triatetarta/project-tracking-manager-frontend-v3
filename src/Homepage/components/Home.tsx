@@ -2,7 +2,7 @@ import Description from "./Description";
 import Details from "./Details";
 import Plans from "./Plans";
 import Showcase from "./Showcase";
-import Workflow from "./Workflow";
+import WorkflowInfo from "./WorkflowInfo";
 
 const Home = () => {
   return (
@@ -10,7 +10,7 @@ const Home = () => {
       <Showcase />
       <Description />
       <Details />
-      <Workflow />
+      <WorkflowInfo classNames='flex flex-col md:flex-row items-center justify-center my-10 md:my-32 text-blue-text select-none' />
       <Plans />
     </main>
   );
