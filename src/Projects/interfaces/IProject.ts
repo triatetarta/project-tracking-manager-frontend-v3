@@ -9,6 +9,7 @@ export interface IProject {
   status: "open" | "closed";
   createdAt: Date;
   updatedAt: Date;
+  color: string;
 }
 
 export interface IProjectProps {

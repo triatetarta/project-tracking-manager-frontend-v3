@@ -6,6 +6,22 @@ import useAuth from "../../hooks/useAuth";
 import { useAddNewProjectMutation } from "../features/projectsApiSlice";
 import { INewProjectProps } from "../interfaces/INewProject";
 import toast from "react-hot-toast";
+import Swatch from "@uiw/react-color-swatch";
+import { hsvaToHex } from "@uiw/color-convert";
+
+function Border(props: { color?: string; checked?: boolean }) {
+  if (!props.checked) return null;
+  return (
+    <div
+      style={{
+        border: "1px solid #FAFBFC",
+        width: "100%",
+        height: "100%",
+        borderRadius: "2px",
+      }}
+    />
+  );
+}
 
 const NewProject = ({ setCreateNewProject }: INewProjectProps) => {
   const { id, name } = useAuth();
@@ -14,6 +30,7 @@ const NewProject = ({ setCreateNewProject }: INewProjectProps) => {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [hex, setHex] = useState("");
 
   const onCancel = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -27,6 +44,7 @@ const NewProject = ({ setCreateNewProject }: INewProjectProps) => {
       user: id,
       title: title.toLowerCase(),
       description: description.toLowerCase(),
+      color: hex,
     });
   };
 
@@ -89,6 +107,33 @@ const NewProject = ({ setCreateNewProject }: INewProjectProps) => {
               placeholder='Enter a description for your project'
               onChange={(e) => setDescription(e.target.value as string)}
             />
+
+            <div className='ml-1'>
+              <p className='text-left block mb-1 text-xs text-gray-text'>
+                Project color
+                {hex === "" ? (
+                  <span className='text-red-text ml-0.5'>*</span>
+                ) : null}
+              </p>
+              <Swatch
+                colors={[
+                  "#8c4bff",
+                  "#2074e3",
+                  "#11a865",
+                  "#e3522d",
+                  "#F44250",
+                  "#D83BD2",
+                  "#3DEFE9",
+                ]}
+                color={hex}
+                rectProps={{
+                  children: <Border />,
+                }}
+                onChange={(hsvColor) => {
+                  setHex(hsvaToHex(hsvColor));
+                }}
+              />
+            </div>
 
             <div className='mb-3 flex justify-between'>
               <div className='flex-grow mr-auto' />

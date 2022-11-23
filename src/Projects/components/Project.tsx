@@ -9,7 +9,12 @@ const Project = ({ projectId }: IProjectProps) => {
   });
 
   return (
-    <div className='text-xs font-semibold bg-projects-bg text-white px-2 py-2 rounded-md select-none capitalize'>
+    <div
+      style={{
+        backgroundColor: project?.color,
+      }}
+      className='text-xs font-semibold text-white px-2 py-2 rounded-md select-none capitalize'
+    >
       {project?.title}
     </div>
   );

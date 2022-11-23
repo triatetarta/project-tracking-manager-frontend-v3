@@ -58,14 +58,25 @@ const ProjectCard = ({ projectId }: IProjectCardProps) => {
   };
 
   return (
-    <article className='border w-[260px] h-[240px] rounded-lg py-3 pl-5 pr-2 shadow-md text-header-main select-none'>
+    <article
+      className='border w-[260px] h-[240px] rounded-lg py-3 pl-5 pr-2 shadow-md text-header-main select-none overflow-hidden'
+      style={{
+        borderTopColor: project?.color,
+        borderTopWidth: "4px",
+      }}
+    >
       <div className='flex'>
-        <div className='bg-neat-purple inline-flex p-1 rounded-lg'>
+        <div
+          style={{
+            backgroundColor: project?.color,
+          }}
+          className='inline-flex p-1 rounded-lg'
+        >
           <RectangleGroupIcon classNames='h-6 w-6 text-white' />
         </div>
-        <div className='flex flex-col text-xs ml-2'>
+        <div className='flex flex-col text-xs ml-2 truncate'>
           <span className='font-medium'>{project?.title}</span>
-          <span className='truncate'>{project?.description}</span>
+          <p className='truncate'>{project?.description}</p>
         </div>
       </div>
 
