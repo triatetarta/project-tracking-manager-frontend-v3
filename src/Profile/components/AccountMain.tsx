@@ -2,9 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Ticket from "../../Tickets/components/Ticket";
 import { useGetTicketsQuery } from "../../Tickets/features/ticketsApiSlice";
+import { useGetWorkflowStatusQuery } from "../../WorkflowStatus/features/workflowsApiSlice";
 
 const AccountMain = () => {
   const { data: tickets } = useGetTicketsQuery("ticketList");
+  const { data: workflowStatus } =
+    useGetWorkflowStatusQuery("workflowStatusList");
+
   const [hasTickets, setHasTickets] = useState(true);
 
   const navigate = useNavigate();
@@ -32,8 +36,19 @@ const AccountMain = () => {
           <div className='border rounded-lg p-5 bg-pale-bg shadow-sm'>
             <div className='flex flex-col space-y-4'>
               {tickets?.ids.map((ticketId) => {
+                const ticket = tickets.entities[ticketId];
+
+                const category = workflowStatus?.ids
+                  .map((statusId) => {
+                    const singleStatus = workflowStatus.entities[statusId];
+
+                    return singleStatus;
+                  })
+                  .find((item) => item?.id === ticket?.status);
+
                 return (
                   <Ticket
+                    category={category?.category}
                     key={ticketId}
                     ticketId={ticketId}
                     account

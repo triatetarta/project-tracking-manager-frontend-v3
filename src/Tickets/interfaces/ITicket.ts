@@ -16,7 +16,7 @@ export interface ITicket {
 }
 
 export interface ITicketProps {
-  category: string;
+  category?: string;
   ticketId: EntityId;
   account?: boolean;
   setHasTickets?: StateBooleanType;

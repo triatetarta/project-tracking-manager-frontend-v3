@@ -8,6 +8,7 @@ import TicketDetailsInfo from "./TicketDetails/TicketDetailsInfo";
 import Comments from "../../Comments/components/Comments";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setTicketDetailsClose } from "../features/ticketsSlice";
+import { useGetWorkflowStatusQuery } from "../../WorkflowStatus/features/workflowsApiSlice";
 
 const TicketDetails = ({ getModalType }: ITicketDetailsProps) => {
   const { id } = useAuth();
@@ -15,6 +16,12 @@ const TicketDetails = ({ getModalType }: ITicketDetailsProps) => {
   const { ticket } = useGetTicketsQuery("ticketList", {
     selectFromResult: ({ data }) => ({
       ticket: data?.entities[ticketId],
+    }),
+  });
+
+  const { workflowStatus } = useGetWorkflowStatusQuery("workflowStatusList", {
+    selectFromResult: ({ data }) => ({
+      workflowStatus: data?.entities[ticket?.status!],
     }),
   });
 
@@ -31,23 +38,23 @@ const TicketDetails = ({ getModalType }: ITicketDetailsProps) => {
   };
 
   const getStatusStyles = useCallback(() => {
-    if (ticket?.status === "to do") {
+    if (workflowStatus?.category === "to do") {
       return {
         background: "blueGradient text-white",
         text: "text-medium-blue",
       };
-    } else if (ticket?.status === "in progress") {
+    } else if (workflowStatus?.category === "in progress") {
       return {
         background: "orangeGradient text-white",
         text: "text-neat-yellow",
       };
-    } else if (ticket?.status === "closed") {
+    } else if (workflowStatus?.category === "closed") {
       return {
         background: "greenGradient text-white",
         text: "text-medium-green",
       };
     }
-  }, [ticket]);
+  }, [workflowStatus]);
 
   return (
     <motion.div

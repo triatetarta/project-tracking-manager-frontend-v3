@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { convertString } from "../../../helpers/firstLetterUppercase";
 import { ITicketDetailsInfoProps } from "./interfaces/ITicketDetails";
@@ -7,6 +7,7 @@ import TicketDetailsAccordion from "./TicketDetailsAccordion";
 import { useUpdateTicketMutation } from "../../features/ticketsApiSlice";
 import TextAreaField from "../../../FormFields/components/TextAreaField";
 import Button from "../../../Button/components/Button";
+import { useGetWorkflowStatusQuery } from "../../../WorkflowStatus/features/workflowsApiSlice";
 
 const TicketDetailsInfo = ({
   id,
@@ -16,8 +17,12 @@ const TicketDetailsInfo = ({
   const [updateTicket, { isLoading, isSuccess, isError, error }] =
     useUpdateTicketMutation();
 
+  const { data: workflowStatus } =
+    useGetWorkflowStatusQuery("workflowStatusList");
+
   const [editDescription, setEditDescription] = useState(false);
   const [editDescText, setEditDescText] = useState("");
+  const [status, setStatus] = useState("");
 
   const descRef = useRef<HTMLTextAreaElement>(null);
 
@@ -65,6 +70,12 @@ const TicketDetailsInfo = ({
     descRef?.current.focus();
   }, [editDescription, descRef]);
 
+  useEffect(() => {
+    if (ticket === undefined) return;
+
+    setStatus(ticket.status);
+  }, [ticket]);
+
   return (
     <div className='select-none'>
       <div className='px-3'>
@@ -90,7 +101,7 @@ const TicketDetailsInfo = ({
                 : "hover:bg-gray-100 transition-all duration-200"
             } rounded-lg`}
           >
-            <SelectField
+            {/* <SelectField
               htmlFor='status'
               id='status'
               name='status'
@@ -98,6 +109,23 @@ const TicketDetailsInfo = ({
               disabled={ticket?.user !== id}
               value={ticket?.status}
               items={["to do", "in progress", "closed"]}
+              spanClassNames={`w-5 h-5 absolute right-2 top-2 z-50 pointer-events-none text-white`}
+              selectClassNames={`pl-4 pr-7 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold outline-none text-sm uppercase appearance-none relative ${
+                getStatusStyles()?.background
+              } ${
+                ticket?.user !== id ? "pointer-events-none select-none" : ""
+              }`}
+              optionClassNames='bg-gray-100 text-header-main uppercase'
+            /> */}
+
+            <SelectField
+              name='status'
+              htmlFor='status'
+              id='status'
+              onChange={onStatusUpdate}
+              disabled={ticket?.user !== id}
+              value={status}
+              items={workflowStatus?.ids}
               spanClassNames={`w-5 h-5 absolute right-2 top-2 z-50 pointer-events-none text-white`}
               selectClassNames={`pl-4 pr-7 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold outline-none text-sm uppercase appearance-none relative ${
                 getStatusStyles()?.background

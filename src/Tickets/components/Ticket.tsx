@@ -89,9 +89,9 @@ const Ticket = ({
           <span
             className={`${
               localStyles()?.background
-            } px-2 py-1 rounded-lg text-xs`}
+            } px-2 py-1 rounded-lg text-xs uppercase`}
           >
-            {ticket?.status}
+            {category}
           </span>
         </div>
       ) : null}
