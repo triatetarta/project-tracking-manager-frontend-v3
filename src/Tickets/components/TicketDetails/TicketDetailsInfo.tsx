@@ -9,6 +9,7 @@ import TextAreaField from "../../../FormFields/components/TextAreaField";
 import Button from "../../../Button/components/Button";
 import { useGetWorkflowStatusQuery } from "../../../WorkflowStatus/features/workflowsApiSlice";
 import useStyles from "../../../hooks/useStyles";
+import { useGetProjectsQuery } from "../../../Projects/features/projectsApiSlice";
 
 const TicketDetailsInfo = ({
   id,
@@ -20,6 +21,7 @@ const TicketDetailsInfo = ({
 
   const { data: workflowStatus } =
     useGetWorkflowStatusQuery("workflowStatusList");
+  const { data: projects } = useGetProjectsQuery("projectList");
 
   const { background } = useStyles(category!);
 
@@ -28,6 +30,14 @@ const TicketDetailsInfo = ({
   const [status, setStatus] = useState("");
 
   const descRef = useRef<HTMLTextAreaElement>(null);
+
+  const currentTicketProject = projects?.ids
+    .map((projectId) => {
+      const singleStatus = projects.entities[projectId];
+
+      return singleStatus;
+    })
+    .find((item) => item?.id === ticket?.project);
 
   const onEditEnable = () => {
     if (ticket?.user !== id) return;
@@ -95,7 +105,7 @@ const TicketDetailsInfo = ({
 
         <div className='flex items-center justify-between'>
           <h4 className='text-lg font-medium pr-2 capitalize'>
-            {ticket?.project}
+            {currentTicketProject?.title}
           </h4>
           <form
             className={`relative p-2 ${

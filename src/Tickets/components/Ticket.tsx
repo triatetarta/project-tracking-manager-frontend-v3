@@ -7,6 +7,7 @@ import { useAppDispatch } from "../../app/hooks";
 import { setTicketDetailsOpen } from "../features/ticketsSlice";
 import moment from "moment";
 import useStyles from "../../hooks/useStyles";
+import { useGetProjectsQuery } from "../../Projects/features/projectsApiSlice";
 
 const Ticket = ({
   category,
@@ -20,6 +21,16 @@ const Ticket = ({
       ticket: data?.entities[ticketId],
     }),
   });
+
+  const { data: projects } = useGetProjectsQuery("projectList");
+
+  const currentTicketProject = projects?.ids
+    .map((projectId) => {
+      const singleStatus = projects.entities[projectId];
+
+      return singleStatus;
+    })
+    .find((item) => item?.id === ticket?.project);
 
   const { hover, background } = useStyles(category!);
 
@@ -39,6 +50,10 @@ const Ticket = ({
         dispatch(setTicketDetailsOpen(ticketId));
       }}
       className={`ticket bg-white border transition-all duration-200 cursor-pointer p-4 rounded-lg shadow-sm relative w-full ${hover}`}
+      style={{
+        borderBottomColor: currentTicketProject?.color,
+        borderBottomWidth: "4px",
+      }}
     >
       {!account ? (
         <p className='text-xs mb-6 truncate text-blue-text'>
@@ -56,7 +71,9 @@ const Ticket = ({
           <span className='font-semibold text-xs mr-2 text-gray-text'>
             PROJECT:
           </span>
-          <span className='text-gray-text text-sm'>{ticket?.project}</span>
+          <span className='text-gray-text text-sm'>
+            {currentTicketProject?.title}
+          </span>
         </div>
       ) : null}
 

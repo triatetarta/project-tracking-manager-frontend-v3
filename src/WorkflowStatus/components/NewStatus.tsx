@@ -5,16 +5,22 @@ import TextAreaField from "../../FormFields/components/TextAreaField";
 import { MouseEvent, useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { INewStatusProps } from "../interfaces/INewStatus";
-import { useAddWorkflowStatusMutation } from "../features/workflowsApiSlice";
+import {
+  useAddWorkflowStatusMutation,
+  useGetWorkflowStatusQuery,
+} from "../features/workflowsApiSlice";
 import SelectField from "../../FormFields/components/SelectField";
 
 const NewStatus = ({ setOpenAddStatus }: INewStatusProps) => {
   const { id, name } = useAuth();
   const [addNewStatus, { isSuccess }] = useAddWorkflowStatusMutation();
 
+  const { data: workflowStatus } =
+    useGetWorkflowStatusQuery("workflowStatusList");
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("to do");
+  const [category, setCategory] = useState<string | undefined>("");
 
   const onCancel = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -31,6 +37,14 @@ const NewStatus = ({ setOpenAddStatus }: INewStatusProps) => {
       category: category,
     });
   };
+
+  useEffect(() => {
+    if (workflowStatus === undefined) return;
+
+    const defaultStatus = workflowStatus.entities[workflowStatus.ids[0]]?._id;
+
+    setCategory(defaultStatus);
+  }, [workflowStatus]);
 
   useEffect(() => {
     if (!isSuccess) return;
@@ -101,7 +115,7 @@ const NewStatus = ({ setOpenAddStatus }: INewStatusProps) => {
                   name='status'
                   onChange={(e) => setCategory(e.target.value)}
                   value={category}
-                  items={["to do", "in progress", "closed"]}
+                  items={workflowStatus?.ids}
                   spanClassNames={`w-5 h-5 absolute right-2 top-2 z-50 pointer-events-none text-header-main`}
                   selectClassNames={`pl-4 pr-7 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold outline-none text-sm uppercase appearance-none relative border hover:bg-gray-100 transition-all duration-200`}
                   optionClassNames='bg-gray-100 text-header-main uppercase'

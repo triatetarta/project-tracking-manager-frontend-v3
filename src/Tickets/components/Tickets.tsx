@@ -9,14 +9,8 @@ const Tickets = ({ setCreateNewTicket }: ITickets) => {
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
   });
-  const { data: workflowStatus } = useGetWorkflowStatusQuery(
-    "workflowStatusList",
-    {
-      pollingInterval: 60000,
-      refetchOnFocus: true,
-      refetchOnMountOrArgChange: true,
-    }
-  );
+  const { data: workflowStatus } =
+    useGetWorkflowStatusQuery("workflowStatusList");
 
   return (
     <section className='min-h-[calc(100vh-17.9rem)] px-2 pb-4 flex items-center flex-col text-header-main relative flex-grow'>

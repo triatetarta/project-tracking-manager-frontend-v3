@@ -32,7 +32,7 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
   useEffect(() => {
     if (projects === undefined) return;
 
-    const defaultProject = projects.entities[projects.ids[0]]?.title;
+    const defaultProject = projects.entities[projects.ids[0]]?._id;
 
     setProject(defaultProject);
   }, [projects]);
@@ -72,7 +72,7 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
     await addNewTicket({
       user: id,
       title: title.toLowerCase(),
-      project: project?.toLowerCase(),
+      project: project,
       description: description.toLowerCase(),
       assignee,
       status: status,
@@ -147,7 +147,7 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
                         setProject(e.target.value);
                       }}
                       value={project}
-                      items={projects.ids}
+                      items={projects?.ids}
                       spanClassNames='w-4 h-4 absolute right-2 top-3 z-50 pointer-events-none text-gray-text'
                       selectClassNames='py-2 pl-2 pr-6 border rounded-md mb-3 text-sm hover:bg-gray-100
                       transition-all duration-200 cursor-pointer focus:outline-1 outline-deep-blue capitalize appearance-none'

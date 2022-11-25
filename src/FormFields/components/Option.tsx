@@ -32,7 +32,7 @@ const Option = ({ item, name, optionClassNames }: IOption) => {
 
   if (name === "project") {
     return (
-      <option className={optionClassNames} value={project?.title}>
+      <option className={optionClassNames} value={project?._id}>
         {project?.title}
       </option>
     );
