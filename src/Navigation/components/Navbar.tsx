@@ -49,21 +49,21 @@ const Navbar = ({
 
           {loggedIn ? (
             <>
-              <div className='ml-10'>
+              <div className='hidden md:inline-flex ml-10'>
                 <Link to='/dashboard'>
                   <div className='text-header-main font-semibold text-sm hover:bg-gray-100 transition-all duration-200 p-2 rounded-md  hover:text-deep-blue'>
                     Tickets
                   </div>
                 </Link>
               </div>
-              <div className='ml-2'>
+              <div className='hidden md:inline-flex ml-2'>
                 <Link to='/projects'>
                   <div className='text-header-main font-semibold text-sm hover:bg-gray-100 transition-all duration-200 p-2 rounded-md  hover:text-deep-blue'>
                     Projects
                   </div>
                 </Link>
               </div>
-              <div className='ml-2'>
+              <div className='hidden md:inline-flex ml-2'>
                 <Link to='/workflows'>
                   <div className='text-header-main font-semibold text-sm hover:bg-gray-100 transition-all duration-200 p-2 rounded-md  hover:text-deep-blue'>
                     Workflows
@@ -116,6 +116,30 @@ const Navbar = ({
                     className='accountMenu cursor-pointer py-2 px-4 hover:bg-gray-100'
                   >
                     Profile
+                  </li>
+                  <li
+                    onClick={() => {
+                      navigate("/dashboard");
+                    }}
+                    className='accountMenu cursor-pointer py-2 px-4 hover:bg-gray-100'
+                  >
+                    Tickets
+                  </li>
+                  <li
+                    onClick={() => {
+                      navigate("/projects");
+                    }}
+                    className='accountMenu cursor-pointer py-2 px-4 hover:bg-gray-100'
+                  >
+                    Projects
+                  </li>
+                  <li
+                    onClick={() => {
+                      navigate("/workflows");
+                    }}
+                    className='accountMenu cursor-pointer py-2 px-4 hover:bg-gray-100'
+                  >
+                    Workflows
                   </li>
                   <li
                     onClick={sendLogout}
