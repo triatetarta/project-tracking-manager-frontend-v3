@@ -21,8 +21,8 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
   const { data: workflowStatus } =
     useGetWorkflowStatusQuery("workflowStatusList");
 
-  const [reportersName] = useState(name);
-  const [reportersEmail] = useState(email);
+  const [reportersName] = useState(() => name);
+  const [reportersEmail] = useState(() => email);
   const [title, setTitle] = useState("");
   const [project, setProject] = useState<string | undefined>("");
   const [assignee, setAssignee] = useState<string | undefined>("");

@@ -2,10 +2,11 @@ import { ITicketProps } from "../interfaces/ITicket";
 import { useGetTicketsQuery } from "../features/ticketsApiSlice";
 import { convertString } from "../../helpers/firstLetterUppercase";
 import useAuth from "../../hooks/useAuth";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { useAppDispatch } from "../../app/hooks";
 import { setTicketDetailsOpen } from "../features/ticketsSlice";
 import moment from "moment";
+import useStyles from "../../hooks/useStyles";
 
 const Ticket = ({
   category,
@@ -20,6 +21,8 @@ const Ticket = ({
     }),
   });
 
+  const { hover, background } = useStyles(category!);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -28,28 +31,6 @@ const Ticket = ({
     setHasTickets(false);
   }, [account, ticket, id]);
 
-  const localStyles = useCallback(() => {
-    if (category === "to do") {
-      return {
-        background: "blueGradient text-white",
-        text: "text-medium-blue",
-        hover: "hover:bg-medium-blue/10",
-      };
-    } else if (category === "in progress") {
-      return {
-        background: "orangeGradient text-white",
-        text: "text-neat-yellow",
-        hover: "hover:bg-neat-yellow/10",
-      };
-    } else if (category === "closed") {
-      return {
-        background: "greenGradient text-white",
-        text: "text-medium-green",
-        hover: "hover:bg-medium-green/10",
-      };
-    }
-  }, [category]);
-
   if (account && ticket?.user !== id) return null;
 
   return (
@@ -57,9 +38,7 @@ const Ticket = ({
       onClick={() => {
         dispatch(setTicketDetailsOpen(ticketId));
       }}
-      className={`ticket bg-white border transition-all duration-200 cursor-pointer p-4 rounded-lg shadow-sm relative w-full ${
-        localStyles()?.hover
-      }`}
+      className={`ticket bg-white border transition-all duration-200 cursor-pointer p-4 rounded-lg shadow-sm relative w-full ${hover}`}
     >
       {!account ? (
         <p className='text-xs mb-6 truncate text-blue-text'>
@@ -87,9 +66,7 @@ const Ticket = ({
             STATUS:
           </span>
           <span
-            className={`${
-              localStyles()?.background
-            } px-2 py-1 rounded-lg text-xs uppercase`}
+            className={`${background} px-2 py-1 rounded-lg text-xs uppercase`}
           >
             {category}
           </span>

@@ -8,17 +8,20 @@ import { useUpdateTicketMutation } from "../../features/ticketsApiSlice";
 import TextAreaField from "../../../FormFields/components/TextAreaField";
 import Button from "../../../Button/components/Button";
 import { useGetWorkflowStatusQuery } from "../../../WorkflowStatus/features/workflowsApiSlice";
+import useStyles from "../../../hooks/useStyles";
 
 const TicketDetailsInfo = ({
   id,
   ticket,
-  getStatusStyles,
+  category,
 }: ITicketDetailsInfoProps) => {
   const [updateTicket, { isLoading, isSuccess, isError, error }] =
     useUpdateTicketMutation();
 
   const { data: workflowStatus } =
     useGetWorkflowStatusQuery("workflowStatusList");
+
+  const { background } = useStyles(category!);
 
   const [editDescription, setEditDescription] = useState(false);
   const [editDescText, setEditDescText] = useState("");
@@ -101,23 +104,6 @@ const TicketDetailsInfo = ({
                 : "hover:bg-gray-100 transition-all duration-200"
             } rounded-lg`}
           >
-            {/* <SelectField
-              htmlFor='status'
-              id='status'
-              name='status'
-              onChange={onStatusUpdate}
-              disabled={ticket?.user !== id}
-              value={ticket?.status}
-              items={["to do", "in progress", "closed"]}
-              spanClassNames={`w-5 h-5 absolute right-2 top-2 z-50 pointer-events-none text-white`}
-              selectClassNames={`pl-4 pr-7 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold outline-none text-sm uppercase appearance-none relative ${
-                getStatusStyles()?.background
-              } ${
-                ticket?.user !== id ? "pointer-events-none select-none" : ""
-              }`}
-              optionClassNames='bg-gray-100 text-header-main uppercase'
-            /> */}
-
             <SelectField
               name='status'
               htmlFor='status'
@@ -127,9 +113,7 @@ const TicketDetailsInfo = ({
               value={status}
               items={workflowStatus?.ids}
               spanClassNames={`w-5 h-5 absolute right-2 top-2 z-50 pointer-events-none text-white`}
-              selectClassNames={`pl-4 pr-7 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold outline-none text-sm uppercase appearance-none relative ${
-                getStatusStyles()?.background
-              } ${
+              selectClassNames={`pl-4 pr-7 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold outline-none text-sm uppercase appearance-none relative ${background} ${
                 ticket?.user !== id ? "pointer-events-none select-none" : ""
               }`}
               optionClassNames='bg-gray-100 text-header-main uppercase'

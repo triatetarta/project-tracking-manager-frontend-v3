@@ -6,6 +6,7 @@ import { useGetWorkflowStatusQuery } from "../features/workflowsApiSlice";
 import { useCallback } from "react";
 import { BadgeCheckIcon, ClockIcon } from "@heroicons/react/solid";
 import Todo from "../../Icons/components/Todo";
+import useStyles from "../../hooks/useStyles";
 
 const StatusCard = ({
   statusId,
@@ -28,27 +29,17 @@ const StatusCard = ({
     })
     .filter((ticket) => ticket?.status === statusId);
 
-  const getStatusCardStyles = useCallback(() => {
+  const { text, button } = useStyles(workflowStatus?.category!);
+
+  const renderIcons = useCallback(() => {
     if (workflowStatus?.category === "to do") {
-      return {
-        icon: <Todo classNames='w-6 h-6 text-deep-blue' />,
-        text: "text-medium-blue",
-        button: "bg-medium-blue",
-      };
+      return <Todo classNames='w-6 h-6 text-deep-blue' />;
     }
     if (workflowStatus?.category === "in progress") {
-      return {
-        icon: <ClockIcon className='w-6 h-6 text-neat-yellow' />,
-        text: "text-neat-yellow",
-        button: "bg-neat-yellow",
-      };
+      return <ClockIcon className='w-6 h-6 text-neat-yellow' />;
     }
     if (workflowStatus?.category === "closed") {
-      return {
-        icon: <BadgeCheckIcon className='w-6 h-6 text-medium-green' />,
-        text: "text-medium-green",
-        button: "bg-medium-green",
-      };
+      return <BadgeCheckIcon className='w-6 h-6 text-medium-green' />;
     }
   }, [workflowStatus]);
 
@@ -56,13 +47,9 @@ const StatusCard = ({
     <div className={classNames}>
       <div className='mb-4 flex items-center'>
         <span className='bg-white border rounded-full p-2'>
-          {getStatusCardStyles()?.icon}
+          {renderIcons()}
         </span>
-        <h2
-          className={`text-lg font-bold uppercase ml-2 ${
-            getStatusCardStyles()?.text
-          }`}
-        >
+        <h2 className={`text-lg font-bold uppercase ml-2 ${text}`}>
           {workflowStatus?.title}
         </h2>
       </div>
@@ -93,9 +80,7 @@ const StatusCard = ({
 
           <Button
             onClick={() => setCreateNewTicket(true)}
-            classNames={`flex items-center mt-6 hover:bg-opacity-90 transition-all duration-200 px-2 py-3 rounded-lg ${
-              getStatusCardStyles()?.button
-            }`}
+            classNames={`flex items-center mt-6 hover:bg-opacity-90 transition-all duration-200 px-2 py-3 rounded-lg ${button}`}
             textClassNames='text-xs font-semibold text-white'
             icon={<PlusIcon className='w-3 h-3 text-white' />}
             text='Create Ticket'

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { MouseEvent, useCallback } from "react";
+import { MouseEvent } from "react";
 import { useGetTicketsQuery } from "../features/ticketsApiSlice";
 import { ITicketDetailsProps } from "../interfaces/ITicketDetails";
 import useAuth from "../../hooks/useAuth";
@@ -37,25 +37,6 @@ const TicketDetails = ({ getModalType }: ITicketDetailsProps) => {
     }
   };
 
-  const getStatusStyles = useCallback(() => {
-    if (workflowStatus?.category === "to do") {
-      return {
-        background: "blueGradient text-white",
-        text: "text-medium-blue",
-      };
-    } else if (workflowStatus?.category === "in progress") {
-      return {
-        background: "orangeGradient text-white",
-        text: "text-neat-yellow",
-      };
-    } else if (workflowStatus?.category === "closed") {
-      return {
-        background: "greenGradient text-white",
-        text: "text-medium-green",
-      };
-    }
-  }, [workflowStatus]);
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -76,13 +57,13 @@ const TicketDetails = ({ getModalType }: ITicketDetailsProps) => {
           ticketUserId={ticket?.user}
           ticketId={ticketId}
           getModalType={getModalType}
-          getStatusStyles={getStatusStyles}
+          category={workflowStatus?.category}
         />
 
         <TicketDetailsInfo
           id={id}
           ticket={ticket}
-          getStatusStyles={getStatusStyles}
+          category={workflowStatus?.category}
         />
 
         <Comments ticketId={ticketId} getModalType={getModalType} />

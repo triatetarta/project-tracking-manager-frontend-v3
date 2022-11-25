@@ -1,6 +1,5 @@
 import { EntityId } from "@reduxjs/toolkit";
 import { TGetModalTypeFunc } from "../../../../Dashboard/interfaces/IModalType";
-import { StateBooleanType } from "../../../../types/stateTypes";
 import { ITicket } from "../../../interfaces/ITicket";
 
 export interface ITicketDetailsHeaderProps {
@@ -8,23 +7,13 @@ export interface ITicketDetailsHeaderProps {
   ticketUserId: string | undefined;
   ticketId: EntityId;
   getModalType: TGetModalTypeFunc;
-  getStatusStyles: () =>
-    | {
-        background: string;
-        text: string;
-      }
-    | undefined;
+  category: string | undefined;
 }
 
 export interface ITicketDetailsInfoProps {
   id: string;
   ticket: ITicket | undefined;
-  getStatusStyles: () =>
-    | {
-        background: string;
-        text: string;
-      }
-    | undefined;
+  category: string | undefined;
 }
 
 export interface ITicketDetailsAccordionProps {

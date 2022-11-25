@@ -5,15 +5,18 @@ import { useAppDispatch } from "../../../app/hooks";
 import { setModalOpen } from "../../../Modal/features/modalSlice";
 import TicketIcon from "../../../Icons/components/TicketIcon";
 import { setTicketDetailsClose } from "../../features/ticketsSlice";
+import useStyles from "../../../hooks/useStyles";
 
 const TicketDetailsHeader = ({
   id,
   ticketUserId,
   ticketId,
   getModalType,
-  getStatusStyles,
+  category,
 }: ITicketDetailsHeaderProps) => {
   const [ticketMenuOpen, setTicketMenuOpen] = useState(false);
+
+  const { text } = useStyles(category!);
 
   const dispatch = useAppDispatch();
 
@@ -26,13 +29,9 @@ const TicketDetailsHeader = ({
     <div className='flex items-center justify-between mb-10 select-none'>
       <div className={"flex items-center justify-center"}>
         <span className='p-2 bg-white rounded-full border'>
-          <TicketIcon classNames={`h-6 w-6 ${getStatusStyles()?.text}`} />
+          <TicketIcon classNames={`h-6 w-6 ${text}`} />
         </span>
-        <h3
-          className={`ml-2 text-sm font-semibold uppercase ${
-            getStatusStyles()?.text
-          }`}
-        >
+        <h3 className={`ml-2 text-sm font-semibold uppercase ${text}`}>
           Ticket Details
         </h3>
       </div>
