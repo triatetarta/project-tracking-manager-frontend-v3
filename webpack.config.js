@@ -3,7 +3,6 @@ const Dotenv = require("dotenv-webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const isDevelopment = process.env.NODE_ENV !== "production";
@@ -13,9 +12,8 @@ module.exports = {
   entry: "./src/index.tsx",
   target: "web",
   output: {
-    path: path.resolve(__dirname, "./dist"),
-    filename: "bundle.js",
-    assetModuleFilename: "images/[hash].[ext][query]",
+    path: path.resolve(__dirname, "dist"),
+    assetModuleFilename: "images/[hash][ext][query]",
   },
   optimization: {
     minimize: !isDevelopment,
@@ -27,12 +25,8 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(?:ico|gif|png|jpe?g|svg|webp)$/i,
+        test: /\.(png|jpe?g|gif|svg|webp)$/i,
         type: "asset",
-      },
-      {
-        test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
-        type: "asset/inline",
       },
       {
         test: /\.css$/i,
@@ -63,9 +57,6 @@ module.exports = {
     new Dotenv(),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin(),
-    new CopyPlugin({
-      patterns: [{ from: "src", to: "dist" }],
-    }),
     new HtmlWebpackPlugin({
       template: "./public/index.html",
     }),
