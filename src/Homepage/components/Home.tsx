@@ -6,7 +6,7 @@ import WorkflowInfo from "./WorkflowInfo";
 
 const Home = () => {
   return (
-    <main className='container mx-auto'>
+    <main className='container mx-auto px-2 sm:px-0'>
       <Showcase />
       <Description />
       <Details />

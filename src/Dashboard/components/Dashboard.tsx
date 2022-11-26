@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { PlusIcon } from "@heroicons/react/solid";
 import Sidebar from "../../Sidebar/components/Sidebar";
@@ -24,6 +24,17 @@ const Dashboard = () => {
     setModalType(type);
     setId(targetId);
   };
+
+  useEffect(() => {
+    const element = document.querySelector<HTMLElement>("body");
+
+    if ((createNewTicket && element) || (createNewProject && element)) {
+      element.style.overflow = "hidden";
+    }
+    if ((!createNewTicket && element) || (!createNewProject && element)) {
+      element.style.overflow = "auto";
+    }
+  }, [createNewTicket, createNewProject]);
 
   return (
     <main className='container mx-auto flex justify-center px-2'>

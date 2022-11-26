@@ -2,7 +2,7 @@ import Button from "../../Button/components/Button";
 import WorkflowInfo from "../../Homepage/components/WorkflowInfo";
 import { PlusIcon } from "@heroicons/react/outline";
 import useAuth from "../../hooks/useAuth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import NewStatus from "./NewStatus";
 import { useGetWorkflowStatusQuery } from "../features/workflowsApiSlice";
@@ -24,6 +24,17 @@ const WorkflowStatus = () => {
 
   const [openAddStatus, setOpenAddStatus] = useState(false);
 
+  useEffect(() => {
+    const element = document.querySelector<HTMLElement>("body");
+
+    if (openAddStatus && element) {
+      element.style.overflow = "hidden";
+    }
+    if (!openAddStatus && element) {
+      element.style.overflow = "auto";
+    }
+  }, [openAddStatus]);
+
   return (
     <main className='container mx-auto flex flex-col px-4 text-header-main'>
       <h2 className='mt-6 text-base sm:text-xl font-medium'>WORKFLOW</h2>
@@ -42,7 +53,7 @@ const WorkflowStatus = () => {
           ) : null}
         </div>
 
-        <div className='flex items-center flex-wrap gap-4'>
+        <div className='flex items-center justify-center sm:justify-start flex-wrap gap-4'>
           {workflowStatus?.ids.map((statusId) => {
             return (
               <StatusCard
@@ -58,7 +69,7 @@ const WorkflowStatus = () => {
       </div>
 
       <div className='border-b-2 text-gray-text my-12' />
-      <WorkflowInfo classNames='flex flex-col md:flex-row items-center justify-center text-blue-text select-none' />
+      <WorkflowInfo classNames='flex flex-col md:flex-row items-center justify-center text-blue-text select-none mb-10' />
 
       <AnimatePresence>
         {openAddStatus ? (

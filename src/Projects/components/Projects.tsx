@@ -4,7 +4,7 @@ import { PlusIcon } from "@heroicons/react/outline";
 import Button from "../../Button/components/Button";
 import NewProject from "./NewProject";
 import { AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import projectBackground from "../../../public/assets/images/project.svg";
 import { useNavigate } from "react-router-dom";
@@ -24,6 +24,17 @@ const Projects = () => {
   const onClickHandler = () => {
     navigate("/dashboard");
   };
+
+  useEffect(() => {
+    const element = document.querySelector<HTMLElement>("body");
+
+    if (createNewProject && element) {
+      element.style.overflow = "hidden";
+    }
+    if (!createNewProject && element) {
+      element.style.overflow = "auto";
+    }
+  }, [createNewProject]);
 
   return (
     <main className='container mx-auto flex flex-col px-2 text-header-main'>

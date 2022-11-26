@@ -15,11 +15,11 @@ const WorkflowInfo = ({ classNames }: IWorkflowInfoProps) => {
         <div className='blueGradient text-white px-2 py-1 rounded-md'>
           To Do
         </div>
-        <div className='bg-gray-200 h-1 w-6 md:w-8' />
+        <div className='bg-gray-200 h-1 w-4 md:w-8' />
         <div className='orangeGradient text-white px-2 py-1 rounded-md'>
           In progress
         </div>
-        <div className='bg-gray-200 h-1 w-6 md:w-8' />
+        <div className='bg-gray-200 h-1 w-4 md:w-8' />
         <div className='greenGradient text-white px-2 py-1 rounded-md'>
           Closed
         </div>
