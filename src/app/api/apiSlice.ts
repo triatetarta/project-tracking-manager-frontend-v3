@@ -8,8 +8,14 @@ import {
 import { setCredentials } from "../../Auth/features/authSlice";
 import { RootState } from "../store";
 
+const isDevelopment = process.env.NODE_ENV !== "production";
+
+const baseUrl = !isDevelopment
+  ? "https://pro-track.onrender.com"
+  : "http://localhost:5000";
+
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5000",
+  baseUrl: baseUrl,
   credentials: "include",
   prepareHeaders(headers, { getState }) {
     const token = (getState() as RootState).auth.token;
