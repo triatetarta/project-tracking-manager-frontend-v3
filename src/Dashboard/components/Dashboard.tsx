@@ -28,13 +28,21 @@ const Dashboard = () => {
   useEffect(() => {
     const element = document.querySelector<HTMLElement>("body");
 
-    if ((createNewTicket && element) || (createNewProject && element)) {
+    if (
+      (createNewTicket || createNewProject || isTicketDetailsOpen) &&
+      element
+    ) {
       element.style.overflow = "hidden";
     }
-    if ((!createNewTicket && element) || (!createNewProject && element)) {
+    if (
+      !createNewTicket &&
+      !createNewProject &&
+      !isTicketDetailsOpen &&
+      element
+    ) {
       element.style.overflow = "auto";
     }
-  }, [createNewTicket, createNewProject]);
+  }, [createNewTicket, createNewProject, isTicketDetailsOpen]);
 
   return (
     <main className='container mx-auto flex justify-center px-2'>
