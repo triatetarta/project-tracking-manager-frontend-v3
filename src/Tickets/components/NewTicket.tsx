@@ -14,15 +14,20 @@ import toast from "react-hot-toast";
 import { useGetWorkflowStatusQuery } from "../../WorkflowStatus/features/workflowsApiSlice";
 
 const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
-  const { id, name, email } = useAuth();
+  const { id, isAdmin } = useAuth();
   const [addNewTicket, { isSuccess }] = useAddNewTicketMutation();
   const { data: projects } = useGetProjectsQuery("projectList");
-  const { data: users } = useGetUsersQuery("userList");
+  const { users, user } = useGetUsersQuery("userList", {
+    selectFromResult: ({ data }) => ({
+      user: data?.entities[id],
+      users: data,
+    }),
+  });
   const { data: workflowStatus } =
     useGetWorkflowStatusQuery("workflowStatusList");
 
-  const [reportersName] = useState(() => name);
-  const [reportersEmail] = useState(() => email);
+  const [reportersName] = useState(() => user?.name);
+  const [reportersEmail] = useState(() => user?.email);
   const [title, setTitle] = useState("");
   const [project, setProject] = useState<string | undefined>("");
   const [assignee, setAssignee] = useState<string | undefined>("");
@@ -156,14 +161,16 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
                 )}
 
                 <div className='flex items-center mt-1'>
-                  <Button
-                    type='button'
-                    onClick={() => setCreateNewProject(true)}
-                    classNames='flex items-center justify-center hover:bg-gray-200 px-3 py-3 rounded-lg transition-all duration-200'
-                    textClassNames='text-xs font-semibold'
-                    icon={<PlusIcon className='w-3 h-3 text-gray-text' />}
-                    text='Create Project'
-                  />
+                  {isAdmin ? (
+                    <Button
+                      type='button'
+                      onClick={() => setCreateNewProject(true)}
+                      classNames='flex items-center justify-center hover:bg-gray-200 px-3 py-3 rounded-lg transition-all duration-200'
+                      textClassNames='text-xs font-semibold'
+                      icon={<PlusIcon className='w-3 h-3 text-gray-text' />}
+                      text='Create Project'
+                    />
+                  ) : null}
                 </div>
               </div>
             </div>
