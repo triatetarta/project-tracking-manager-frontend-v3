@@ -10,10 +10,18 @@ import {
   useGetWorkflowStatusQuery,
 } from "../features/workflowsApiSlice";
 import SelectField from "../../FormFields/components/SelectField";
+import { useGetUsersQuery } from "../../Auth/features/usersApiSlice";
 
 const NewStatus = ({ setOpenAddStatus }: INewStatusProps) => {
-  const { id, name } = useAuth();
-  const [addNewStatus, { isSuccess }] = useAddWorkflowStatusMutation();
+  const { id } = useAuth();
+  const { user } = useGetUsersQuery("userList", {
+    selectFromResult: ({ data }) => ({
+      user: data?.entities[id],
+    }),
+  });
+
+  const [addNewStatus, { isSuccess, isError, error }] =
+    useAddWorkflowStatusMutation();
 
   const { data: workflowStatus } =
     useGetWorkflowStatusQuery("workflowStatusList");
@@ -53,6 +61,14 @@ const NewStatus = ({ setOpenAddStatus }: INewStatusProps) => {
     setOpenAddStatus(false);
   }, [isSuccess]);
 
+  useEffect(() => {
+    if (!isError || error === undefined) return;
+
+    if ("data" in error) {
+      toast.error(`${error.status} ${JSON.stringify(error.data)}`);
+    }
+  }, [isError, error]);
+
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -76,7 +92,7 @@ const NewStatus = ({ setOpenAddStatus }: INewStatusProps) => {
               label='Creator'
               htmlFor='name'
               type='text'
-              value={name}
+              value={user?.name}
               disabled
               focus={false}
               containerClasses='mb-3'

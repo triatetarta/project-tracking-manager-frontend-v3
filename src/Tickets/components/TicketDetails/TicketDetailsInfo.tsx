@@ -10,13 +10,14 @@ import Button from "../../../Button/components/Button";
 import { useGetWorkflowStatusQuery } from "../../../WorkflowStatus/features/workflowsApiSlice";
 import useStyles from "../../../hooks/useStyles";
 import { useGetProjectsQuery } from "../../../Projects/features/projectsApiSlice";
+import toast from "react-hot-toast";
 
 const TicketDetailsInfo = ({
   id,
   ticket,
   category,
 }: ITicketDetailsInfoProps) => {
-  const [updateTicket, { isLoading, isSuccess, isError, error }] =
+  const [updateTicket, { isSuccess, isError, error }] =
     useUpdateTicketMutation();
 
   const { data: workflowStatus } =
@@ -88,6 +89,20 @@ const TicketDetailsInfo = ({
 
     setStatus(ticket.status);
   }, [ticket]);
+
+  useEffect(() => {
+    if (!isSuccess) return;
+
+    toast.success("Ticket has been updated");
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (!isError || error === undefined) return;
+
+    if ("data" in error) {
+      toast.error(`${error.status} ${JSON.stringify(error.data)}`);
+    }
+  }, [isError, error]);
 
   return (
     <div className='select-none'>

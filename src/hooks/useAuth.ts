@@ -4,11 +4,8 @@ import jwtDecode from "jwt-decode";
 
 interface IUserInfo {
   [x: string]: {
-    email: string;
     roles: string[];
     id: string;
-    image: string;
-    name: string;
   };
 }
 
@@ -22,7 +19,7 @@ const useAuth = () => {
 
   if (token) {
     const decoded = jwtDecode(token) as IUserInfo;
-    const { email, roles, id, image, name } = decoded.UserInfo;
+    const { roles, id } = decoded.UserInfo;
 
     isManager = roles.includes("Manager");
     isAdmin = roles.includes("Admin");
@@ -32,24 +29,18 @@ const useAuth = () => {
     if (decoded.UserInfo) loggedIn = true;
 
     return {
-      email,
       roles,
       status,
       isAdmin,
       isManager,
       id,
-      image,
-      name,
       loggedIn,
     };
   }
 
   return {
-    email: "",
     roles: [],
     id: "",
-    image: "",
-    name: "",
     isAdmin,
     isManager,
     status,

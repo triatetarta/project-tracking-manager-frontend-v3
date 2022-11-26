@@ -7,10 +7,14 @@ import {
   useGetUsersQuery,
   useUploadImageMutation,
 } from "../../Auth/features/usersApiSlice";
+import toast from "react-hot-toast";
 
 const AccountHeader = () => {
-  const [uploadImage, { isSuccess }] = useUploadImageMutation();
-  const { name, id } = useAuth();
+  const [
+    uploadImage,
+    { isSuccess: isUploadSuccess, isError: isUploadError, error: uploadError },
+  ] = useUploadImageMutation();
+  const { id } = useAuth();
   const { user, refetch } = useGetUsersQuery("userList", {
     selectFromResult: ({ data }) => ({
       user: data?.entities[id],
@@ -29,10 +33,19 @@ const AccountHeader = () => {
   }, [image]);
 
   useEffect(() => {
-    if (!isSuccess) return;
+    if (!isUploadSuccess) return;
 
+    toast.success("Image has been uploaded");
     refetch();
-  }, [isSuccess]);
+  }, [isUploadSuccess]);
+
+  useEffect(() => {
+    if (!isUploadError || uploadError === undefined) return;
+
+    if ("data" in uploadError) {
+      toast.error(`${uploadError.status} ${JSON.stringify(uploadError.data)}`);
+    }
+  }, [isUploadError, uploadError]);
 
   const previewFile = (file: File | Blob) => {
     const reader = new FileReader();
@@ -57,7 +70,7 @@ const AccountHeader = () => {
           <div className='relative h-28 w-28 overflow-hidden'>
             <Avatar
               image={user?.image}
-              name={name}
+              name={user?.name}
               classNames='h-28 w-28 absolute'
               spanClasses='text-4xl'
             />

@@ -8,6 +8,7 @@ import { INewProjectProps } from "../interfaces/INewProject";
 import toast from "react-hot-toast";
 import Swatch from "@uiw/react-color-swatch";
 import { hsvaToHex } from "@uiw/color-convert";
+import { useGetUsersQuery } from "../../Auth/features/usersApiSlice";
 
 function Border(props: { color?: string; checked?: boolean }) {
   if (!props.checked) return null;
@@ -24,9 +25,15 @@ function Border(props: { color?: string; checked?: boolean }) {
 }
 
 const NewProject = ({ setCreateNewProject }: INewProjectProps) => {
-  const { id, name } = useAuth();
+  const { id } = useAuth();
+  const { user } = useGetUsersQuery("userList", {
+    selectFromResult: ({ data }) => ({
+      user: data?.entities[id],
+    }),
+  });
 
-  const [addNewProject, { isSuccess }] = useAddNewProjectMutation();
+  const [addNewProject, { isSuccess, isError, error }] =
+    useAddNewProjectMutation();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -55,6 +62,14 @@ const NewProject = ({ setCreateNewProject }: INewProjectProps) => {
     setCreateNewProject(false);
   }, [isSuccess]);
 
+  useEffect(() => {
+    if (!isError || error === undefined) return;
+
+    if ("data" in error) {
+      toast.error(`${error.status} ${JSON.stringify(error.data)}`);
+    }
+  }, [isError, error]);
+
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -78,7 +93,7 @@ const NewProject = ({ setCreateNewProject }: INewProjectProps) => {
               label='Creator'
               htmlFor='name'
               type='text'
-              value={name}
+              value={user?.name}
               disabled
               focus={false}
               containerClasses='mb-3'

@@ -11,9 +11,22 @@ import toast from "react-hot-toast";
 import { setTicketDetailsClose } from "../../Tickets/features/ticketsSlice";
 
 const Modal = ({ type, id }: IModalProps) => {
-  const [deleteTicket, { isSuccess: isDeleteTicketSuccess }] =
-    useDeleteTicketMutation();
-  const [deleteComment] = useDeleteCommentMutation();
+  const [
+    deleteTicket,
+    {
+      isSuccess: isDeleteTicketSuccess,
+      isError: isDeleteTicketError,
+      error: deleteTicketError,
+    },
+  ] = useDeleteTicketMutation();
+  const [
+    deleteComment,
+    {
+      isSuccess: isDeleteCommentSuccess,
+      isError: isDeleteCommentError,
+      error: deleteCommentError,
+    },
+  ] = useDeleteCommentMutation();
 
   const dispatch = useAppDispatch();
 
@@ -53,6 +66,35 @@ const Modal = ({ type, id }: IModalProps) => {
     dispatch(setModalClose());
     dispatch(setTicketDetailsClose());
   }, [isDeleteTicketSuccess]);
+
+  useEffect(() => {
+    if (!isDeleteCommentSuccess) return;
+
+    toast.success("Comment has been deleted");
+    dispatch(setModalClose());
+  }, [isDeleteCommentSuccess]);
+
+  useEffect(() => {
+    if (!isDeleteTicketError || deleteTicketError === undefined) return;
+
+    if ("data" in deleteTicketError) {
+      toast.error(
+        `${deleteTicketError.status} ${JSON.stringify(deleteTicketError.data)}`
+      );
+    }
+  }, [isDeleteTicketError, deleteTicketError]);
+
+  useEffect(() => {
+    if (!isDeleteCommentError || deleteCommentError === undefined) return;
+
+    if ("data" in deleteCommentError) {
+      toast.error(
+        `${deleteCommentError.status} ${JSON.stringify(
+          deleteCommentError.data
+        )}`
+      );
+    }
+  }, [isDeleteCommentError, deleteCommentError]);
 
   return (
     <motion.section

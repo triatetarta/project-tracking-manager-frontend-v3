@@ -20,7 +20,10 @@ const Navbar = ({
       user: data?.entities[id],
     }),
   });
-  const [sendLogout, { isSuccess: isLogoutSuccess }] = useSendLogoutMutation();
+  const [
+    sendLogout,
+    { isSuccess: isLogoutSuccess, isError: isLogoutError, error: logoutError },
+  ] = useSendLogoutMutation();
 
   const navigate = useNavigate();
 
@@ -30,6 +33,14 @@ const Navbar = ({
     toast.success("You have logged out");
     navigate("/");
   }, [isLogoutSuccess]);
+
+  useEffect(() => {
+    if (!isLogoutError || logoutError === undefined) return;
+
+    if ("data" in logoutError) {
+      toast.error(`${logoutError.status} ${JSON.stringify(logoutError.data)}`);
+    }
+  }, [isLogoutError, logoutError]);
 
   return (
     <header

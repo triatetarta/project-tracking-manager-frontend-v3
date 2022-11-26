@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 import { ITicketDetailsAccordionProps } from "./interfaces/ITicketDetails";
 import { useGetUsersQuery } from "../../../Auth/features/usersApiSlice";
@@ -7,6 +7,7 @@ import Avatar from "../../../Avatar/components/Avatar";
 import SelectField from "../../../FormFields/components/SelectField";
 import { useUpdateTicketMutation } from "../../features/ticketsApiSlice";
 import useAuth from "../../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const TicketDetailsAccordion = ({ ticket }: ITicketDetailsAccordionProps) => {
   const { id } = useAuth();
@@ -17,7 +18,7 @@ const TicketDetailsAccordion = ({ ticket }: ITicketDetailsAccordionProps) => {
       userIds: data?.ids,
     }),
   });
-  const [updateTicket, { isLoading, isSuccess, isError, error }] =
+  const [updateTicket, { isSuccess, isError, error }] =
     useUpdateTicketMutation();
 
   const [detailsOpen, setDetailsOpen] = useState(false);
@@ -40,6 +41,20 @@ const TicketDetailsAccordion = ({ ticket }: ITicketDetailsAccordionProps) => {
 
     setEditAssignee(false);
   };
+
+  useEffect(() => {
+    if (!isSuccess) return;
+
+    toast.success("Ticket has been updated");
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (!isError || error === undefined) return;
+
+    if ("data" in error) {
+      toast.error(`${error.status} ${JSON.stringify(error.data)}`);
+    }
+  }, [isError, error]);
 
   return (
     <>

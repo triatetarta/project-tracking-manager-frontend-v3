@@ -10,9 +10,10 @@ import blueBox from "../../../public/assets/images/blue.svg";
 import LoaderSpinner from "../../Icons/components/LoaderSpinner";
 import { motion } from "framer-motion";
 import { tickVariants } from "../animations";
+import toast from "react-hot-toast";
 
 const Login = () => {
-  const [login, { isLoading, isSuccess }] = useLoginMutation();
+  const [login, { isLoading, isSuccess, isError, error }] = useLoginMutation();
 
   const [tickState, setTickState] = useState("checked");
   const [email, setEmail] = useState("");
@@ -25,23 +26,8 @@ const Login = () => {
     e.preventDefault();
     setPersist(true);
 
-    try {
-      const { accessToken } = await login({ email, password }).unwrap();
-      dispatch(setCredentials({ accessToken }));
-    } catch (err) {
-      // if (!err.status) {
-      //     setErrMsg('No Server Response');
-      // } else if (err.status === 400) {
-      //     setErrMsg('Missing Username or Password');
-      // } else if (err.status === 401) {
-      //     setErrMsg('Unauthorized');
-      // } else {
-      //     setErrMsg(err.data?.message);
-      // }
-      // errRef.current.focus();
-
-      console.log(err);
-    }
+    const { accessToken } = await login({ email, password }).unwrap();
+    dispatch(setCredentials({ accessToken }));
   };
 
   useEffect(() => {
@@ -55,6 +41,14 @@ const Login = () => {
 
     return () => clearTimeout(timeout);
   }, [tickState]);
+
+  useEffect(() => {
+    if (!isError || error === undefined) return;
+
+    if ("data" in error) {
+      toast.error(`${error.status} ${JSON.stringify(error.data)}`);
+    }
+  }, [isError, error]);
 
   const disabledBtn = isLoading || isSuccess || email === "" || password === "";
 

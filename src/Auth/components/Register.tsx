@@ -11,10 +11,15 @@ import blueBox from "../../../public/assets/images/blue.svg";
 import LoaderSpinner from "../../Icons/components/LoaderSpinner";
 import { motion } from "framer-motion";
 import { tickVariants } from "../animations";
+import toast from "react-hot-toast";
 
 const Register = () => {
-  const [addNewUser, { isLoading, isSuccess }] = useAddNewUserMutation();
-  const [login, { isSuccess: isLoginSuccess }] = useLoginMutation();
+  const [addNewUser, { isLoading, isSuccess, isError, error }] =
+    useAddNewUserMutation();
+  const [
+    login,
+    { isSuccess: isLoginSuccess, isError: isLoginError, error: loginError },
+  ] = useLoginMutation();
 
   const [tickState, setTickState] = useState("checked");
   const [name, setName] = useState("");
@@ -64,6 +69,22 @@ const Register = () => {
 
     return () => clearTimeout(timeout);
   }, [isLoginSuccess]);
+
+  useEffect(() => {
+    if (!isError || error === undefined) return;
+
+    if ("data" in error) {
+      toast.error(`${error.status} ${JSON.stringify(error.data)}`);
+    }
+  }, [isError, error]);
+
+  useEffect(() => {
+    if (!isLoginError || loginError === undefined) return;
+
+    if ("data" in loginError) {
+      toast.error(`${loginError.status} ${JSON.stringify(loginError.data)}`);
+    }
+  }, [isLoginError, loginError]);
 
   const disabledBtn =
     isLoading ||

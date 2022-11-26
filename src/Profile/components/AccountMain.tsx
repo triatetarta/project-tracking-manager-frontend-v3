@@ -1,17 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Ticket from "../../Tickets/components/Ticket";
 import { useGetTicketsQuery } from "../../Tickets/features/ticketsApiSlice";
 import { useGetWorkflowStatusQuery } from "../../WorkflowStatus/features/workflowsApiSlice";
+import toast from "react-hot-toast";
 
 const AccountMain = () => {
-  const { data: tickets } = useGetTicketsQuery("ticketList");
+  const {
+    data: tickets,
+    isError: isTicketsError,
+    error: ticketsError,
+  } = useGetTicketsQuery("ticketList");
   const { data: workflowStatus } =
     useGetWorkflowStatusQuery("workflowStatusList");
 
   const [hasTickets, setHasTickets] = useState(true);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isTicketsError || ticketsError === undefined) return;
+
+    if ("data" in ticketsError) {
+      toast.error(
+        `${ticketsError.status} ${JSON.stringify(ticketsError.data)}`
+      );
+    }
+  }, [isTicketsError, ticketsError]);
 
   return (
     <div className='flex flex-col space-y-4 w-full h-full'>

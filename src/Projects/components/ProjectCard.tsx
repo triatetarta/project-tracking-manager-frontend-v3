@@ -6,10 +6,11 @@ import {
 import { IProjectCardProps } from "../interfaces/IProjectCard";
 import moment from "moment";
 import { AnimatePresence, motion } from "framer-motion";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useGetTicketsQuery } from "../../Tickets/features/ticketsApiSlice";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const ProjectCard = ({ projectId }: IProjectCardProps) => {
   const { isAdmin } = useAuth();
@@ -23,7 +24,8 @@ const ProjectCard = ({ projectId }: IProjectCardProps) => {
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
   });
-  const [updateProject] = useUpdateProjectMutation();
+  const [updateProject, { isSuccess, isError, error }] =
+    useUpdateProjectMutation();
 
   const [hover, setHover] = useState(false);
 
@@ -35,7 +37,7 @@ const ProjectCard = ({ projectId }: IProjectCardProps) => {
 
       return ticket;
     })
-    .filter((ticket) => ticket?.project === project?.title);
+    .filter((ticket) => ticket?.project === project?._id);
 
   const getTogglePosition = useCallback(() => {
     if (project?.status === "open") {
@@ -56,6 +58,20 @@ const ProjectCard = ({ projectId }: IProjectCardProps) => {
       status: project?.status === "closed" ? "open" : "closed",
     });
   };
+
+  useEffect(() => {
+    if (!isSuccess) return;
+
+    toast.success("Project has been updated");
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (!isError || error === undefined) return;
+
+    if ("data" in error) {
+      toast.error(`${error.status} ${JSON.stringify(error.data)}`);
+    }
+  }, [isError, error]);
 
   return (
     <article

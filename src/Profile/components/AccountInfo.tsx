@@ -15,6 +15,7 @@ import {
 } from "../../Auth/features/usersApiSlice";
 import InputField from "../../FormFields/components/InputField";
 import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const AccountInfo = () => {
   const { id } = useAuth();
@@ -25,7 +26,14 @@ const AccountInfo = () => {
     }),
   });
 
-  const [updateUser, { isSuccess }] = useUpdateUserMutation();
+  const [
+    updateUser,
+    {
+      isSuccess: isUpdateUserSuccess,
+      isError: isUpdateUserError,
+      error: updateUserError,
+    },
+  ] = useUpdateUserMutation();
 
   const [editDetails, setEditDetails] = useState(false);
   const [editMenuOpen, setEditMenuOpen] = useState(false);
@@ -50,6 +58,22 @@ const AccountInfo = () => {
       location: user?.location,
     });
   }, [user, editDetails]);
+
+  useEffect(() => {
+    if (!isUpdateUserSuccess) return;
+
+    toast.success("Your profile has been updated");
+  }, [isUpdateUserSuccess]);
+
+  useEffect(() => {
+    if (!isUpdateUserError || updateUserError === undefined) return;
+
+    if ("data" in updateUserError) {
+      toast.error(
+        `${updateUserError.status} ${JSON.stringify(updateUserError.data)}`
+      );
+    }
+  }, [isUpdateUserError, updateUserError]);
 
   const onEditDetailsClick = () => {
     setEditDetails(true);
