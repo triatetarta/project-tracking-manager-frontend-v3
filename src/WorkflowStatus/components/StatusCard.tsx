@@ -33,13 +33,15 @@ const StatusCard = ({
 
   const renderIcons = useCallback(() => {
     if (workflowStatus?.category === "to do") {
-      return <Todo classNames='w-6 h-6 text-deep-blue' />;
+      return <Todo classNames='h-4 w-4 sm:w-6 sm:h-6 text-deep-blue' />;
     }
     if (workflowStatus?.category === "in progress") {
-      return <ClockIcon className='w-6 h-6 text-neat-yellow' />;
+      return <ClockIcon className='h-4 w-4 sm:w-6 sm:h-6 text-neat-yellow' />;
     }
     if (workflowStatus?.category === "closed") {
-      return <BadgeCheckIcon className='w-6 h-6 text-medium-green' />;
+      return (
+        <BadgeCheckIcon className='h-4 w-4 sm:w-6 sm:h-6 text-medium-green' />
+      );
     }
   }, [workflowStatus]);
 
@@ -49,7 +51,7 @@ const StatusCard = ({
         <span className='bg-white border rounded-full p-2'>
           {renderIcons()}
         </span>
-        <h2 className={`text-lg font-bold uppercase ml-2 ${text}`}>
+        <h2 className={`text-base sm:text-lg font-bold uppercase ml-2 ${text}`}>
           {workflowStatus?.title}
         </h2>
       </div>

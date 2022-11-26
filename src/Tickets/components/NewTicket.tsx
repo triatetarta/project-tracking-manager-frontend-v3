@@ -98,8 +98,8 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
         exit={{ y: 100, opacity: 0 }}
         className='container mx-auto flex justify-center'
       >
-        <div className='bg-pale-bg rounded-md shadow-sm w-[400px] p-6 mt-24'>
-          <h3 className='text-center text-lg text-blue-text font-semibold mb-5'>
+        <div className='bg-pale-bg rounded-md shadow-sm w-11/12 sm:w-[400px] p-6 mt-2 sm:mt-24'>
+          <h3 className='text-center text-base sm:text-lg text-blue-text font-semibold mb-5'>
             Create Ticket
           </h3>
 
@@ -111,7 +111,7 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
               value={reportersName}
               disabled
               focus={false}
-              containerClasses='mb-3'
+              containerClasses='sm:mb-3 mb-1'
             />
             <InputField
               label='Reporter`s Email'
@@ -120,7 +120,7 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
               value={reportersEmail}
               disabled
               focus={false}
-              containerClasses='mb-3'
+              containerClasses='sm:mb-3 mb-1'
             />
             <InputField
               id='title'
@@ -132,12 +132,12 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
               placeholder='Enter a title'
               focus
               onChange={(e) => setTitle(e.target.value as string)}
-              containerClasses='mb-3'
+              containerClasses='sm:mb-3 mb-1'
             />
           </div>
 
           <form>
-            <div className='mb-3'>
+            <div className='sm:mb-3 mb-1'>
               <div className='flex justify-between items-center relative'>
                 {!projects?.ids.length ? (
                   <p className='text-xs p-2 mb-3'>No projects available</p>
@@ -153,8 +153,8 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
                       }}
                       value={project}
                       items={projects?.ids}
-                      spanClassNames='w-4 h-4 absolute right-2 top-3 z-50 pointer-events-none text-gray-text'
-                      selectClassNames='py-2 pl-2 pr-6 border rounded-md mb-3 text-sm hover:bg-gray-100
+                      spanClassNames='w-2 h-2 sm:w-4 sm:h-4 absolute right-2 top-3 z-50 pointer-events-none text-gray-text'
+                      selectClassNames='py-2 pl-2 pr-6 border rounded-md mb-3 text-xs sm:text-sm hover:bg-gray-100
                       transition-all duration-200 cursor-pointer focus:outline-1 outline-deep-blue capitalize appearance-none'
                     />
                   </div>
@@ -179,7 +179,7 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
                 disabled={false}
                 id='description'
                 name='description'
-                rows={10}
+                rows={6}
                 value={description}
                 label='Description'
                 placeholder='Enter a description'
@@ -187,7 +187,7 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
               />
             </div>
 
-            <div className='flex justify-between items-center relative mb-4'>
+            <div className='flex justify-between items-center relative sm:mb-4 mb-2'>
               <div className='flex flex-col'>
                 <SelectField
                   label='Assignee'
@@ -199,8 +199,8 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
                   }}
                   value={assignee}
                   items={users?.ids}
-                  spanClassNames='w-4 h-4 absolute right-2 top-3 z-50 pointer-events-none text-gray-text'
-                  selectClassNames='py-2 pl-2 pr-6 border rounded-md mb-3 text-sm hover:bg-gray-100
+                  spanClassNames='h-2 w-2 sm:w-4 sm:h-4 absolute right-2 top-3 z-50 pointer-events-none text-gray-text'
+                  selectClassNames='py-2 pl-2 pr-6 border rounded-md mb-3 text-xs sm:text-sm hover:bg-gray-100
                       transition-all duration-200 cursor-pointer focus:outline-1 outline-deep-blue capitalize appearance-none'
                 />
               </div>
@@ -222,7 +222,7 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
               </div>
             </div>
 
-            <div className='mb-3 flex justify-between'>
+            <div className='sm:mb-3 mb-1 flex justify-between'>
               <div className='flex-grow mr-auto' />
               <div className='flex space-x-2'>
                 <Button

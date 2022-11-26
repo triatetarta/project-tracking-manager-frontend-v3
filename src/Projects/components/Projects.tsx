@@ -27,11 +27,11 @@ const Projects = () => {
 
   return (
     <main className='container mx-auto flex flex-col px-2 text-header-main'>
-      <div>
-        <h2 className='mt-6 text-xl font-medium'>YOUR WORK</h2>
-        <div className='mt-10'>
+      <div className='px-2'>
+        <h2 className='mt-6 text-base sm:text-xl font-medium'>YOUR WORK</h2>
+        <div className='mt-4 sm:mt-10'>
           <div className='flex items-center justify-between mb-2'>
-            <h3 className='font-medium'>Projects</h3>
+            <h3 className='text-sm sm:text-base font-medium'>Projects</h3>
             {isAdmin ? (
               <Button
                 onClick={() => setCreateNewProject(true)}
@@ -43,33 +43,33 @@ const Projects = () => {
             ) : null}
           </div>
 
-          <div className='flex items-center flex-wrap gap-4'>
+          <div className='flex items-center justify-center sm:justify-start flex-wrap gap-4'>
             {projects?.ids.map((projectId) => {
               return <ProjectCard key={projectId} projectId={projectId} />;
             })}
           </div>
         </div>
 
-        <div className='border-b-2 text-gray-text my-12' />
+        <div className='border-b-2 text-gray-text my-8 sm:my-12' />
 
         <div className='flex flex-col items-center justify-center'>
-          <div className='bg-gradient-to-tr from-deep-blue to-light-blue rounded-md flex items-center justify-center py-4 px-4 w-[300px]'>
+          <div className='bg-gradient-to-tr from-deep-blue to-light-blue rounded-md flex items-center justify-center py-4 px-4 w-full sm:w-[300px]'>
             <div className='w-full'>
               <img src={projectBackground} alt='project' />
             </div>
           </div>
 
           <div className='text-center mt-6'>
-            <h4 className='text-xl font-semibold'>
+            <h4 className='text-sm sm:text-xl font-semibold'>
               Are you excited to work on a project?
             </h4>
-            <p className='w-[350px] text-sm mt-2 text-gray-text'>
+            <p className='w-full sm:w-[350px] text-xs sm:text-sm mt-2 text-gray-text'>
               In this page, admins can create or update a project. Other users
               can view the project details.
             </p>
 
             <Button
-              classNames='bg-medium-blue mt-4 text-white py-2 px-3 rounded-md hover:bg-light-blue transition-all duration-100 text-sm disabled:bg-gray-text/80 hover:disabled:bg-gray-text/80'
+              classNames='bg-medium-blue mt-4 mb-6 text-white py-2 px-3 rounded-md hover:bg-light-blue transition-all duration-100 text-xs sm:text-sm disabled:bg-gray-text/80 hover:disabled:bg-gray-text/80'
               textClassNames='text-sm'
               text='Go To Tickets'
               onClick={onClickHandler}

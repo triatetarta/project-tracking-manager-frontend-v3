@@ -25,12 +25,12 @@ const WorkflowStatus = () => {
   const [openAddStatus, setOpenAddStatus] = useState(false);
 
   return (
-    <main className='container mx-auto flex flex-col px-2 text-header-main'>
-      <h2 className='mt-6 text-xl font-medium'>WORKFLOW</h2>
+    <main className='container mx-auto flex flex-col px-4 text-header-main'>
+      <h2 className='mt-6 text-base sm:text-xl font-medium'>WORKFLOW</h2>
 
-      <div className='mt-10'>
+      <div className='mt-4 sm:mt-10'>
         <div className='flex items-center justify-between mb-2'>
-          <h3 className='font-medium'>Current Workflow</h3>
+          <h3 className='text-sm sm:text-base font-medium'>Current Workflow</h3>
           {isAdmin || isManager ? (
             <Button
               onClick={() => setOpenAddStatus(true)}

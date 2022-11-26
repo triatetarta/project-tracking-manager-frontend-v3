@@ -45,14 +45,14 @@ const Navbar = ({
   return (
     <header
       onClick={(e) => closeOpenMenus(e)}
-      className='py-5 px-2 md:px-0 border-b shadow-md w-screen sticky top-0 bg-white z-40 left-0 right-0 select-none'
+      className='py-3 sm:py-5 px-2 border-b shadow-md w-screen sticky top-0 bg-white z-40 left-0 right-0 select-none'
     >
       <nav className='flex items-center justify-between container mx-auto'>
         <div className='flex items-center'>
           <Link to={loggedIn ? "/dashboard" : "/"}>
             <div className='flex items-center space-x-2'>
               <Logo />
-              <h2 className='font-semibold text-2xl text-header-main'>
+              <h2 className='font-semibold text-lg sm:text-2xl text-header-main'>
                 ProTrack
               </h2>
             </div>
@@ -103,7 +103,7 @@ const Navbar = ({
               <UserCircleIcon className='h-8 w-8 pointer-events-none' />
             )}
 
-            <span className='font-semibold text-md pointer-events-none'>
+            <span className='hidden sm:inline-flex font-semibold text-md pointer-events-none'>
               Account
             </span>
             <ChevronDownIcon className='h-5 w-5 pointer-events-none' />
