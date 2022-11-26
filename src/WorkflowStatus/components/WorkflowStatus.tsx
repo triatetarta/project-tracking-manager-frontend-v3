@@ -10,7 +10,7 @@ import StatusCard from "./StatusCard";
 import { useGetTicketsQuery } from "../../Tickets/features/ticketsApiSlice";
 
 const WorkflowStatus = () => {
-  const { isAdmin } = useAuth();
+  const { isAdmin, isManager } = useAuth();
   const { data: workflowStatus } = useGetWorkflowStatusQuery(
     "workflowStatusList",
     {
@@ -31,7 +31,7 @@ const WorkflowStatus = () => {
       <div className='mt-10'>
         <div className='flex items-center justify-between mb-2'>
           <h3 className='font-medium'>Current Workflow</h3>
-          {isAdmin ? (
+          {isAdmin || isManager ? (
             <Button
               onClick={() => setOpenAddStatus(true)}
               classNames='flex items-center justify-center hover:bg-gray-200 px-3 py-3 rounded-lg transition-all duration-200'
