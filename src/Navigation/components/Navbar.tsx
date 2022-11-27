@@ -166,7 +166,7 @@ const Navbar = ({
                       navigate("/login");
                       setOpenAccountMenu(false);
                     }}
-                    className='accountMenu cursor-pointer py-2 pl-4 pr-20 hover:bg-gray-100'
+                    className='accountMenu cursor-pointer px-2 py-2 sm:pl-4 sm:pr-20 hover:bg-gray-100'
                   >
                     Log in
                   </li>
