@@ -13,8 +13,6 @@ const Projects = () => {
   const { isAdmin } = useAuth();
   const { data: projects } = useGetProjectsQuery("projectList", {
     pollingInterval: 60000,
-    refetchOnFocus: true,
-    refetchOnMountOrArgChange: true,
   });
 
   const [createNewProject, setCreateNewProject] = useState(false);

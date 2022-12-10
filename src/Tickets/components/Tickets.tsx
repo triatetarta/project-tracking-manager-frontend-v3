@@ -12,8 +12,6 @@ const Tickets = ({ setCreateNewTicket }: ITickets) => {
     error,
   } = useGetTicketsQuery("ticketList", {
     pollingInterval: 60000,
-    refetchOnFocus: true,
-    refetchOnMountOrArgChange: true,
   });
   const { data: workflowStatus } =
     useGetWorkflowStatusQuery("workflowStatusList");

@@ -14,8 +14,6 @@ const CommentsContainer = ({
     error,
   } = useGetCommentsQuery(ticketId, {
     pollingInterval: 60000,
-    refetchOnFocus: true,
-    refetchOnMountOrArgChange: true,
   });
 
   useEffect(() => {

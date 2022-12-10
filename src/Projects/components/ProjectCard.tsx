@@ -11,6 +11,7 @@ import { useGetTicketsQuery } from "../../Tickets/features/ticketsApiSlice";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
+import Switch from "../../FormFields/components/Switch";
 
 const ProjectCard = ({ projectId }: IProjectCardProps) => {
   const { isAdmin } = useAuth();
@@ -51,6 +52,7 @@ const ProjectCard = ({ projectId }: IProjectCardProps) => {
 
   const onUpdateStatus = async () => {
     if (!isAdmin) return;
+
     await updateProject({
       id: project?._id,
       title: project?.title,
@@ -125,16 +127,16 @@ const ProjectCard = ({ projectId }: IProjectCardProps) => {
             <div
               onMouseEnter={() => setHover(true)}
               onMouseLeave={() => setHover(false)}
-              onClick={onUpdateStatus}
-              className={`w-12 h-6 p-1 rounded-full relative z-30 overflow-hidden flex items-center ${getTogglePosition()} ${
-                isAdmin ? "cursor-pointer" : "cursor-default"
-              }`}
             >
-              <motion.div
-                layout
-                className='h-4 w-4 rounded-full bg-white relative z-40'
+              <Switch
+                isAdmin={isAdmin}
+                project={project}
+                handleChecked={onUpdateStatus}
+                isOn={project?.status === "closed"}
+                getTogglePosition={getTogglePosition}
               />
             </div>
+
             <span
               className={`${
                 project?.status === "closed"
