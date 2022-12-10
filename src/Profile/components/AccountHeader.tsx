@@ -8,11 +8,17 @@ import {
   useUploadImageMutation,
 } from "../../Auth/features/usersApiSlice";
 import toast from "react-hot-toast";
+import SkeletonAvatar from "../../Skeletons/components/SkeletonAvatar";
 
 const AccountHeader = () => {
   const [
     uploadImage,
-    { isSuccess: isUploadSuccess, isError: isUploadError, error: uploadError },
+    {
+      isSuccess: isUploadSuccess,
+      isError: isUploadError,
+      error: uploadError,
+      isLoading: isUploadLoading,
+    },
   ] = useUploadImageMutation();
   const { id } = useAuth();
   const { user, refetch } = useGetUsersQuery("userList", {
@@ -68,12 +74,16 @@ const AccountHeader = () => {
       <div className='container mx-auto relative h-full '>
         <div className={`absolute -bottom-8 left-0 group h-28 w-28`}>
           <div className='relative h-28 w-28 overflow-hidden'>
-            <Avatar
-              image={user?.image}
-              name={user?.name}
-              classNames='h-28 w-28 absolute'
-              spanClasses='text-4xl'
-            />
+            {isUploadLoading ? (
+              <SkeletonAvatar />
+            ) : (
+              <Avatar
+                image={user?.image}
+                name={user?.name}
+                classNames='h-28 w-28 absolute'
+                spanClasses='text-4xl'
+              />
+            )}
 
             <>
               {image && (

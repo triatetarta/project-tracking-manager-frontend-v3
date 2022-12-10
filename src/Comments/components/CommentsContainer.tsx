@@ -3,6 +3,7 @@ import { useGetCommentsQuery } from "../features/commentsApiSlice";
 import { ICommentsContainerProps } from "../interfaces/ICommentsContainer";
 import Comment from "./Comment";
 import toast from "react-hot-toast";
+import SkeletonComments from "../../Skeletons/components/SkeletonComments";
 
 const CommentsContainer = ({
   ticketId,
@@ -12,6 +13,7 @@ const CommentsContainer = ({
     data: comments,
     isError,
     error,
+    isLoading,
   } = useGetCommentsQuery(ticketId, {
     pollingInterval: 60000,
   });
@@ -26,16 +28,22 @@ const CommentsContainer = ({
 
   return (
     <div className='mt-10 flex flex-col space-y-5'>
-      {comments?.ids.map((commentId) => {
-        return (
-          <Comment
-            key={commentId}
-            commentId={commentId}
-            ticketId={ticketId}
-            getModalType={getModalType}
-          />
-        );
-      })}
+      {isLoading ? (
+        <SkeletonComments />
+      ) : (
+        <>
+          {comments?.ids.map((commentId) => {
+            return (
+              <Comment
+                key={commentId}
+                commentId={commentId}
+                ticketId={ticketId}
+                getModalType={getModalType}
+              />
+            );
+          })}
+        </>
+      )}
     </div>
   );
 };

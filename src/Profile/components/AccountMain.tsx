@@ -4,12 +4,14 @@ import Ticket from "../../Tickets/components/Ticket";
 import { useGetTicketsQuery } from "../../Tickets/features/ticketsApiSlice";
 import { useGetWorkflowStatusQuery } from "../../WorkflowStatus/features/workflowsApiSlice";
 import toast from "react-hot-toast";
+import SkeletonTickets from "../../Skeletons/components/SkeletonTickets";
 
 const AccountMain = () => {
   const {
     data: tickets,
     isError: isTicketsError,
     error: ticketsError,
+    isLoading: isTicketsLoading,
   } = useGetTicketsQuery("ticketList");
   const { data: workflowStatus } =
     useGetWorkflowStatusQuery("workflowStatusList");
@@ -50,27 +52,33 @@ const AccountMain = () => {
         <>
           <div className='border rounded-lg p-5 bg-pale-bg shadow-sm'>
             <div className='flex flex-col space-y-4'>
-              {tickets?.ids.map((ticketId) => {
-                const ticket = tickets.entities[ticketId];
+              {isTicketsLoading ? (
+                <SkeletonTickets />
+              ) : (
+                <>
+                  {tickets?.ids.map((ticketId) => {
+                    const ticket = tickets.entities[ticketId];
 
-                const category = workflowStatus?.ids
-                  .map((statusId) => {
-                    const singleStatus = workflowStatus.entities[statusId];
+                    const category = workflowStatus?.ids
+                      .map((statusId) => {
+                        const singleStatus = workflowStatus.entities[statusId];
 
-                    return singleStatus;
-                  })
-                  .find((item) => item?.id === ticket?.status);
+                        return singleStatus;
+                      })
+                      .find((item) => item?.id === ticket?.status);
 
-                return (
-                  <Ticket
-                    category={category?.category}
-                    key={ticketId}
-                    ticketId={ticketId}
-                    account
-                    setHasTickets={setHasTickets}
-                  />
-                );
-              })}
+                    return (
+                      <Ticket
+                        category={category?.category}
+                        key={ticketId}
+                        ticketId={ticketId}
+                        account
+                        setHasTickets={setHasTickets}
+                      />
+                    );
+                  })}
+                </>
+              )}
             </div>
 
             <button

@@ -9,15 +9,20 @@ import Comments from "../../Comments/components/Comments";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setTicketDetailsClose } from "../features/ticketsSlice";
 import { useGetWorkflowStatusQuery } from "../../WorkflowStatus/features/workflowsApiSlice";
+import SkeletonTicketDetails from "../../Skeletons/components/SkeletonTicketDetails";
 
 const TicketDetails = ({ getModalType }: ITicketDetailsProps) => {
   const { id } = useAuth();
   const { ticketId } = useAppSelector((state) => state.tickets);
-  const { ticket } = useGetTicketsQuery("ticketList", {
-    selectFromResult: ({ data }) => ({
-      ticket: data?.entities[ticketId],
-    }),
-  });
+  const { ticket, isLoading: isTicketLoading } = useGetTicketsQuery(
+    "ticketList",
+    {
+      selectFromResult: ({ data, isLoading }) => ({
+        ticket: data?.entities[ticketId],
+        isLoading,
+      }),
+    }
+  );
 
   const { workflowStatus } = useGetWorkflowStatusQuery("workflowStatusList", {
     selectFromResult: ({ data }) => ({
@@ -52,19 +57,25 @@ const TicketDetails = ({ getModalType }: ITicketDetailsProps) => {
         exit={{ y: 100, opacity: 0 }}
         className='bg-pale-bg py-6 pr-4 pl-6 mt-28 w-[360px] h-2/3 rounded-md shadow-sm overflow-y-scroll scrollBarWidth before:scrollBarTrack scrollBarThumb ticketContent z-50 relative'
       >
-        <TicketDetailsHeader
-          id={id}
-          ticketUserId={ticket?.user}
-          ticketId={ticketId}
-          getModalType={getModalType}
-          category={workflowStatus?.category}
-        />
+        {isTicketLoading ? (
+          <SkeletonTicketDetails />
+        ) : (
+          <>
+            <TicketDetailsHeader
+              id={id}
+              ticketUserId={ticket?.user}
+              ticketId={ticketId}
+              getModalType={getModalType}
+              category={workflowStatus?.category}
+            />
 
-        <TicketDetailsInfo
-          id={id}
-          ticket={ticket}
-          category={workflowStatus?.category}
-        />
+            <TicketDetailsInfo
+              id={id}
+              ticket={ticket}
+              category={workflowStatus?.category}
+            />
+          </>
+        )}
 
         <Comments ticketId={ticketId} getModalType={getModalType} />
       </motion.div>
