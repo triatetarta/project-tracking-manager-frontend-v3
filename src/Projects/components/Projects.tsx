@@ -8,10 +8,11 @@ import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import projectBackground from "../../../public/assets/images/project.svg";
 import { useNavigate } from "react-router-dom";
+import SkeletonsProjectPage from "../../Skeletons/components/SkeletonsProjectPage";
 
 const Projects = () => {
   const { isAdmin } = useAuth();
-  const { data: projects } = useGetProjectsQuery("projectList", {
+  const { data: projects, isLoading } = useGetProjectsQuery("projectList", {
     pollingInterval: 60000,
   });
 
@@ -53,9 +54,15 @@ const Projects = () => {
           </div>
 
           <div className='flex items-center justify-center sm:justify-start flex-wrap gap-4'>
-            {projects?.ids.map((projectId) => {
-              return <ProjectCard key={projectId} projectId={projectId} />;
-            })}
+            {isLoading ? (
+              <SkeletonsProjectPage />
+            ) : (
+              <>
+                {projects?.ids.map((projectId) => {
+                  return <ProjectCard key={projectId} projectId={projectId} />;
+                })}
+              </>
+            )}
           </div>
         </div>
 

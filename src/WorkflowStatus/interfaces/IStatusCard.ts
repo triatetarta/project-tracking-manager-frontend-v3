@@ -8,4 +8,5 @@ export interface IStatusCardProps {
   classNames?: string;
   workflow?: boolean;
   statusId?: EntityId;
+  isTicketsLoading?: boolean;
 }

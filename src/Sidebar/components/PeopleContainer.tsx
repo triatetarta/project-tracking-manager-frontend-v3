@@ -3,9 +3,11 @@ import { useGetUsersQuery } from "../../Auth/features/usersApiSlice";
 import { useGetTicketsQuery } from "../../Tickets/features/ticketsApiSlice";
 import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import User from "../../Users/components/User";
+import SkeletonPeople from "../../Skeletons/components/SkeletonPeople";
 
 const PeopleContainer = () => {
-  const { data: users } = useGetUsersQuery("userList");
+  const { data: users, isLoading: isUsersLoading } =
+    useGetUsersQuery("userList");
   const { data: tickets } = useGetTicketsQuery("ticketList");
 
   const [showPeople, setShowPeple] = useState(true);
@@ -24,26 +26,34 @@ const PeopleContainer = () => {
         People
       </h3>
 
-      {showPeople ? (
-        <div className='flex items-center flex-wrap mt-2 w-full'>
-          {users?.ids.map((userId, index) => {
-            const filteredTickets = tickets?.ids
-              .filter((ticketId) => tickets.entities[ticketId]?.user === userId)
-              .map((ticket) => {
-                return tickets?.entities[ticket];
-              }).length;
+      {isUsersLoading ? (
+        <>{showPeople ? <SkeletonPeople /> : null}</>
+      ) : (
+        <>
+          {showPeople ? (
+            <div className='flex items-center flex-wrap mt-2 w-full'>
+              {users?.ids.map((userId, index) => {
+                const filteredTickets = tickets?.ids
+                  .filter(
+                    (ticketId) => tickets.entities[ticketId]?.user === userId
+                  )
+                  .map((ticket) => {
+                    return tickets?.entities[ticket];
+                  }).length;
 
-            return (
-              <User
-                index={index}
-                key={userId}
-                userId={userId}
-                filteredTickets={filteredTickets}
-              />
-            );
-          })}
-        </div>
-      ) : null}
+                return (
+                  <User
+                    index={index}
+                    key={userId}
+                    userId={userId}
+                    filteredTickets={filteredTickets}
+                  />
+                );
+              })}
+            </div>
+          ) : null}
+        </>
+      )}
     </div>
   );
 };

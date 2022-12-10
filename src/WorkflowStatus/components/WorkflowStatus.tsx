@@ -8,15 +8,14 @@ import NewStatus from "./NewStatus";
 import { useGetWorkflowStatusQuery } from "../features/workflowsApiSlice";
 import StatusCard from "./StatusCard";
 import { useGetTicketsQuery } from "../../Tickets/features/ticketsApiSlice";
+import SkeletonWorkflows from "../../Skeletons/components/SkeletonWorkflows";
 
 const WorkflowStatus = () => {
   const { isAdmin, isManager } = useAuth();
-  const { data: workflowStatus } = useGetWorkflowStatusQuery(
+  const { data: workflowStatus, isLoading } = useGetWorkflowStatusQuery(
     "workflowStatusList",
     {
       pollingInterval: 60000,
-      refetchOnFocus: true,
-      refetchOnMountOrArgChange: true,
     }
   );
 
@@ -54,17 +53,23 @@ const WorkflowStatus = () => {
         </div>
 
         <div className='flex items-center justify-center sm:justify-start flex-wrap gap-4'>
-          {workflowStatus?.ids.map((statusId) => {
-            return (
-              <StatusCard
-                key={statusId}
-                statusId={statusId}
-                tickets={tickets}
-                workflow
-                classNames='flex flex-col shadow-md border py-4 px-6 rounded-lg w-[320px] bg-pale-bg select-none '
-              />
-            );
-          })}
+          {isLoading ? (
+            <SkeletonWorkflows />
+          ) : (
+            <>
+              {workflowStatus?.ids.map((statusId) => {
+                return (
+                  <StatusCard
+                    key={statusId}
+                    statusId={statusId}
+                    tickets={tickets}
+                    workflow
+                    classNames='flex flex-col shadow-md border py-4 px-6 rounded-lg w-[320px] bg-pale-bg select-none '
+                  />
+                );
+              })}
+            </>
+          )}
         </div>
       </div>
 

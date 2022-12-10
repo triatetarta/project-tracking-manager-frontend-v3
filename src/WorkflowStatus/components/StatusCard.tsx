@@ -7,12 +7,14 @@ import { useCallback } from "react";
 import { BadgeCheckIcon, ClockIcon } from "@heroicons/react/solid";
 import Todo from "../../Icons/components/Todo";
 import useStyles from "../../hooks/useStyles";
+import SkeletonTickets from "../../Skeletons/components/SkeletonTickets";
 
 const StatusCard = ({
   statusId,
   classNames,
   tickets,
   workflow,
+  isTicketsLoading,
   setCreateNewTicket = () => null,
 }: IStatusCardProps) => {
   const { workflowStatus } = useGetWorkflowStatusQuery("workflowStatusList", {
@@ -65,19 +67,26 @@ const StatusCard = ({
       {!workflow ? (
         <>
           <div className='flex flex-col space-y-2'>
-            {tickets?.ids
-              .filter(
-                (ticketId) => tickets.entities[ticketId]?.status === statusId
-              )
-              .map((ticketId) => {
-                return (
-                  <Ticket
-                    key={ticketId}
-                    ticketId={ticketId}
-                    category={workflowStatus?.category!}
-                  />
-                );
-              })}
+            {isTicketsLoading ? (
+              <SkeletonTickets />
+            ) : (
+              <>
+                {tickets?.ids
+                  .filter(
+                    (ticketId) =>
+                      tickets.entities[ticketId]?.status === statusId
+                  )
+                  .map((ticketId) => {
+                    return (
+                      <Ticket
+                        key={ticketId}
+                        ticketId={ticketId}
+                        category={workflowStatus?.category!}
+                      />
+                    );
+                  })}
+              </>
+            )}
           </div>
 
           <Button
