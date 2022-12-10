@@ -6,13 +6,12 @@ import Project from "../../Projects/components/Project";
 import { useGetProjectsQuery } from "../../Projects/features/projectsApiSlice";
 import { IProjectsContainer } from "../interfaces/IProjectsContainer";
 import useAuth from "../../hooks/useAuth";
+import SkeletonProjects from "../../Skeletons/components/SkeletonProjects";
 
 const ProjectsContainer = ({ setCreateNewProject }: IProjectsContainer) => {
   const { isAdmin } = useAuth();
-  const { data: projects } = useGetProjectsQuery("projectList", {
+  const { data: projects, isLoading } = useGetProjectsQuery("projectList", {
     pollingInterval: 60000,
-    refetchOnFocus: true,
-    refetchOnMountOrArgChange: true,
   });
 
   const [showProjects, setShowProjects] = useState(true);
@@ -30,13 +29,20 @@ const ProjectsContainer = ({ setCreateNewProject }: IProjectsContainer) => {
         )}
         Projects
       </h3>
-      {showProjects ? (
-        <div className='flex flex-col space-y-1'>
-          {projects?.ids.map((projectId) => {
-            return <Project key={projectId} projectId={projectId} />;
-          })}
-        </div>
-      ) : null}
+
+      {isLoading ? (
+        <>{showProjects ? <SkeletonProjects /> : null}</>
+      ) : (
+        <>
+          {showProjects ? (
+            <div className='flex flex-col space-y-1'>
+              {projects?.ids.map((projectId) => {
+                return <Project key={projectId} projectId={projectId} />;
+              })}
+            </div>
+          ) : null}
+        </>
+      )}
 
       <div className='mt-2'>
         {isAdmin ? (
