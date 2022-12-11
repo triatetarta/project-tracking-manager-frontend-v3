@@ -7,7 +7,7 @@ import { useCallback } from "react";
 import { BadgeCheckIcon, ClockIcon } from "@heroicons/react/solid";
 import Todo from "../../Icons/components/Todo";
 import useStyles from "../../hooks/useStyles";
-import SkeletonTickets from "../../Skeletons/components/SkeletonTickets";
+import Skeleton from "../../Skeletons/components/Skeleton";
 
 const StatusCard = ({
   statusId,
@@ -66,28 +66,30 @@ const StatusCard = ({
 
       {!workflow ? (
         <>
-          <div className='flex flex-col space-y-2'>
-            {isTicketsLoading ? (
-              <SkeletonTickets />
-            ) : (
-              <>
-                {tickets?.ids
-                  .filter(
-                    (ticketId) =>
-                      tickets.entities[ticketId]?.status === statusId
-                  )
-                  .map((ticketId) => {
-                    return (
-                      <Ticket
-                        key={ticketId}
-                        ticketId={ticketId}
-                        category={workflowStatus?.category!}
-                      />
-                    );
-                  })}
-              </>
-            )}
-          </div>
+          {isTicketsLoading ? (
+            <Skeleton
+              elements={2}
+              midClassNames='relative overflow-hidden h-20 w-full'
+              outerClassNames='flex flex-col space-y-2'
+              skeletonClassNames='h-full w-full'
+            />
+          ) : (
+            <div className='flex flex-col space-y-2'>
+              {tickets?.ids
+                .filter(
+                  (ticketId) => tickets.entities[ticketId]?.status === statusId
+                )
+                .map((ticketId) => {
+                  return (
+                    <Ticket
+                      key={ticketId}
+                      ticketId={ticketId}
+                      category={workflowStatus?.category!}
+                    />
+                  );
+                })}
+            </div>
+          )}
 
           <Button
             onClick={() => setCreateNewTicket(true)}

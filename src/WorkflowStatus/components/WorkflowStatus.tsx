@@ -8,7 +8,7 @@ import NewStatus from "./NewStatus";
 import { useGetWorkflowStatusQuery } from "../features/workflowsApiSlice";
 import StatusCard from "./StatusCard";
 import { useGetTicketsQuery } from "../../Tickets/features/ticketsApiSlice";
-import SkeletonWorkflows from "../../Skeletons/components/SkeletonWorkflows";
+import Skeleton from "../../Skeletons/components/Skeleton";
 
 const WorkflowStatus = () => {
   const { isAdmin, isManager } = useAuth();
@@ -52,25 +52,28 @@ const WorkflowStatus = () => {
           ) : null}
         </div>
 
-        <div className='flex items-center justify-center sm:justify-start flex-wrap gap-4'>
-          {isLoading ? (
-            <SkeletonWorkflows />
-          ) : (
-            <>
-              {workflowStatus?.ids.map((statusId) => {
-                return (
-                  <StatusCard
-                    key={statusId}
-                    statusId={statusId}
-                    tickets={tickets}
-                    workflow
-                    classNames='flex flex-col shadow-md border py-4 px-6 rounded-lg w-[320px] bg-pale-bg select-none '
-                  />
-                );
-              })}
-            </>
-          )}
-        </div>
+        {isLoading ? (
+          <Skeleton
+            elements={6}
+            outerClassNames='flex items-center justify-center sm:justify-start flex-wrap gap-4'
+            midClassNames='w-[320px] h-28 relative overflow-hidden'
+            skeletonClassNames='h-full w-full'
+          />
+        ) : (
+          <div className='flex items-center justify-center sm:justify-start flex-wrap gap-4'>
+            {workflowStatus?.ids.map((statusId) => {
+              return (
+                <StatusCard
+                  key={statusId}
+                  statusId={statusId}
+                  tickets={tickets}
+                  workflow
+                  classNames='flex flex-col shadow-md border py-4 px-6 rounded-lg w-[320px] bg-pale-bg select-none '
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
 
       <div className='border-b-2 text-gray-text my-12' />

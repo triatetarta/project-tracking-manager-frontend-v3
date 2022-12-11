@@ -6,7 +6,7 @@ import Project from "../../Projects/components/Project";
 import { useGetProjectsQuery } from "../../Projects/features/projectsApiSlice";
 import { IProjectsContainer } from "../interfaces/IProjectsContainer";
 import useAuth from "../../hooks/useAuth";
-import SkeletonProjects from "../../Skeletons/components/SkeletonProjects";
+import Skeleton from "../../Skeletons/components/Skeleton";
 
 const ProjectsContainer = ({ setCreateNewProject }: IProjectsContainer) => {
   const { isAdmin } = useAuth();
@@ -31,7 +31,16 @@ const ProjectsContainer = ({ setCreateNewProject }: IProjectsContainer) => {
       </h3>
 
       {isLoading ? (
-        <>{showProjects ? <SkeletonProjects /> : null}</>
+        <>
+          {showProjects ? (
+            <Skeleton
+              elements={5}
+              outerClassNames='flex flex-col space-y-1'
+              midClassNames='ticket bg-ticket-bg rounded-md shadow-sm relative w-full h-8 overflow-hidden'
+              skeletonClassNames='h-full w-full'
+            />
+          ) : null}
+        </>
       ) : (
         <>
           {showProjects ? (

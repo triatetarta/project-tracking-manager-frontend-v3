@@ -8,7 +8,7 @@ import {
   useUploadImageMutation,
 } from "../../Auth/features/usersApiSlice";
 import toast from "react-hot-toast";
-import SkeletonAvatar from "../../Skeletons/components/SkeletonAvatar";
+import Skeleton from "../../Skeletons/components/Skeleton";
 
 const AccountHeader = () => {
   const [
@@ -75,7 +75,12 @@ const AccountHeader = () => {
         <div className={`absolute -bottom-8 left-0 group h-28 w-28`}>
           <div className='relative h-28 w-28 overflow-hidden'>
             {isUploadLoading ? (
-              <SkeletonAvatar />
+              <Skeleton
+                elements={1}
+                midClassNames=''
+                outerClassNames='h-28 w-28 mb-1 rounded-full relative overflow-hidden flex-none'
+                skeletonClassNames='h-28 w-28 rounded-full flex'
+              />
             ) : (
               <Avatar
                 image={user?.image}

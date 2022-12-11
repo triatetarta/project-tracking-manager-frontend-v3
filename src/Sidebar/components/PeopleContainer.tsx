@@ -3,7 +3,7 @@ import { useGetUsersQuery } from "../../Auth/features/usersApiSlice";
 import { useGetTicketsQuery } from "../../Tickets/features/ticketsApiSlice";
 import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import User from "../../Users/components/User";
-import SkeletonPeople from "../../Skeletons/components/SkeletonPeople";
+import Skeleton from "../../Skeletons/components/Skeleton";
 
 const PeopleContainer = () => {
   const { data: users, isLoading: isUsersLoading } =
@@ -27,7 +27,16 @@ const PeopleContainer = () => {
       </h3>
 
       {isUsersLoading ? (
-        <>{showPeople ? <SkeletonPeople /> : null}</>
+        <>
+          {showPeople ? (
+            <Skeleton
+              elements={8}
+              midClassNames='h-6 w-6 rounded-full mb-1 mr-1 relative overflow-hidden'
+              outerClassNames='ticket relative flex items-center flex-wrap w-full h-14 overflow-hidden'
+              skeletonClassNames='w-full h-full'
+            />
+          ) : null}
+        </>
       ) : (
         <>
           {showPeople ? (
