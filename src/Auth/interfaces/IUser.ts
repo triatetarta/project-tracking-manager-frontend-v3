@@ -10,4 +10,5 @@ export interface IUser {
   department: string;
   roles: string[];
   team: string;
+  tutorialed: boolean;
 }

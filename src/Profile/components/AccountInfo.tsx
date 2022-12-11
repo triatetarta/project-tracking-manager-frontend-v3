@@ -96,6 +96,7 @@ const AccountInfo = () => {
       location: location,
       roles: user?.roles,
       active: user?.active,
+      tutorialed: user?.tutorialed,
     });
     setEditDetails(false);
   };

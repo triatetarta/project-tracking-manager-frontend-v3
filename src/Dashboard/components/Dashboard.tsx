@@ -11,8 +11,18 @@ import { useAppSelector } from "../../app/hooks";
 import Modal from "../../Modal/components/Modal";
 import { TGetModalType, TGetModalTypeFunc } from "../interfaces/IModalType";
 import { EntityId } from "@reduxjs/toolkit";
+import useAuth from "../../hooks/useAuth";
+import { useGetUsersQuery } from "../../Auth/features/usersApiSlice";
+import Tutorial from "../../Tutorial/components/Tutorial";
 
 const Dashboard = () => {
+  const { id: userId } = useAuth();
+  const { user } = useGetUsersQuery("userList", {
+    selectFromResult: ({ data }) => ({
+      user: data?.entities[userId],
+    }),
+  });
+
   const { modalOpen } = useAppSelector((state) => state.modal);
   const { isTicketDetailsOpen } = useAppSelector((state) => state.tickets);
   const [createNewTicket, setCreateNewTicket] = useState(false);
@@ -57,6 +67,10 @@ const Dashboard = () => {
           />
         </div>
       </div>
+
+      <AnimatePresence>
+        {!user?.tutorialed ? <Tutorial /> : null}
+      </AnimatePresence>
 
       <AnimatePresence>
         {isTicketDetailsOpen && <TicketDetails getModalType={getModalType} />}
