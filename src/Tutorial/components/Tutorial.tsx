@@ -8,6 +8,11 @@ import Button from "../../Button/components/Button";
 import useAuth from "../../hooks/useAuth";
 import TutorialStep from "./TutorialStep";
 import toast from "react-hot-toast";
+import tutorialHello from "../../../public/assets/images/tutorial-hello.svg";
+import tutorialProject from "../../../public/assets/images/tutorial-project.svg";
+import tutorialStatus from "../../../public/assets/images/tutorial-status.svg";
+import tutorialProfile from "../../../public/assets/images/tutorial-profile.svg";
+import tutorialCongrats from "../../../public/assets/images/tutorial-congrats.svg";
 
 const Tutorial = () => {
   const { id: userId } = useAuth();
@@ -70,8 +75,17 @@ const Tutorial = () => {
             transition={{ duration: 0.2 }}
             className='flex flex-col'
           >
-            <p className='font-medium text-xl'>Hello {user?.name}!</p>
-            <p>
+            <div className='w-[250px] h-[200px] self-center'>
+              <img
+                src={tutorialHello}
+                alt='tutorial intro'
+                className='w-full h-full'
+              />
+            </div>
+            <p className='font-medium text-xl text-center'>
+              Hello {user?.name}!
+            </p>
+            <p className='text-center'>
               Welcome to <span className='font-medium'>ProTrack's </span>
               Tutorial. <br />
               This tutorial will guide you through the basics of our platform.
@@ -90,7 +104,14 @@ const Tutorial = () => {
             transition={{ duration: 0.2 }}
             className='flex flex-col'
           >
-            <p>
+            <div className='w-[250px] h-[200px] self-center'>
+              <img
+                src={tutorialProject}
+                alt='tutorial project'
+                className='w-full h-full'
+              />
+            </div>
+            <p className='mt-4'>
               The Sidebar on the left side of the screen displays the available
               projects that you can <span className='font-medium'>tickets</span>{" "}
               for and the active <span className='font-medium'>people</span> of
@@ -110,6 +131,13 @@ const Tutorial = () => {
             transition={{ duration: 0.2 }}
             className='flex flex-col'
           >
+            <div className='w-[250px] h-[200px] self-center'>
+              <img
+                src={tutorialStatus}
+                alt='tutorial status'
+                className='w-full h-full'
+              />
+            </div>
             <p>
               The main area of the screen displays the{" "}
               <span className='font-medium'>status cards</span> which contain
@@ -132,6 +160,13 @@ const Tutorial = () => {
             transition={{ duration: 0.2 }}
             className='flex flex-col'
           >
+            <div className='w-[250px] h-[200px] self-center'>
+              <img
+                src={tutorialProfile}
+                alt='tutorial profile'
+                className='w-full h-full'
+              />
+            </div>
             <p>
               Finally, to <span className='font-medium'>view and update</span>{" "}
               your information navigate to your profile page by clicking on the
@@ -156,7 +191,14 @@ const Tutorial = () => {
             onAnimationComplete={onUpdate}
             className='flex flex-col'
           >
-            <p className='text-center'>
+            <div className='w-[250px] h-[200px] self-center'>
+              <img
+                src={tutorialCongrats}
+                alt='tutorial congrats'
+                className='w-full h-full'
+              />
+            </div>
+            <p className='text-center mt-4'>
               Congratulations, <span className='font-medium'>{user?.name}</span>
               ! You have completed the tutorial. <br />
             </p>
