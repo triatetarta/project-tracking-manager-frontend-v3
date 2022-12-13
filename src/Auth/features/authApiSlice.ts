@@ -9,6 +9,15 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: { ...credentials },
       }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+
+          localStorage.setItem("persist", JSON.stringify(true));
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
     sendLogout: builder.mutation({
       query: () => ({
@@ -19,7 +28,9 @@ export const authApiSlice = apiSlice.injectEndpoints({
         try {
           await queryFulfilled;
 
+          localStorage.setItem("persist", JSON.stringify(false));
           dispatch(logOut());
+
           setTimeout(() => {
             dispatch(apiSlice.util.resetApiState());
           }, 1000);

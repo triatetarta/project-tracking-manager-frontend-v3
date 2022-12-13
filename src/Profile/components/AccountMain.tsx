@@ -85,7 +85,7 @@ const AccountMain = () => {
             )}
 
             <button
-              onClick={() => navigate("/dashboard")}
+              onClick={() => navigate("/")}
               className='text-xs text-gray-text hover:underline ml-3 mt-6'
             >
               View all

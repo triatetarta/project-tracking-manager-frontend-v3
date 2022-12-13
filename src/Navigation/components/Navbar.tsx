@@ -42,6 +42,10 @@ const Navbar = ({
     }
   }, [isLogoutError, logoutError]);
 
+  const onLogout = async () => {
+    await sendLogout("");
+  };
+
   return (
     <header
       onClick={(e) => closeOpenMenus(e)}
@@ -49,7 +53,7 @@ const Navbar = ({
     >
       <nav className='flex items-center justify-between container mx-auto'>
         <div className='flex items-center'>
-          <Link to={loggedIn ? "/dashboard" : "/"}>
+          <Link to='/'>
             <div className='flex items-center space-x-2'>
               <Logo />
               <h2 className='font-semibold text-lg sm:text-2xl text-header-main'>
@@ -61,7 +65,7 @@ const Navbar = ({
           {loggedIn ? (
             <>
               <div className='hidden md:inline-flex ml-10'>
-                <Link to='/dashboard'>
+                <Link to='/'>
                   <div className='text-header-main font-semibold text-sm hover:bg-gray-100 transition-all duration-200 p-2 rounded-md  hover:text-deep-blue'>
                     Tickets
                   </div>
@@ -130,7 +134,7 @@ const Navbar = ({
                   </li>
                   <li
                     onClick={() => {
-                      navigate("/dashboard");
+                      navigate("/");
                     }}
                     className='accountMenu cursor-pointer py-2 px-4 hover:bg-gray-100'
                   >
@@ -153,7 +157,7 @@ const Navbar = ({
                     Workflows
                   </li>
                   <li
-                    onClick={sendLogout}
+                    onClick={onLogout}
                     className='accountMenu cursor-pointer py-2 px-4 hover:bg-gray-100'
                   >
                     Log Out

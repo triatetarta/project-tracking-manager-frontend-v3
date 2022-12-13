@@ -3,10 +3,17 @@ import { selectCurrentToken } from "../Auth/features/authSlice";
 import jwtDecode from "jwt-decode";
 
 interface IUserInfo {
-  [x: string]: {
-    roles: string[];
-    id: string;
-  };
+  email: string;
+  id: string;
+  image: string;
+  name: string;
+  roles: string[];
+}
+
+interface IDecoded {
+  UserInfo: IUserInfo;
+  exp: number;
+  iat: number;
 }
 
 const useAuth = () => {
@@ -18,7 +25,7 @@ const useAuth = () => {
   let loggedIn = false;
 
   if (token) {
-    const decoded = jwtDecode(token) as IUserInfo;
+    const decoded = jwtDecode(token) as IDecoded;
     const { roles, id } = decoded.UserInfo;
 
     isManager = roles.includes("Manager");
