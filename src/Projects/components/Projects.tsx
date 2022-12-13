@@ -21,7 +21,7 @@ const Projects = () => {
   const navigate = useNavigate();
 
   const onClickHandler = () => {
-    navigate("/dashboard");
+    navigate("/");
   };
 
   useEffect(() => {

@@ -17,9 +17,10 @@ import Tutorial from "../../Tutorial/components/Tutorial";
 
 const Dashboard = () => {
   const { id: userId } = useAuth();
-  const { user } = useGetUsersQuery("userList", {
-    selectFromResult: ({ data }) => ({
+  const { user, isLoading } = useGetUsersQuery("userList", {
+    selectFromResult: ({ data, isLoading }) => ({
       user: data?.entities[userId],
+      isLoading,
     }),
   });
 
@@ -69,7 +70,7 @@ const Dashboard = () => {
       </div>
 
       <AnimatePresence>
-        {!user?.tutorialed ? <Tutorial /> : null}
+        {!user?.tutorialed && !isLoading ? <Tutorial /> : null}
       </AnimatePresence>
 
       <AnimatePresence>

@@ -3,3 +3,4 @@ import { Dispatch, SetStateAction } from "react";
 
 export type StateBooleanType = Dispatch<SetStateAction<boolean>>;
 export type StateStringType = Dispatch<SetStateAction<string | EntityId>>;
+export type StateOnlyStringType = Dispatch<SetStateAction<string>>;

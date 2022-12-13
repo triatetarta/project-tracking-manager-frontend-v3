@@ -3,7 +3,7 @@ import { RootState } from "../../app/store";
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: { token: null },
+  initialState: { token: null, isLoggedIn: false },
   reducers: {
     setCredentials: (state, action) => {
       const { accessToken } = action.payload;
@@ -11,11 +11,15 @@ const authSlice = createSlice({
     },
     logOut: (state) => {
       state.token = null;
+      state.isLoggedIn = false;
+    },
+    logIn: (state) => {
+      state.isLoggedIn = true;
     },
   },
 });
 
-export const { setCredentials, logOut } = authSlice.actions;
+export const { setCredentials, logOut, logIn } = authSlice.actions;
 
 export default authSlice.reducer;
 
