@@ -17,6 +17,10 @@ const useCheckAuthStatus = () => {
     if (effectRan.current === true || process.env.NODE_ENV !== "development") {
       const persist = JSON.parse(localStorage.getItem("persist") ?? "{}");
 
+      if (Object.keys(persist).length === 0) {
+        localStorage.setItem("persist", JSON.stringify(false));
+      }
+
       if (!persist) {
         setCheckingStatus(false);
       }
