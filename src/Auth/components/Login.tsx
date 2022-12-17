@@ -6,15 +6,14 @@ import InputField from "../../FormFields/components/InputField";
 import { useAppDispatch } from "../../app/hooks";
 import blueBox from "../../../public/assets/images/blue.svg";
 import LoaderSpinner from "../../Icons/components/LoaderSpinner";
-import { motion } from "framer-motion";
-import { tickVariants } from "../animations";
 import toast from "react-hot-toast";
 import { ILoginProps } from "../interfaces/ILogin";
+import SuccessIcon from "../../Icons/components/SuccessIcon";
 
 const Login = ({ setModalType, setOpenModal }: ILoginProps) => {
   const [login, { isLoading, isSuccess, isError, error }] = useLoginMutation();
 
-  const [tickState, setTickState] = useState("checked");
+  const [completed, setCompleted] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useAppDispatch();
@@ -22,12 +21,17 @@ const Login = ({ setModalType, setOpenModal }: ILoginProps) => {
   const onSubmit = async (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { accessToken } = await login({ email, password }).unwrap();
+    const formData = {
+      email: email.toLowerCase(),
+      password: password.toLowerCase(),
+    };
+
+    const { accessToken } = await login(formData).unwrap();
     dispatch(setCredentials({ accessToken }));
   };
 
   useEffect(() => {
-    if (tickState !== "done") return;
+    if (!completed) return;
 
     const timeout = setTimeout(() => {
       setEmail("");
@@ -37,7 +41,7 @@ const Login = ({ setModalType, setOpenModal }: ILoginProps) => {
     }, 1000);
 
     return () => clearTimeout(timeout);
-  }, [tickState]);
+  }, [completed]);
 
   useEffect(() => {
     if (!isError || error === undefined) return;
@@ -100,29 +104,7 @@ const Login = ({ setModalType, setOpenModal }: ILoginProps) => {
                   <LoaderSpinner color='dark:fill-deep-blue' />
                 ) : null}
 
-                {isSuccess ? (
-                  <svg
-                    className='mx-auto h-8 w-8'
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='-16 -16 100 100'
-                  >
-                    <motion.path
-                      variants={tickVariants}
-                      initial='unchecked'
-                      animate={tickState}
-                      onAnimationComplete={() => {
-                        setTickState("done");
-                      }}
-                      fillRule='evenodd'
-                      clipRule='evenodd'
-                      fill='transparent'
-                      d='M0 34C0 15.2223 15.2223 0 34 0C52.7777 0 68 15.2223 68 34C68 52.7777 52.7777 68 34 68C15.2223 68 0 52.7777 0 34ZM32.0567 40.0933L47.4185 24.7315C48.3319 23.8804 49.7553 23.9055 50.6381 24.7883C51.5209 25.6711 51.546 27.0945 50.6949 28.0079L33.6949 45.0079C32.7898 45.9118 31.3236 45.9118 30.4185 45.0079L19.6003 34.1897C18.7492 33.2763 18.7743 31.8529 19.6571 30.9701C20.5399 30.0873 21.9633 30.0622 22.8767 30.9133L32.0567 40.0933Z'
-                      stroke='#13BB70'
-                      strokeWidth='2'
-                      strokeLinecap='round'
-                    />
-                  </svg>
-                ) : null}
+                {isSuccess ? <SuccessIcon setCompleted={setCompleted} /> : null}
               </button>
             </div>
           </form>

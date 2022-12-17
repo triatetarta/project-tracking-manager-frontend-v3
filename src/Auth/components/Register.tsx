@@ -7,10 +7,9 @@ import { logIn, setCredentials } from "../features/authSlice";
 import { useAddNewUserMutation } from "../features/usersApiSlice";
 import blueBox from "../../../public/assets/images/blue.svg";
 import LoaderSpinner from "../../Icons/components/LoaderSpinner";
-import { motion } from "framer-motion";
-import { tickVariants } from "../animations";
 import toast from "react-hot-toast";
 import { IRegisterProps } from "../interfaces/IRegister";
+import SuccessIcon from "../../Icons/components/SuccessIcon";
 
 const Register = ({ setModalType, setOpenModal }: IRegisterProps) => {
   const [addNewUser, { isLoading, isSuccess, isError, error }] =
@@ -20,7 +19,7 @@ const Register = ({ setModalType, setOpenModal }: IRegisterProps) => {
     { isSuccess: isLoginSuccess, isError: isLoginError, error: loginError },
   ] = useLoginMutation();
 
-  const [tickState, setTickState] = useState("checked");
+  const [completed, setCompleted] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,10 +30,16 @@ const Register = ({ setModalType, setOpenModal }: IRegisterProps) => {
   const onSubmit = async (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (password !== password2) return;
+    const formData = {
+      name: name.toLowerCase(),
+      email: email.toLowerCase(),
+      password: password.toLowerCase(),
+    };
+
+    if (formData.password !== password2.toLowerCase()) return;
 
     try {
-      await addNewUser({ name, email, password });
+      await addNewUser(formData);
     } catch (err) {
       console.log(err);
     }
@@ -48,10 +53,10 @@ const Register = ({ setModalType, setOpenModal }: IRegisterProps) => {
   };
 
   useEffect(() => {
-    if (tickState !== "done") return;
+    if (!completed) return;
 
     onLogin();
-  }, [tickState]);
+  }, [completed]);
 
   useEffect(() => {
     if (!isLoginSuccess) return;
@@ -146,33 +151,13 @@ const Register = ({ setModalType, setOpenModal }: IRegisterProps) => {
                   </div>
                 ) : null}
 
-                {!isLoading && !isSuccess && <div>Sign Up</div>}
+                {!isLoading && !isSuccess ? <div>Sign Up</div> : null}
 
-                {isLoading && <LoaderSpinner color='dark:fill-deep-blue' />}
+                {isLoading ? (
+                  <LoaderSpinner color='dark:fill-deep-blue' />
+                ) : null}
 
-                {isSuccess && (
-                  <svg
-                    className='mx-auto h-8 w-8'
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='-16 -16 100 100'
-                  >
-                    <motion.path
-                      variants={tickVariants}
-                      initial='unchecked'
-                      animate={tickState}
-                      onAnimationComplete={() => {
-                        setTickState("done");
-                      }}
-                      fillRule='evenodd'
-                      clipRule='evenodd'
-                      fill='transparent'
-                      d='M0 34C0 15.2223 15.2223 0 34 0C52.7777 0 68 15.2223 68 34C68 52.7777 52.7777 68 34 68C15.2223 68 0 52.7777 0 34ZM32.0567 40.0933L47.4185 24.7315C48.3319 23.8804 49.7553 23.9055 50.6381 24.7883C51.5209 25.6711 51.546 27.0945 50.6949 28.0079L33.6949 45.0079C32.7898 45.9118 31.3236 45.9118 30.4185 45.0079L19.6003 34.1897C18.7492 33.2763 18.7743 31.8529 19.6571 30.9701C20.5399 30.0873 21.9633 30.0622 22.8767 30.9133L32.0567 40.0933Z'
-                      stroke='#13BB70'
-                      strokeWidth='2'
-                      strokeLinecap='round'
-                    />
-                  </svg>
-                )}
+                {isSuccess ? <SuccessIcon setCompleted={setCompleted} /> : null}
               </button>
             </div>
           </form>
