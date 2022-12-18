@@ -41,7 +41,6 @@ const SuccessIcon = (props: SuccessIconProps) => {
 
   return (
     <svg
-      {...props}
       className='mx-auto h-8 w-8'
       xmlns='http://www.w3.org/2000/svg'
       viewBox='-16 -16 100 100'
