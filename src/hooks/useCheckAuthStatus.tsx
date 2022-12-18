@@ -15,9 +15,10 @@ const useCheckAuthStatus = () => {
 
   useLayoutEffect(() => {
     const persist = JSON.parse(localStorage.getItem("persist") ?? "{}");
-    if (Object.keys(persist).length === 0) {
-      localStorage.setItem("persist", JSON.stringify(false));
-    }
+
+    if (Object.keys(persist).length > 0 || persist) return;
+
+    localStorage.setItem("persist", JSON.stringify(false));
   }, []);
 
   useEffect(() => {
