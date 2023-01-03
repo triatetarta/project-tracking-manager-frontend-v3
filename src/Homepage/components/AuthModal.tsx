@@ -1,11 +1,12 @@
-import { useState } from "react";
 import Login from "../../Auth/components/Login";
 import Register from "../../Auth/components/Register";
 import { IAuthModalProps } from "../interfaces/IAuthModal";
 
-const AuthModal = ({ setOpenModal }: IAuthModalProps) => {
-  const [modalType, setModalType] = useState("register");
-
+const AuthModal = ({
+  setOpenModal,
+  modalType,
+  setModalType,
+}: IAuthModalProps) => {
   return modalType === "login" ? (
     <Login setModalType={setModalType} setOpenModal={setOpenModal} />
   ) : (
