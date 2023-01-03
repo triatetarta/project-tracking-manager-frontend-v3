@@ -30,9 +30,10 @@ const useCheckAuthStatus = () => {
 
       const verifyRefreshToken = async () => {
         try {
+          await localStorage.setItem("persist", JSON.stringify(false));
           //@ts-ignore
           await refresh();
-
+          await localStorage.setItem("persist", JSON.stringify(true));
           dispatch(logIn());
           setCheckingStatus(false);
         } catch (err) {
@@ -40,7 +41,9 @@ const useCheckAuthStatus = () => {
         }
       };
 
-      if (!token && persist) verifyRefreshToken();
+      if (!token && persist) {
+        verifyRefreshToken();
+      }
     }
 
     return () => {
