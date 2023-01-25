@@ -111,7 +111,7 @@ const TicketDetailsInfo = ({
           <p className='text-xs text-gray-text'>Title</p>
         </div>
         <div className='mb-6'>
-          <h4>{convertString(ticket?.title!)}</h4>
+          <h4 className='capitalize'>{ticket?.title}</h4>
         </div>
 
         <div className='flex items-center justify-between'>
@@ -186,8 +186,7 @@ const TicketDetailsInfo = ({
                   ticket?.user !== id ? "pointer-events-none select-none" : ""
                 }  mt-1 bg-transparent outline-none hover:bg-gray-100 transition-all duration-200 px-3 py-2 rounded-md break-words`}
               >
-                {ticket?.description !== undefined &&
-                  convertString(ticket?.description)}
+                {ticket?.description !== undefined && ticket?.description}
               </motion.p>
             </>
           )}
