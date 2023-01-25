@@ -2,19 +2,13 @@ import { ITicketProps } from "../interfaces/ITicket";
 import { useGetTicketsQuery } from "../features/ticketsApiSlice";
 import { convertString } from "../../helpers/firstLetterUppercase";
 import useAuth from "../../hooks/useAuth";
-import { useEffect } from "react";
 import { useAppDispatch } from "../../app/hooks";
 import { setTicketDetailsOpen } from "../features/ticketsSlice";
 import moment from "moment";
 import useStyles from "../../hooks/useStyles";
 import { useGetProjectsQuery } from "../../Projects/features/projectsApiSlice";
 
-const Ticket = ({
-  category,
-  ticketId,
-  account,
-  setHasTickets = () => console.log(""),
-}: ITicketProps) => {
+const Ticket = ({ category, ticketId, account }: ITicketProps) => {
   const { id } = useAuth();
   const { ticket } = useGetTicketsQuery("ticketList", {
     selectFromResult: ({ data }) => ({
@@ -35,12 +29,6 @@ const Ticket = ({
   const { hover, background } = useStyles(category!);
 
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (!account || ticket?.user === id) return;
-
-    setHasTickets(false);
-  }, [account, ticket, id]);
 
   if (account && ticket?.user !== id) return null;
 

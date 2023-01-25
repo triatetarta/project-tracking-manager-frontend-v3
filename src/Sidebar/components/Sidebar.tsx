@@ -17,7 +17,7 @@ const Sidebar = ({ setCreateNewProject }: ISidebarProps) => {
       <div className='border-b-2'>
         <div className='flex flex-col px-3 pb-2'>
           <p className='text-xs text-gray-text'>Hello,</p>
-          <p className='text-base font-semibold'>{user?.name}</p>
+          <p className='text-base font-semibold capitalize'>{user?.name}</p>
         </div>
       </div>
 

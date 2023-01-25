@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Ticket from "../../Tickets/components/Ticket";
 import { useGetTicketsQuery } from "../../Tickets/features/ticketsApiSlice";
 import { useGetWorkflowStatusQuery } from "../../WorkflowStatus/features/workflowsApiSlice";
 import toast from "react-hot-toast";
 import Skeleton from "../../Skeletons/components/Skeleton";
+import useAuth from "../../hooks/useAuth";
 
 const AccountMain = () => {
+  const { id } = useAuth();
   const {
     data: tickets,
     isError: isTicketsError,
@@ -15,8 +17,6 @@ const AccountMain = () => {
   } = useGetTicketsQuery("ticketList");
   const { data: workflowStatus } =
     useGetWorkflowStatusQuery("workflowStatusList");
-
-  const [hasTickets, setHasTickets] = useState(true);
 
   const navigate = useNavigate();
 
@@ -30,6 +30,10 @@ const AccountMain = () => {
     }
   }, [isTicketsError, ticketsError]);
 
+  const hasTickets = tickets?.ids.find((ticketId) =>
+    tickets.entities[ticketId]?.user.includes(id)
+  );
+
   return (
     <div className='flex flex-col space-y-4 w-full h-full'>
       <div className='flex flex-col text-header-main'>
@@ -39,17 +43,8 @@ const AccountMain = () => {
         </p>
       </div>
 
-      {!hasTickets ? (
-        <div className='border rounded-lg p-6 text-header-main'>
-          <div className='flex flex-col justify-center items-center'>
-            <h4 className='text-xl font-semibold'>
-              There is no work to see here
-            </h4>
-            <p className='text-sm'>Things you created or edited</p>
-          </div>
-        </div>
-      ) : (
-        <>
+      <>
+        {hasTickets ? (
           <div className='border rounded-lg p-5 bg-pale-bg shadow-sm'>
             {isTicketsLoading ? (
               <Skeleton
@@ -77,7 +72,6 @@ const AccountMain = () => {
                       key={ticketId}
                       ticketId={ticketId}
                       account
-                      setHasTickets={setHasTickets}
                     />
                   );
                 })}
@@ -91,8 +85,17 @@ const AccountMain = () => {
               View all
             </button>
           </div>
-        </>
-      )}
+        ) : (
+          <div className='border rounded-lg p-6 text-header-main'>
+            <div className='flex flex-col justify-center items-center'>
+              <h4 className='text-xl font-semibold'>
+                There is no work to see here
+              </h4>
+              <p className='text-sm'>Things you created or edited</p>
+            </div>
+          </div>
+        )}
+      </>
     </div>
   );
 };

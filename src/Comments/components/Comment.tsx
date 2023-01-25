@@ -77,7 +77,7 @@ const Comment = ({ commentId, ticketId, getModalType }: ICommentProps) => {
       </div>
       <div className='flex flex-col space-y-2 w-full'>
         <div className='flex text-xs'>
-          <p className='text-xs font-semibold'>{user?.name}</p>
+          <p className='text-xs font-semibold capitalize'>{user?.name}</p>
           <span className='ml-3 text-gray-text'>
             {comment?.createdAt === comment?.updatedAt ? (
               <span>

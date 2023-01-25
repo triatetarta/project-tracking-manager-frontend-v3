@@ -111,7 +111,7 @@ const TicketDetailsInfo = ({
           <p className='text-xs text-gray-text'>Title</p>
         </div>
         <div className='mb-6'>
-          <h4>{ticket?.title}</h4>
+          <h4>{convertString(ticket?.title!)}</h4>
         </div>
 
         <div className='flex items-center justify-between'>

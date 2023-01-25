@@ -12,6 +12,7 @@ import useAuth from "../../hooks/useAuth";
 import { useGetUsersQuery } from "../../Auth/features/usersApiSlice";
 import toast from "react-hot-toast";
 import { useGetWorkflowStatusQuery } from "../../WorkflowStatus/features/workflowsApiSlice";
+import { convertString } from "../../helpers/firstLetterUppercase";
 
 const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
   const { id, isAdmin } = useAuth();
@@ -108,7 +109,7 @@ const NewTicket = ({ setCreateNewTicket, setCreateNewProject }: INewTicket) => {
               label='Reporter'
               htmlFor='name'
               type='text'
-              value={reportersName}
+              value={convertString(reportersName!)}
               disabled
               focus={false}
               containerClasses='sm:mb-3 mb-1'

@@ -119,7 +119,7 @@ const Navbar = ({
                 <>
                   <li className='bg-header-main w-full text-white py-2 px-4'>
                     <div className='flex flex-col'>
-                      <p className='text-md'>{user?.name}</p>
+                      <p className='text-md capitalize'>{user?.name}</p>
                       <p className='text-xs font-light'>{user?.email}</p>
                     </div>
                   </li>

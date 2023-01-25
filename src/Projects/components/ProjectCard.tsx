@@ -93,7 +93,7 @@ const ProjectCard = ({ projectId }: IProjectCardProps) => {
           <RectangleGroupIcon classNames='h-6 w-6 text-white' />
         </div>
         <div className='flex flex-col text-xs ml-2 truncate'>
-          <span className='font-medium'>{project?.title}</span>
+          <span className='font-medium capitalize'>{project?.title}</span>
           <p className='truncate'>{project?.description}</p>
         </div>
       </div>

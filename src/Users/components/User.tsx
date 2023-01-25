@@ -42,7 +42,7 @@ const User = ({ userId, filteredTickets, index }: IUserProps) => {
             className='absolute -top-[4.75rem] -left-1/2 whitespace-nowrap text-xs transform -translate-x-1/1 bg-header-main text-white font-normal px-1.5 py-0.5 rounded-md z-40 shadow-sm'
           >
             <div className='flex flex-col p-1.5'>
-              <p className='text-sm'>{user?.name}</p>
+              <p className='text-sm capitalize'>{user?.name}</p>
               <p className='text-gray-300 text-[0.65rem]'>{user?.email}</p>
               <p className='pt-1'>
                 {filteredTickets !== undefined ? (

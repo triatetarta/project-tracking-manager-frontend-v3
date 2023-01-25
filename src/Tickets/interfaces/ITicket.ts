@@ -1,5 +1,4 @@
 import { EntityId } from "@reduxjs/toolkit";
-import { StateBooleanType } from "../../types/stateTypes";
 
 export interface ITicket {
   id?: string;
@@ -19,5 +18,4 @@ export interface ITicketProps {
   category?: string;
   ticketId: EntityId;
   account?: boolean;
-  setHasTickets?: StateBooleanType;
 }
