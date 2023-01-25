@@ -127,7 +127,7 @@ const TicketDetailsAccordion = ({ ticket }: ITicketDetailsAccordionProps) => {
                 name={user?.name}
                 classNames='h-5 w-5 text-sm'
               />
-              <p className='ml-1 text-xs'>{user?.name}</p>
+              <p className='ml-1 text-xs capitalize'>{user?.name}</p>
             </div>
           </div>
           <div className='flex flex-col justify-center mt-5 pl-5'>

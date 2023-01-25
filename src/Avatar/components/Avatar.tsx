@@ -4,7 +4,7 @@ import ResponsiveImage from "./ResponsiveImage";
 const Avatar = ({ classNames, spanClasses, image, name }: IAvatarProps) => {
   return (
     <div
-      className={`${classNames} border rounded-full flex items-center justify-center font-semibold text-header-main overflow-hidden z-30  bg-gray-50 select-none ${
+      className={`${classNames} border rounded-full flex items-center justify-center font-semibold text-header-main overflow-hidden z-30  bg-gray-50 select-none capitalize ${
         image === "" ? "bg-nice-orange" : ""
       }`}
     >
