@@ -11,16 +11,14 @@ const AuthenticatedApp = lazy(
 const UnauthenticatedApp = lazy(() => import("./UnauthenticatedApp"));
 
 const App = () => {
-  const { checkingStatus } = useCheckAuthStatus();
+  const { checkingStatus, isSuccess } = useCheckAuthStatus();
   const { isLoggedIn } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isSuccess) {
       localStorage.setItem("persist", JSON.stringify(true));
-    } else {
-      localStorage.setItem("persist", JSON.stringify(false));
     }
-  }, [isLoggedIn]);
+  }, [isSuccess]);
 
   if (checkingStatus) return <FullScreenSpinner />;
 
