@@ -61,6 +61,17 @@ const Navbar = ({
               </h2>
             </div>
           </Link>
+          <div>
+            <button
+              className='ml-2 z-50 bg-red-600 px-2 py-1 rounded-md text-white text-sm'
+              onClick={() => {
+                localStorage.setItem("persist", JSON.stringify(false));
+                window.location.reload();
+              }}
+            >
+              DEBUG
+            </button>
+          </div>
 
           {loggedIn ? (
             <>
@@ -84,17 +95,6 @@ const Navbar = ({
                     Workflows
                   </div>
                 </Link>
-              </div>
-              <div>
-                <button
-                  className='ml-2 z-50 bg-red-600 px-2 py-1 rounded-md text-white text-sm'
-                  onClick={() => {
-                    localStorage.setItem("persist", JSON.stringify(false));
-                    window.location.reload();
-                  }}
-                >
-                  DEBUG
-                </button>
               </div>
             </>
           ) : null}
