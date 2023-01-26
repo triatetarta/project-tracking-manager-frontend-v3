@@ -243,6 +243,17 @@ const Tutorial = () => {
             text={step >= 4 ? "Finish" : "Next"}
             onClick={() => setStep(step > 4 ? step : step + 1)}
           />
+          <div>
+            <button
+              className='ml-2 z-50 bg-red-600 px-2 py-1 rounded-md text-white text-sm'
+              onClick={() => {
+                localStorage.setItem("persist", JSON.stringify(false));
+                window.location.reload();
+              }}
+            >
+              DEBUG
+            </button>
+          </div>
         </div>
       </div>
     </motion.div>
