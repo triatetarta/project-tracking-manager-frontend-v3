@@ -150,7 +150,7 @@ const ProjectCard = ({ projectId }: IProjectCardProps) => {
         </div>
 
         <div
-          onClick={() => navigate("/dashboard")}
+          onClick={() => navigate("/")}
           className='mt-8 text-xs text-gray-text font-semibold cursor-pointer hover:bg-gray-100 transition-all duration-200 py-1'
         >
           <span>TICKETS: {filteredTickets?.length}</span>
