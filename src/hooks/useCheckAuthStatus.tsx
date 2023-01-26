@@ -33,7 +33,7 @@ const useCheckAuthStatus = () => {
           await localStorage.setItem("persist", JSON.stringify(false));
           //@ts-ignore
           await refresh();
-          await localStorage.setItem("persist", JSON.stringify(true));
+
           dispatch(logIn());
           setCheckingStatus(false);
         } catch (err) {

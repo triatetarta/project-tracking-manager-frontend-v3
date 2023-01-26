@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import useCheckAuthStatus from "./hooks/useCheckAuthStatus";
 import FullScreenSpinner from "./Icons/components/FullScreenSpinner";
@@ -13,6 +13,14 @@ const UnauthenticatedApp = lazy(() => import("./UnauthenticatedApp"));
 const App = () => {
   const { checkingStatus } = useCheckAuthStatus();
   const { isLoggedIn } = useAppSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      localStorage.setItem("persist", JSON.stringify(true));
+    } else {
+      localStorage.setItem("persist", JSON.stringify(false));
+    }
+  }, [isLoggedIn]);
 
   if (checkingStatus) return <FullScreenSpinner />;
 
