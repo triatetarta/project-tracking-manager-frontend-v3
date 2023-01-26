@@ -13,7 +13,7 @@ const PeopleContainer = () => {
   const [showPeople, setShowPeple] = useState(true);
 
   return (
-    <div className='px-1 mt-10'>
+    <div className='px-1 lg:px-4 mt-10'>
       <h3
         onClick={() => setShowPeple(!showPeople)}
         className='uppercase text-xs font-bold mb-2 inline-flex items-center cursor-pointer select-none'
